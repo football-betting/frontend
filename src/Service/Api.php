@@ -48,4 +48,20 @@ class Api
 
         return json_decode($content, true);
     }
+
+    public function user(string $token)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->url . '/api/user_tip/future', [
+                'headers' => [
+                    'Authorization' => $token,
+                    'CONTENT_TYPE' => 'application/json',
+                ],
+            ]
+        );
+        $content = $response->getContent();
+
+        return json_decode($content, true);
+    }
 }

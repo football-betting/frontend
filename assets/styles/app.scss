@@ -1,0 +1,54 @@
+@import "fonts";
+@import "colors";
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+body {
+    background-color: black;
+    color: white;
+}
+.selector-for-some-widget {
+    box-sizing: content-box;
+}
+.row{
+}
+.header{
+    margin-top: 10px;
+}
+.logo{
+    font-family: Chakra Petch;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 21px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+}
+.logo-text{
+    font-family: Chakra Petch;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 9px;
+    line-height: 12px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    margin: auto;
+
+}
+.form-control{
+    background-color: white!important;
+}
+
+.button-prim{
+    border-color: $primary-red;
+    background-color: $primary-red;
+    color: white;
+    &:hover{
+        color: white;
+        border-color: $primary-red;
+        background-color: $primary-red-hover;
+    }
+}

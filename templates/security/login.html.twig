@@ -3,28 +3,47 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <h1 class="h3 mb-3 font-weight-normal">Anmelden</h1>
+            </div>
         </div>
-    {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <p class="text-center small-text-center">
+                    Willkommen beim valantic Tippspiel. Wenn du bereits ein Konto hast, kannst du dich hier anmelden.
+                    Andernfalls erstelle bitte dein persönliches Konto
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto centered">
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                       value="{{ last_username }}" name="username" id="inputUsername" autocomplete="username"
+                       required autofocus><br>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <input type="password" name="password" id="inputPassword" class="form-control"
+                       autocomplete="current-password" required placeholder="Passwort" aria-label="Passwort"><br>
+            </div>
+        </div>
 
-    {#
+
+        {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html
 
@@ -33,10 +52,16 @@
                 <input type="checkbox" name="_remember_me"> Remember me
             </label>
         </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+        #}
+        <div class="row justify-content-center">
+            <div class="col-auto ">
+                <button class="btn btn-lg btn-primary button-prim" type="submit">
+                    Sign in
+                </button>
+            </div>
+        </div>
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+    </form>
 {% endblock %}

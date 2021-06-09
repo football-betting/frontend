@@ -6,6 +6,7 @@ use App\Service\Api;
 use http\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -29,16 +30,22 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private $urlGenerator;
     private $csrfTokenManager;
     private Api $api;
+    /**
+     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
+    private SessionInterface $session;
 
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
-        Api $api
+        Api $api,
+        SessionInterface $session
     )
     {
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->api = $api;
+        $this->session = $session;
     }
 
     public function supports(Request $request)
@@ -77,7 +84,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if ($content['success'] === true) {
             $user->setToken($content['token']);
         } else {
-            throw new \RuntimeException($content['message']);
+            $this->session->getFlashBag()->add('error', $content['message']);
+            return null;
         }
 
         return $user;

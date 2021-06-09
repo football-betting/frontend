@@ -16,6 +16,15 @@
 </head>
 <body>
 
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+
 {% if (app.request.get('_route') == "app_login") or (app.request.get('_route') == "user_register") %}
     {%  include 'header.login.html.twig' %}
 {% else %}

@@ -3,5 +3,13 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-Hallo!!
+    <div class="row">
+        <div class="col">
+            {%  include "home/winner-of-the-day.html.twig" %}<br>
+            {%  include "home/ranking.html.twig" %}
+        </div>
+        <div class="col">
+            {%  include "home/schedule.html.twig" %}
+        </div>
+    </div>
 {% endblock %}

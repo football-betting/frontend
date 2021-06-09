@@ -7,6 +7,17 @@ body {
     background-color: black;
     color: white;
 }
+.nav-link{
+    color: $gray-500;
+    &:hover, :focus{
+        color: $gray-200;
+    }
+    &.active{
+        color:white;
+        border-bottom-color: $danger;
+        border-bottom-style: solid;
+    }
+}
 .selector-for-some-widget {
     box-sizing: content-box;
 }

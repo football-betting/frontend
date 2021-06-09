@@ -1,5 +1,43 @@
 <div class="row">
     <div class="col">
         <h2>Spielplan</h2>
+        <table class="table table-hover table-dark table-live">
+            <thead>
+            <tr>
+                <th scope="col">Samstag, 12.08.2021</th>
+                <th scope="col" class="center-td">Live</th>
+                <th scope="col" class="center-td">Dein Tipp</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <form id="2020-06-16:1500:FR-DE" data-controller="tipp">
+            <tr>
+                <td scope="row"><img src="https://www.countryflags.io/gb/flat/32.png">&nbsp;&nbsp;&nbsp;&nbsp;England</td>
+                <td class="center-td">-</td>
+                <td class="center-td"><input type="number" class="input-score" placeholder="0" maxlength="2" size="2" min="0" max="20"></td>
+                <td rowspan="2"  style="vertical-align : middle;text-align:center;" class="last-td"><span class="score">15:00</span></td>
+            </tr>
+            <tr>
+                <td scope="row" class="last-td"><img src="https://www.countryflags.io/se/flat/32.png">&nbsp;&nbsp;&nbsp;&nbsp;Schweden</td>
+                <td class="center-td last-td">-</td>
+                <td class="center-td last-td"><input type="number" class="input-score" placeholder="0" maxlength="2" size="2" min="0" max="20"></td>
+            </tr>
+            </form>
+            <form id="2020-06-16:2100:NL-BE" data-controller="tipp">
+                <tr>
+                    <td scope="row"><img src="https://www.countryflags.io/nl/flat/32.png">&nbsp;&nbsp;&nbsp;&nbsp;Niederlande</td>
+                    <td class="center-td">-</td>
+                    <td class="center-td"><input type="number" class="input-score" placeholder="0" maxlength="2" size="2" min="0" max="20"></td>
+                    <td rowspan="2"  style="vertical-align : middle;text-align:center;" class="last-td"><span class="score">18:30</span></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="last-td"><img src="https://www.countryflags.io/be/flat/32.png">&nbsp;&nbsp;&nbsp;&nbsp;Belgien</td>
+                    <td class="center-td last-td">-</td>
+                    <td class="center-td last-td"><input type="number" class="input-score" placeholder="0" maxlength="2" size="2" min="0" max="20"></td>
+                </tr>
+            </form>
+            </tbody>
+        </table>
     </div>
 </div>

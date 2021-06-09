@@ -16,8 +16,6 @@
 </head>
 <body>
 
-{{ dump(app.request.get('_route')) }}
-
 {% if (app.request.get('_route') == "app_login") or (app.request.get('_route') == "user_register") %}
     {%  include 'header.login.html.twig' %}
 {% else %}

@@ -7,6 +7,32 @@ body {
     background-color: black;
     color: white;
 }
+.badge-danger{
+    background-color: $danger;
+    color: white;
+    margin-left: 10px;
+}
+.table-live{
+    th{
+        background-color: black;
+        font-size: medium;
+        font-weight: lighter;
+    }
+    .center-td {
+        text-align: center;
+    }
+}
+.last-td{
+    border-bottom-style: solid;
+    border-bottom-width: 4px!important;
+    border-bottom-color: black;
+}
+.input-score{
+    background-color: black;
+    color: white;
+    border-color: gray;
+    font-size: 18px;
+}
 .nav-link{
     color: $gray-500;
     &:hover, :focus{

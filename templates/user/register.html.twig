@@ -4,23 +4,38 @@
 
 {% block body %}
 <form method="post">
-    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+        </div>
+    </div>
 
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ email }}" name="email" id="inputEmail" class="form-control" autocomplete="your email" required>
+    <div class="row justify-content-center">
+        <div class="col-auto centered">
+            <input type="email" value="{{ email }}" name="email" id="inputEmail" class="form-control" autocomplete="your email" required placeholder="Email" aria-label="Email"><br>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto centered">
+            <input type="text" value="{{ username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocu placeholder="Username" aria-label="Username"><br>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto centered">
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Passwort" aria-label="Passwort"><br>
+        </div>
+    </div>
 
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-
+    <div class="row justify-content-center">
+        <div class="col-auto ">
+            <button class="btn btn-lg btn-primary button-prim" type="submit">
+                Sign in
+            </button>
+        </div>
+    </div>
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
 
-    <button class="btn btn-lg btn-primary button-prim" type="submit">
-        Sign in
-    </button>
 </form>
 {% endblock %}

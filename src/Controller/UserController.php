@@ -36,6 +36,7 @@ class UserController extends AbstractController
             $user->setEmail($request->request->get('email'));
 
             $content = $this->api->register($user);
+
             if ($content['success'] === true) {
                 $this->addFlash('success', 'Benutzer registriert');
                 return $this->redirectToRoute('app_login');

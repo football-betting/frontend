@@ -30,7 +30,7 @@ class DashboardController extends AbstractController
     }
 
     /**
-     * @Route("/test", name="home")
+     * @Route("/test", name="test")
      */
     public function test(Request $request): Response
     {

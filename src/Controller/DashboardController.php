@@ -28,4 +28,14 @@ class DashboardController extends AbstractController
     {
         return $this->render('home/index.html.twig');
     }
+
+    /**
+     * @Route("/test", name="home")
+     */
+    public function test(Request $request): Response
+    {
+        $json = json_encode(['success' => true]);
+
+        return new Response($json);
+    }
 }

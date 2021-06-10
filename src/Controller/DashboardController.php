@@ -35,6 +35,17 @@ class DashboardController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/table", name="table")
+     */
+    public function table(Request $request): Response
+    {
+        return $this->render('home/table.html.twig' ,[
+
+        ]);
+    }
+
     /**
      * @Route("/test", name="test")
      */

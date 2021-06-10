@@ -6,14 +6,17 @@
         <div class="col-10">
             <ul class="nav justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                    <a class="nav-link active" aria-current="page" href="{{ path('home') }}">Dashboard</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Tippen!</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Mein Profil</a>
-                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Tippen!</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Mein Profil</a>#}
+{#                </li>#}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                    </li>
             </ul>
         </div>
     </div>

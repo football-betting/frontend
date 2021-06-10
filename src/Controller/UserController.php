@@ -26,6 +26,11 @@ class UserController extends AbstractController
      */
     public function register(Request $request): Response
     {
+        $token = $request->getSession()->get('token');
+        if ($this->getUser() && $token) {
+            return $this->redirectToRoute('home');
+        }
+
         $user = new User();
 
         $error = '';

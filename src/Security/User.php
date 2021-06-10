@@ -17,6 +17,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var string The hashed password
+     */
+    private $passwordConfirm;
+
+    /**
      * @var string
      */
     private $token;
@@ -98,6 +103,22 @@ class User implements UserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordConfirm(): string
+    {
+        return $this->passwordConfirm;
+    }
+
+    /**
+     * @param string $passwordConfirm
+     */
+    public function setPasswordConfirm(string $passwordConfirm): void
+    {
+        $this->passwordConfirm = $passwordConfirm;
     }
 
     /**

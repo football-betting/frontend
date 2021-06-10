@@ -15,14 +15,14 @@
                 <form id="{{ game.matchId }}" data-controller="tipp">
                 <tr>
                     <td scope="row"><img src="https://www.countryflags.io/{{ game.team1 }}/flat/32.png">&nbsp;&nbsp;&nbsp;&nbsp;{{ game.team1 }}</td>
-                    <td class="center-td">-</td>
-                    <td class="center-td"><input type="number" class="input-score" placeholder="0" maxlength="2" size="2" min="0" max="20"></td>
+                    <td class="center-td"></td>
+                    <td class="center-td"><input type="number" class="input-score" placeholder="0" maxlength="2" value="{{ game.tipTeam1 }}" size="2" min="0" max="20"></td>
                     <td rowspan="2"  style="vertical-align : middle;text-align:center;" class="last-td"><span class="score">{{ game.matchDatetime |date('d.m H:i') }}</span></td>
                 </tr>
                 <tr>
                     <td scope="row" class="last-td"><img src="https://www.countryflags.io/{{ game.team2 }}/flat/32.png">&nbsp;&nbsp;&nbsp;&nbsp;{{ game.team2 }}</td>
                     <td class="center-td last-td">-</td>
-                    <td class="center-td last-td"><input type="number" class="input-score" placeholder="0" maxlength="2" size="2" min="0" max="20"></td>
+                    <td class="center-td last-td"><input type="number" class="input-score" placeholder="0" maxlength="2" value="{{ game.tipTeam2 }}" size="2" min="0" max="20"></td>
                 </tr>
                 </form>
             {% endfor %}

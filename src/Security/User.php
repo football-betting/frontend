@@ -22,6 +22,16 @@ class User implements UserInterface
     private $token;
 
     /**
+     * @var string
+     */
+    private $tip1;
+
+    /**
+     * @var string
+     */
+    private $tip2;
+
+    /**
      * A visual identifier that represents this user.
      *
      * @see UserInterface
@@ -105,6 +115,39 @@ class User implements UserInterface
     {
         $this->token = $token;
     }
+
+    /**
+     * @return string
+     */
+    public function getTip1(): string
+    {
+        return $this->tip1;
+    }
+
+    /**
+     * @param string $tip1
+     */
+    public function setTip1(string $tip1): void
+    {
+        $this->tip1 = $tip1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTip2(): string
+    {
+        return $this->tip2;
+    }
+
+    /**
+     * @param string $tip2
+     */
+    public function setTip2(string $tip2): void
+    {
+        $this->tip2 = $tip2;
+    }
+
 
 
 

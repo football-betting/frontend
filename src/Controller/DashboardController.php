@@ -51,7 +51,14 @@ class DashboardController extends AbstractController
      */
     public function test(Request $request): Response
     {
-        $json = json_encode(['success' => true]);
+        $token = $request->getSession()->get('token');
+        $conetnt = json_decode($request->getContent(), true);
+
+        $conetnt['tipTeam1'] = (int)$conetnt['tipTeam1'];
+        $conetnt['tipTeam2'] = (int)$conetnt['tipTeam2'];
+
+        $data = $this->api->tips($token, $conetnt);
+        $json = json_encode($data);
 
         return new Response($json);
     }

@@ -24,7 +24,7 @@ class Api
                 'json' => [
                     'email' => $user->getUsername(),
                     'password' => $user->getPassword(),
-                ]
+                ],
             ]
         );
         $content = $response->getContent();
@@ -41,7 +41,9 @@ class Api
                     'email' => $user->getEmail(),
                     'username' => $user->getUsername(),
                     'password' => $user->getPassword(),
-                ]
+                    'tip1' => $user->getTip1(),
+                    'tip2' => $user->getTip2(),
+                ],
             ]
         );
         $content = $response->getContent();
@@ -60,7 +62,24 @@ class Api
                 ],
             ]
         );
-        $content = $response->getContent();
+        $content = $response->getContent(false);
+
+        return json_decode($content, true);
+    }
+
+    public function tips(string $token, array $tips)
+    {
+        $response = $this->client->request(
+            'POST',
+            $this->url . '/api/tip/send', [
+                'headers' => [
+                    'Authorization' => $token,
+                    'CONTENT_TYPE' => 'application/json',
+                ],
+                'json' => $tips
+            ]
+        );
+        $content = $response->getContent(false);
 
         return json_decode($content, true);
     }

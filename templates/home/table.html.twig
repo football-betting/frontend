@@ -4,6 +4,38 @@
 
 {% block body %}
     <div class="row">
-        Basti ist geil!!
+        <div class="col">
+            <h2 class="text-center"><i class="fas fa-users"></i>&nbsp;&nbsp;Tabelle</h2>
+            <table class="table table-striped table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">Platz</th>
+                    <th scope="col">Trend</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Punkte</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>-</td>
+                    <td>Rafal</td>
+                    <td>180</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td class="text-danger"><i class="fas fa-chevron-down"></i></td>
+                    <td>Bastifantasti</td>
+                    <td>160</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td class="text-primary"><i class="fas fa-chevron-up"></i></td>
+                    <td>Spacko</td>
+                    <td>5</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}

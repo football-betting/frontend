@@ -9,6 +9,8 @@ export default class extends Controller {
         for (let index = 0; index < inputs.length; ++index) {
             // deal with inputs[index] element.
             inputs[index].onchange = function(formId){
+                const removeElements = (elms) => elms.forEach(el => el.style.display="none");
+                removeElements( document.querySelectorAll("i[class='far fa-check-circle submit-tip-icon']") );
                 scope.checkSubmit(formId.target.form,formId);
             }
         }
@@ -21,6 +23,7 @@ export default class extends Controller {
             tipTeam1: null,
             tipTeam2: null
         }
+
         if(formId.srcElement.form[0].value === "" || formId.srcElement.form[1].value === ""){
 
         }else{
@@ -29,11 +32,17 @@ export default class extends Controller {
             obj.tipTeam2 = formId.srcElement.form[1].value;
         }
         if(submit){
+
             fetch(url, {
                 method: "POST",
                 body: JSON.stringify(obj)
             }).then(res => {
+
+                let done = document.getElementById("done-"+form.id);
+                console.log(done);
+                done.style.display = "block";
                 console.log("Request complete! response:", res);
+
             });
         }
     }

@@ -7,6 +7,10 @@ body {
     background-color: black;
     color: white;
 }
+.submit-tip-icon{
+    color: $success;
+    display: none;
+}
 .badge-danger{
     background-color: $danger;
     color: white;

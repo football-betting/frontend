@@ -10,7 +10,7 @@ export default class extends Controller {
             // deal with inputs[index] element.
             inputs[index].onchange = function(formId){
                 const removeElements = (elms) => elms.forEach(el => el.style.display="none");
-                removeElements( document.querySelectorAll("i[class='far fa-check-circle submit-tip-icon']") );
+                removeElements( document.querySelectorAll("div[class='submit-tip-icon']") );
                 scope.checkSubmit(formId.target.form,formId);
             }
         }

@@ -35,3 +35,4 @@ security:
     access_control:
          - { path: ^/test, roles: ROLE_USER }
          - { path: ^/home, roles: ROLE_USER }
+         - { path: ^/account, roles: ROLE_USER }

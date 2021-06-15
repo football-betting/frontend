@@ -28,8 +28,12 @@ class DashboardController extends AbstractController
     {
         $token = $request->getSession()->get('token');
 
+
         $data = $this->api->user($token);
         $games = $data['data']['tips'];
+
+        $table = $this->api->table($token);
+//        dump($table);
         return $this->render('home/index.html.twig' ,[
             'games' => $games
         ]);

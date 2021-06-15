@@ -5,7 +5,7 @@
             <thead>
             <tr>
                 <th scope="col">Platz</th>
-                <th scope="col">Trend</th>
+{#                <th scope="col">Trend</th>#}
                 <th scope="col">Name</th>
                 <th scope="col">Punkte</th>
             </tr>
@@ -14,7 +14,7 @@
             {% for user in users %}
                 <tr>
                     <th scope="row">{{ user.position }}</th>
-                    <td>-</td>
+{#                    <td>-</td>#}
                     <td>{{ user.name }}</td>
                     <td>{{ user.scoreSum }}</td>
                 </tr>

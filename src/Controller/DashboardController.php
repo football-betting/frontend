@@ -27,8 +27,12 @@ class DashboardController extends AbstractController
     {
         $token = $request->getSession()->get('token');
 
-
         $data = $this->api->user($token);
+
+        if(!isset($data['data']) || !isset($data['data']['tips'])) {
+            return $this->redirectToRoute('app_logout');
+        }
+
         $games = $data['data']['tips'];
 
         $table = $this->api->table($token);
@@ -46,8 +50,15 @@ class DashboardController extends AbstractController
      */
     public function table(Request $request): Response
     {
-        return $this->render('home/table.html.twig' ,[
+        $token = $request->getSession()->get('token');
+        $data = $this->api->table($token);
 
+        if(!isset($data['data']) || !isset($data['data']['users'])) {
+            return $this->redirectToRoute('app_logout');
+        }
+
+        return $this->render('home/table.html.twig' ,[
+            'users' => $data['data']['users'],
         ]);
     }
 

@@ -41,6 +41,7 @@ class Api
                     'email' => $user->getEmail(),
                     'username' => $user->getUsername(),
                     'password' => $user->getPassword(),
+                    'passwordConfirm' => $user->getPasswordConfirm(),
                     'tip1' => $user->getTip1(),
                     'tip2' => $user->getTip2(),
                 ],

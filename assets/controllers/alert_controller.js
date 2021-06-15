@@ -11,9 +11,15 @@ import { Controller } from 'stimulus';
  */
 export default class extends Controller {
     connect() {
-        let box = this.element._parent;
-        this.element.onclick = function(box){
-            box.target.parentElement.parentElement.style.display = "none";
+        let box = this;
+        let info = window.localStorage.getItem('infobox');
+        if(info==="hide"){
+            box.context.parentElement.style.display = "none";
+        }
+
+        this.element.onclick = function(ev){
+            ev.target.parentElement.style.display = "none";
+            window.localStorage.setItem('infobox', "hide");
         };
     }
 }

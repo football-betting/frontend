@@ -33,9 +33,11 @@ class DashboardController extends AbstractController
         $games = $data['data']['tips'];
 
         $table = $this->api->table($token);
-//        dump($table);
+        $users = $table['data']['users'];
+
         return $this->render('home/index.html.twig' ,[
-            'games' => $games
+            'games' => $games,
+            'users' => $users,
         ]);
     }
 

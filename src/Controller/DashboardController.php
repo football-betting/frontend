@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Service\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,11 +27,16 @@ class DashboardController extends AbstractController
     {
         $token = $request->getSession()->get('token');
 
+
         $data = $this->api->user($token);
         $games = $data['data']['tips'];
 
+        $table = $this->api->table($token);
+        $users = $table['data']['users'];
+      
         return $this->render('home/index.html.twig' ,[
-            'games' => $games
+            'games' => $games,
+            'users' => $users,
         ]);
     }
 

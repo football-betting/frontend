@@ -68,6 +68,22 @@ class Api
         return json_decode($content, true);
     }
 
+    public function table(string $token)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->url . '/api/rating', [
+                'headers' => [
+                    'Authorization' => $token,
+                    'CONTENT_TYPE' => 'application/json',
+                ],
+            ]
+        );
+        $content = $response->getContent(false);
+
+        return json_decode($content, true);
+    }
+
     public function tips(string $token, array $tips)
     {
         $response = $this->client->request(

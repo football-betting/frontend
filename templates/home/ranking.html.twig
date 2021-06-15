@@ -11,6 +11,15 @@
             </tr>
             </thead>
             <tbody>
+            {% for user in users %}
+                <tr>
+                    <th scope="row">{{ user.position }}</th>
+                    <td>-</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.scoreSum }}</td>
+                </tr>
+            {% endfor %}
+            {#
             <tr>
                 <th scope="row">1</th>
                 <td>-</td>
@@ -29,6 +38,7 @@
                 <td>Spacko</td>
                 <td>5</td>
             </tr>
+            #}
             </tbody>
         </table>
     </div>

@@ -100,4 +100,20 @@ class Api
 
         return json_decode($content, true);
     }
+
+    public function userInfo(string $token)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->url . '/api/user/info', [
+                'headers' => [
+                    'Authorization' => $token,
+                    'CONTENT_TYPE' => 'application/json',
+                ],
+            ]
+        );
+        $content = $response->getContent(false);
+
+        return json_decode($content, true);
+    }
 }

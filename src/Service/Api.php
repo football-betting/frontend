@@ -52,6 +52,22 @@ class Api
         return json_decode($content, true);
     }
 
+    public function userTips(string $token, string $username)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->url . '/api/user_tip/past/' . $username, [
+                'headers' => [
+                    'Authorization' => $token,
+                    'CONTENT_TYPE' => 'application/json',
+                ],
+            ]
+        );
+        $content = $response->getContent(false);
+
+        return json_decode($content, true);
+    }
+
     public function user(string $token)
     {
         $response = $this->client->request(

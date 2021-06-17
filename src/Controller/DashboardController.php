@@ -44,6 +44,22 @@ class DashboardController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/tips/{username}", name="user_past_tips")
+     */
+    public function userPastTips(Request $request, string $username): Response
+    {
+        $token = $request->getSession()->get('token');
+        $data = $this->api->userTips($token, $username);
+
+        if(!isset($data['data'])) {
+            $data['data'] = [];
+        }
+
+        return $this->render('home/user-tips.html.twig' ,[
+            'user' => $data['data'],
+        ]);
+    }
 
     /**
      * @Route("/table", name="table")

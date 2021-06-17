@@ -15,7 +15,12 @@
                 <tr>
                     <th scope="row">{{ user.position }}</th>
 {#                    <td>-</td>#}
-                    <td>{{ user.name }}</td>
+                    <td>
+                        <a style="color: #FFF" href="{{ path('user_past_tips', {'username': user.name }) }}">
+                            {{ user.name }}
+                        </a>
+
+                    </td>
                     <td>{{ user.scoreSum }}</td>
                 </tr>
             {% endfor %}

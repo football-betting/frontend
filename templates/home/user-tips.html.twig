@@ -27,7 +27,9 @@
                     <tr>
 {#                        <th>{{ tip.matchId|split(' ', 2) }}</th>#}
                         <td>
-                            {{ tip.team1 }} - {{ tip.team2 }}
+                            <img src="/img/{{ tip.team1 }}.png">&nbsp;{{ tip.team1|trans }}
+                            -
+                            {{ tip.team2|trans }}&nbsp;<img src="/img/{{ tip.team2 }}.png">
                         </td>
                         <td>
                             {{ tip.scoreTeam1 }} - {{ tip.scoreTeam2 }}

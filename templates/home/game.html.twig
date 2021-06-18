@@ -5,8 +5,32 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            <h2 class="text-center"><i class="fas fa-users"></i>&nbsp;&nbsp;Match</h2>
+            <h2 class="text-center">
+                <img src="/img/{{ data.team1 }}.png">
+                {{ data.team1|trans }}
+                {{ data.scoreTeam1 }} - {{ data.scoreTeam2 }}
+                {{ data.team2|trans }}
+                <img src="/img/{{ data.team2 }}.png">
+            </h2>
 
+            <table class="table table-striped table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Tip</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in data.tips %}
+                    <tr>
+                        <td>{{ user.user }}</td>
+                        <td>{{ user.tipTeam1 }} - {{ user.tipTeam2 }}</td>
+                        <td>{{ user.score }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

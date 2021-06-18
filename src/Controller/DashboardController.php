@@ -49,6 +49,36 @@ class DashboardController extends AbstractController
      */
     public function gameTips(Request $request): Response
     {
+        $data = '{
+  "matchId": "2021-06-11:2100:TR-IT",
+  "team1": "TR",
+  "team2": "IT",
+  "scoreTeam1": 0,
+  "scoreTeam2": 3,
+  "tips": [
+    {
+      "user": "theBest",
+      "score": 1,
+      "tipTeam1": 0,
+      "tipTeam2": 2
+    },
+    {
+      "user": "ninja",
+      "score": 4,
+      "tipTeam1": 0,
+      "tipTeam2": 3
+    },
+    {
+        "user": "rockstar",
+      "score": 2,
+      "tipTeam1": 1,
+      "tipTeam2": 4
+    }
+  ]
+}';
+
+        $info = json_decode($data, true);
+
 //        $token = $request->getSession()->get('token');
 //        $data = $this->api->userTips($token, $username);
 //
@@ -56,7 +86,9 @@ class DashboardController extends AbstractController
 //            $data['data'] = [];
 //        }
 
+        dump($info);
         return $this->render('home/game.html.twig' ,[
+            'data' => $info
         ]);
     }
 

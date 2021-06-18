@@ -2,15 +2,30 @@
 
 {% block title %}User: {{ user.name }}{% endblock %}
 
+{% if user.position < 5 %}
+    {% set colorClass = 'text-success' %}
+    {% set smileIcon = 'fa-grin-hearts' %}
+{% elseif user.position < 12 %}
+    {% set colorClass = 'text-success' %}
+    {% set smileIcon = 'fa-smile' %}
+{% elseif user.position < 18 %}
+    {% set colorClass = 'text-warning' %}
+    {% set smileIcon = 'fa-meh' %}
+{% else %}
+    {% set colorClass = 'text-error' %}
+    {% set smileIcon = 'fa-meh-rolling-eyes' %}
+{% endif %}
+
+{% set good = 'bar' %}
+
 {% block body %}
     <div class="row">
         <div class="col">
-            <h2 class="text-center"><i class="fas fa-users"></i>&nbsp;&nbsp;User: {{ user.name }} - </h2>
-            <p>Platz: {{ user.position }} </p>
-            <p>Punkte: {{ user.scoreSum }} </p>
-            <p>Richtige Ergebnisse: {{ user.sumWinExact }} </p>
-            <p>Tordifferenz: {{ user.sumScoreDiff }} </p>
-            <p>Sieger: {{ user.sumTeam }} </p>
+            <h2 class="text-center"><i class="far fa-smile"></i>&nbsp;&nbsp;User: {{ user.name }}</h2>
+            <p><i class="far {{ smileIcon }} {{ colorClass }}"></i>&nbsp;&nbsp;Platz: {{ user.position }} / Punkte: {{ user.scoreSum }}</p>
+            <p><i class="fas fa-award"></i>&nbsp;&nbsp;Richtige Ergebnisse: {{ user.sumWinExact }} </p>
+            <p><i class="far fa-futbol"></i>&nbsp;&nbsp;Tordifferenz: {{ user.sumScoreDiff }} </p>
+            <p><i class="far fa-check-circle"></i>&nbsp;&nbsp;Sieger: {{ user.sumTeam }} </p>
 
             <table class="table table-striped table-dark">
                 <thead>
@@ -24,24 +39,33 @@
                 </thead>
                 <tbody>
                 {% for tip in user.tips %}
+                    {% if tip.score == 4 %}
+                        {% set colorClass = 'text-success' %}
+                    {% elseif tip.score == 2 %}
+                        {% set colorClass = 'text-warning' %}
+                    {% elseif tip.score == 1 %}
+                        {% set colorClass = '' %}
+                    {% else %}
+                        {% set colorClass = '' %}
+                    {% endif %}
                     <tr>
 {#                        <th>{{ tip.matchId|split(' ', 2) }}</th>#}
-                        <td>
+                        <td class="{{ colorClass }}">
                             <img src="/img/{{ tip.team1 }}.png">&nbsp;{{ tip.team1|trans }}
                             -
                             {{ tip.team2|trans }}&nbsp;<img src="/img/{{ tip.team2 }}.png">
                         </td>
-                        <td>
+                        <td class="{{ colorClass }}">
                             {{ tip.scoreTeam1 }} - {{ tip.scoreTeam2 }}
                         </td>
-                        <td>
+                        <td  class="{{ colorClass }}">
                             {% if tip.tipTeam1 is null or tip.tipTeam2 is null %}
                                 -  :  -
                             {% else %}
                                 {{ tip.tipTeam1 }} : {{ tip.tipTeam2 }}
                             {% endif %}
                         </td>
-                        <td>{{ tip.score }}</td>
+                        <td><span class="{{ colorClass }}">{{ tip.score }}</span></td>
                     </tr>
                 {% endfor %}
                 </tbody>

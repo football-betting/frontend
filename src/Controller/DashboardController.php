@@ -45,6 +45,22 @@ class DashboardController extends AbstractController
     }
 
     /**
+     * @Route("/game", name="user_game")
+     */
+    public function gameTips(Request $request): Response
+    {
+//        $token = $request->getSession()->get('token');
+//        $data = $this->api->userTips($token, $username);
+//
+//        if(!isset($data['data'])) {
+//            $data['data'] = [];
+//        }
+
+        return $this->render('home/game.html.twig' ,[
+        ]);
+    }
+
+    /**
      * @Route("/tips/{username}", name="user_past_tips")
      */
     public function userPastTips(Request $request, string $username): Response

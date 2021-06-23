@@ -30,13 +30,20 @@ class DashboardController extends AbstractController
         $data = $this->api->user($token);
 
         if(!isset($data['data']) || !isset($data['data']['tips'])) {
+            $games = [];
+        } else {
+            $games = $data['data']['tips'];
+        }
+
+        $table = $this->api->table($token);
+
+
+        if(!isset($table['data']) || !isset($table['data']['users'])) {
             return $this->redirectToRoute('app_logout');
         }
 
-        $games = $data['data']['tips'];
-
-        $table = $this->api->table($token);
         $users = $table['data']['users'];
+
       
         return $this->render('home/index.html.twig' ,[
             'games' => $games,
@@ -101,7 +108,7 @@ class DashboardController extends AbstractController
         $data = $this->api->userTips($token, $username);
 
         if(!isset($data['data'])) {
-            $data['data'] = [];
+            return $this->redirectToRoute('app_logout');
         }
 
         return $this->render('home/user-tips.html.twig' ,[

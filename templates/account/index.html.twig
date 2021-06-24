@@ -1,18 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}Your Account!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<script>
+    let url = "https://api.giphy.com/v1/gifs/random?api_key=RHb2vdaLUSQmLzHxuJlDIANyKgPC1oq4&tag=soccer&rating=g"
 
-<div class="example-wrapper">
-    <ul>
-        <li>Username: {{ userInfo.username }}</li>
-        <li>Winning Team: {{ userInfo.winningTeam|trans }}</li>
-        <li>Secret Winning Team: {{ userInfo.secretWinningTeam|trans }}</li>
-    </ul>
+</script>
+<br>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-4">
+        <h2><i class="fas fa-user-circle"></i>&nbsp;&nbsp;ACCOUNT INFO</h2>
+        <table class="table table-dark table-striped">
+            <tr>
+                <td class="align-middle">Username</td>
+                <td class="align-middle"><i>{{ userInfo.username }}</i></td>
+            </tr>
+            <tr>
+                <td class="align-middle">Winning Team</td>
+                <td class="align-middle">{{ userInfo.winningTeam|trans }}&nbsp;&nbsp;<img src="/img/{{ userInfo.winningTeam }}.png">&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="align-middle">Secret Winning Team</td>
+                <td class="align-middle">{{ userInfo.secretWinningTeam|trans }}&nbsp;&nbsp;<img src="/img/{{ userInfo.secretWinningTeam }}.png">&nbsp;&nbsp; </td>
+            </tr>
+        </table>
+    </div>
 </div>
+    <br><hr>
+<div class="row justify-content-center">
+    <div class="col-auto" data-controller="gif">
+    </div>
+</div>
+
+<!--RHb2vdaLUSQmLzHxuJlDIANyKgPC1oq4 -->
 {% endblock %}

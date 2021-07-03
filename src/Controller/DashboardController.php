@@ -29,7 +29,7 @@ class DashboardController extends AbstractController
 
         $data = $this->api->user($token);
 
-        if(!isset($data['data']) || !isset($data['data']['tips'])) {
+        if (!isset($data['data']) || !isset($data['data']['tips'])) {
             $games = [];
         } else {
             $games = $data['data']['tips'];
@@ -38,64 +38,65 @@ class DashboardController extends AbstractController
         $table = $this->api->table($token);
 
 
-        if(!isset($table['data']) || !isset($table['data']['users'])) {
+        if (!isset($table['data']) || !isset($table['data']['users'])) {
             return $this->redirectToRoute('app_logout');
         }
 
         $users = $table['data']['users'];
 
-      
-        return $this->render('home/index.html.twig' ,[
+
+        return $this->render('home/index.html.twig', [
             'games' => $games,
             'users' => $users,
         ]);
     }
 
     /**
-     * @Route("/game", name="user_game")
+     * @Route("/game/{matchId}", name="user_tips_game")
      */
-    public function gameTips(Request $request): Response
+    public function gameTips(string $matchId, Request $request): Response
     {
-        $data = '{
-  "matchId": "2021-06-11:2100:TR-IT",
-  "team1": "TR",
-  "team2": "IT",
-  "scoreTeam1": 0,
-  "scoreTeam2": 3,
-  "tips": [
-    {
-      "user": "theBest",
-      "score": 1,
-      "tipTeam1": 0,
-      "tipTeam2": 2
-    },
-    {
-      "user": "ninja",
-      "score": 4,
-      "tipTeam1": 0,
-      "tipTeam2": 3
-    },
-    {
-        "user": "rockstar",
-      "score": 2,
-      "tipTeam1": 1,
-      "tipTeam2": 4
-    }
-  ]
-}';
+        $token = $request->getSession()->get('token');
+        $gamesInfo = $this->api->tipsGameInfo($token, $matchId);
 
-        $info = json_decode($data, true);
+        if (!isset($gamesInfo['success'])) {
+            return $this->redirectToRoute('app_logout');
+        }
 
-//        $token = $request->getSession()->get('token');
-//        $data = $this->api->userTips($token, $username);
-//
-//        if(!isset($data['data'])) {
-//            $data['data'] = [];
-//        }
+        if ($gamesInfo['success'] === false) {
+            return $this->redirectToRoute('home');
+        }
 
-        dump($info);
-        return $this->render('home/game.html.twig' ,[
-            'data' => $info
+        $data = $gamesInfo['data'];
+
+        $win4point = [];
+        $win2point = [];
+        $win1point = [];
+        $looser = [];
+
+        foreach ($data['usersTip'] as $userTip) {
+            if ($userTip['score'] === 4) {
+                $win4point[] = $userTip;
+            }
+            if ($userTip['score'] === 2) {
+                $win2point[] = $userTip;
+            }
+            if ($userTip['score'] === 1) {
+                $win1point[] = $userTip;
+            }
+            if ($userTip['score'] === 0) {
+                $looser[] = $userTip;
+            }
+        }
+
+        unset($data['usersTip']);
+
+        return $this->render('home/game.html.twig', [
+            'data' => $data,
+            'win4point' => $win4point,
+            'win2point' => $win2point,
+            'win1point' => $win1point,
+            'looser' => $looser,
         ]);
     }
 
@@ -107,11 +108,11 @@ class DashboardController extends AbstractController
         $token = $request->getSession()->get('token');
         $data = $this->api->userTips($token, $username);
 
-        if(!isset($data['data'])) {
+        if (!isset($data['data'])) {
             return $this->redirectToRoute('app_logout');
         }
 
-        return $this->render('home/user-tips.html.twig' ,[
+        return $this->render('home/user-tips.html.twig', [
             'user' => $data['data'],
         ]);
     }
@@ -124,11 +125,11 @@ class DashboardController extends AbstractController
         $token = $request->getSession()->get('token');
         $data = $this->api->table($token);
 
-        if(!isset($data['data']) || !isset($data['data']['users'])) {
+        if (!isset($data['data']) || !isset($data['data']['users'])) {
             return $this->redirectToRoute('app_logout');
         }
 
-        return $this->render('home/table.html.twig' ,[
+        return $this->render('home/table.html.twig', [
             'users' => $data['data']['users'],
         ]);
     }

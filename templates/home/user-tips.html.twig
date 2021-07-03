@@ -54,6 +54,7 @@
                             <img src="/img/{{ tip.team1 }}.png">&nbsp;{{ tip.team1|trans }}
                             -
                             {{ tip.team2|trans }}&nbsp;<img src="/img/{{ tip.team2 }}.png">
+                            <a href="{{ path('user_tips_game', {'matchId': tip.matchId }) }}">tips</a>
                         </td>
                         <td class="{{ colorClass }}">
                             {{ tip.scoreTeam1 }} - {{ tip.scoreTeam2 }}

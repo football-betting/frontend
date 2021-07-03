@@ -14,6 +14,9 @@
                     <th scope="col"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;Richtige Ergebnisse</th>
                     <th scope="col"><i class="fas fa-futbol"></i>&nbsp;&nbsp;Tordifferenz</th>
                     <th scope="col"><i class="far fa-hand-peace"></i>&nbsp;&nbsp;Siege</th>
+                    <th scope="col"><i class="far fa-hand-peace"></i>&nbsp;&nbsp;Extra-Punkte</th>
+                    <th scope="col"><i class="far fa-hand-peace"></i>&nbsp;&nbsp;Tipp</th>
+                    <th scope="col"><i class="far fa-hand-peace"></i>&nbsp;&nbsp;Geheimtipp</th>
                     <th scope="col"><i class="fas fa-award"></i>&nbsp;&nbsp;Punkte</th>
                 </tr>
                 </thead>
@@ -25,6 +28,9 @@
                         <td>{{ user.sumWinExact }}</td>
                         <td>{{ user.sumScoreDiff }}</td>
                         <td>{{ user.sumTeam }}</td>
+                        <td>{{ user.extraPoint }}</td>
+                        <td><img src="/img/{{ user.winner }}.png"></td>
+                        <td><img src="/img/{{ user.winnerSecret }}.png"/></td>
                         <td>{{ user.scoreSum }}</td>
                     </tr>
                 {% endfor %}

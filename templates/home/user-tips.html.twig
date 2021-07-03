@@ -27,6 +27,10 @@
             <p><i class="far fa-futbol"></i>&nbsp;&nbsp;Tordifferenz: {{ user.sumScoreDiff }} </p>
             <p><i class="far fa-check-circle"></i>&nbsp;&nbsp;Sieger: {{ user.sumTeam }} </p>
 
+            <p><i class="far fa-hand-point-right"></i>&nbsp;&nbsp;Extra-Punkte: {{ user.extraPoint }} </p>
+            <p><i class="fas fa-trophy"></i>&nbsp;&nbsp;Tipp: <img src="/img/{{ user.winner }}.png"/></p>
+            <p><i class="far fa-eye"></i>&nbsp;&nbsp;Geheimtipp: <img src="/img/{{ user.winnerSecret }}.png" /></p>
+
             <table class="table table-striped table-dark">
                 <thead>
                 <tr>

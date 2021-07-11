@@ -8,12 +8,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Api
 {
+    private string $url;
+
     private HttpClientInterface $client;
 
     public function __construct(HttpClientInterface $client, ParameterBagInterface $params)
     {
         $this->client = $client;
-        $this->url = $params->get('api.url');
+        $this->url = rtrim($params->get('api.url'),  '/');
     }
 
     public function login(User $user)
@@ -139,6 +141,22 @@ class Api
         $response = $this->client->request(
             'GET',
             $this->url . '/api/user/info', [
+                'headers' => [
+                    'Authorization' => $token,
+                    'CONTENT_TYPE' => 'application/json',
+                ],
+            ]
+        );
+        $content = $response->getContent(false);
+
+        return json_decode($content, true);
+    }
+
+    public function dailyWinners(string $token)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->url . '/api/daily-winners', [
                 'headers' => [
                     'Authorization' => $token,
                     'CONTENT_TYPE' => 'application/json',

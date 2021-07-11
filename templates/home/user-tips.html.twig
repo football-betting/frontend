@@ -36,6 +36,7 @@
                 <tr>
 {#                    <th scope="col">Datum</th>#}
                     <th scope="col">Teams</th>
+                    <th scope="col">Datum</th>
                     <th scope="col">Result</th>
                     <th scope="col">Tip</th>
                     <th scope="col">Punkte</th>
@@ -59,6 +60,9 @@
                             -
                             {{ tip.team2|trans }}&nbsp;<img src="/img/{{ tip.team2 }}.png">
                             <a href="{{ path('user_tips_game', {'matchId': tip.matchId }) }}">tips</a>
+                        </td>
+                        <td>
+                            {{ tip.matchId[:10]|date("d.m") }}
                         </td>
                         <td class="{{ colorClass }}">
                             {{ tip.scoreTeam1 }} - {{ tip.scoreTeam2 }}

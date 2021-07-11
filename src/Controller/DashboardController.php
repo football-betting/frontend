@@ -44,10 +44,34 @@ class DashboardController extends AbstractController
 
         $users = $table['data']['users'];
 
+        $dailyWinnersApi = $this->api->dailyWinners($token);
+        $dailyWinners = [];
+        if (isset($dailyWinnersApi['data'])) {
+            $dailyWinners = array_slice($dailyWinnersApi['data'], -2, 2, true);
+        }
+
 
         return $this->render('home/index.html.twig', [
             'games' => $games,
             'users' => $users,
+            'dailyWinners' => $dailyWinners,
+        ]);
+    }
+
+    /**
+     * @Route("/daily-winners", name="daily_winners")
+     */
+    public function dailyWinners(Request $request): Response
+    {
+        $token = $request->getSession()->get('token');
+
+        $dailyWinnersApi = $this->api->dailyWinners($token);
+        if (!isset($dailyWinnersApi['data']) || $dailyWinnersApi['success'] !== true) {
+            return $this->redirectToRoute('app_logout');
+        }
+
+        return $this->render('home/winner-of-the-day-table.html.twig', [
+            'dailyWinners' => $dailyWinnersApi['data'],
         ]);
     }
 

@@ -8,12 +8,12 @@
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.get('_route') == 'home'  ? 'active' }}" aria-current="page" href="{{ path('home') }}">Dashboard</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ app.request.get('_route') == 'daily_winners'  ? 'active' }}" href="{{ path('daily_winners') }}">Gewinner des Tages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ app.request.get('_route') == 'table'  ? 'active' }}" href="{{ path('table') }}">Tabelle</a>
-                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link {{ app.request.get('_route') == 'daily_winners'  ? 'active' }}" href="{{ path('daily_winners') }}">Gewinner des Tages</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link {{ app.request.get('_route') == 'table'  ? 'active' }}" href="{{ path('table') }}">Tabelle</a>#}
+{#                </li>#}
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.get('_route') == 'account'  ? 'active' }}" href="{{ path('account') }}">Mein Profil</a>
                 </li>

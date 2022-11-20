@@ -35,14 +35,14 @@ class DashboardController extends AbstractController
             $games = $data['data']['tips'];
         }
 
-        //$table = $this->api->table($token);
+        $table = $this->api->table($token);
 
 
-//        if (!isset($table['data']) || !isset($table['data']['users'])) {
-//            return $this->redirectToRoute('app_logout');
-//        }
+        if (!isset($table['data']) || !isset($table['data']['users'])) {
+            return $this->redirectToRoute('app_logout');
+        }
 
-        //$users = $table['data']['users'];
+        $users = $table['data']['users'];
 
 //        $dailyWinnersApi = $this->api->dailyWinners($token);
 //        $dailyWinners = [];
@@ -53,8 +53,7 @@ class DashboardController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'games' => $games,
-//            'users' => $users,
-            'users' => [],
+             'users' => $users,
             'dailyWinners' =>  [],
         ]);
     }

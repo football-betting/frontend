@@ -8,7 +8,13 @@
             <h2 class="text-center">
                 <img src="/img/{{ data.team1 }}.png">
                 {{ data.team1|trans }}
-                &nbsp;&nbsp;{{ data.scoreTeam1 }}&nbsp;&nbsp;-&nbsp;&nbsp;{{ data.scoreTeam2 }}&nbsp;&nbsp;
+                {% if data.scoreTeam1 is defined %}
+                    {{ data.scoreTeam1 }}
+                {% endif %}
+                &nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;
+                {% if data.scoreTeam2 is defined %}
+                    {{ data.scoreTeam2 }}
+                {% endif %}
                 {{ data.team2|trans }}
                 <img src="/img/{{ data.team2 }}.png">
             </h2>

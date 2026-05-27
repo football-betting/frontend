@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tournament Predictor - Ranking</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121317;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #343539;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b8eff;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#121317",
+                        "tertiary": "#74d1ff",
+                        "tertiary-container": "#149ccb",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-container": "#1e1f23",
+                        "on-tertiary-container": "#002e3f",
+                        "on-primary": "#690003",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e3e2e7",
+                        "on-error": "#690005",
+                        "outline-variant": "#5d3f3b",
+                        "on-primary-fixed": "#410001",
+                        "on-background": "#e3e2e7",
+                        "on-secondary-container": "#00285c",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#e7bdb7",
+                        "surface-container-low": "#1a1b1f",
+                        "secondary-container": "#4b8eff",
+                        "surface-container-lowest": "#0d0e12",
+                        "on-secondary-fixed-variant": "#004493",
+                        "surface-container-highest": "#343539",
+                        "on-tertiary": "#003548",
+                        "on-primary-container": "#5c0002",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-variant": "#343539",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "surface-container-high": "#292a2e",
+                        "on-secondary-fixed": "#001a41",
+                        "tertiary-fixed-dim": "#74d1ff",
+                        "on-tertiary-fixed-variant": "#004d67",
+                        "surface-dim": "#121317",
+                        "primary-fixed": "#ffdad5",
+                        "on-tertiary-fixed": "#001e2b",
+                        "secondary": "#adc6ff",
+                        "on-primary-fixed-variant": "#930005",
+                        "tertiary-fixed": "#c1e8ff",
+                        "inverse-primary": "#c0000a",
+                        "primary-container": "#ff5545",
+                        "outline": "#ad8883",
+                        "surface-bright": "#38393d",
+                        "primary": "#ffb4aa",
+                        "surface": "#121317",
+                        "on-surface": "#e3e2e7",
+                        "on-secondary": "#002e69"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "48px",
+                        "xs": "4px",
+                        "margin-desktop": "64px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "max-width-desktop": "1280px",
+                        "gutter": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "data-mono": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-20 md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background border-b border-outline-variant dark:border-outline-variant fixed top-0 left-0 right-0 z-50">
+    <div class="hidden md:flex justify-between items-center w-full px-margin-desktop h-16 max-w-max-width-desktop mx-auto">
+        <div class="text-headline-md font-headline-md font-black text-on-background dark:text-on-background tracking-tighter">
+            TOURNAMENT PREDICTOR
+        </div>
+        <nav class="flex gap-lg">
+            <a class="text-on-surface-variant dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-primary transition-colors" href="#">Dashboard</a>
+            <a class="text-primary dark:text-primary border-b-2 border-primary pb-1 font-label-caps text-label-caps hover:text-primary dark:hover:text-primary transition-colors" href="#">Ranking</a>
+            <a class="text-on-surface-variant dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-primary transition-colors" href="#">Profile</a>
+        </nav>
+        <button class="text-label-caps font-label-caps text-primary hover:opacity-80 transition-opacity">Logout</button>
+    </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-margin-mobile md:px-margin-desktop max-w-max-width-desktop mx-auto pb-xl">
+    <!-- Header Section -->
+    <div class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+        <div>
+            <h1 class="font-headline-lg text-headline-lg md:text-headline-lg uppercase tracking-tight">Leaderboard</h1>
+            <p class="text-on-surface-variant font-body-sm text-body-sm">Global and local standings for the European Championship.</p>
+        </div>
+        <!-- Tab Controls -->
+        <div class="flex bg-surface-container-low rounded-lg p-xs border border-outline-variant">
+            <button class="px-md py-sm font-label-caps text-label-caps bg-primary-container text-on-primary-container rounded transition-all duration-200">GLOBAL</button>
+            <button class="px-md py-sm font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-all duration-200">LANGENFELD</button>
+            <button class="px-md py-sm font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-all duration-200">MANNHEIM</button>
+            <button class="px-md py-sm font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-all duration-200">MAINZ</button>
+        </div>
+    </div>
+    <!-- Ranking Table Container -->
+    <div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden shadow-2xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="bg-surface-container-highest border-b border-outline-variant">
+                    <th class="px-md py-lg font-label-caps text-label-caps text-on-surface-variant">POS</th>
+                    <th class="px-md py-lg font-label-caps text-label-caps text-on-surface-variant">USERNAME</th>
+                    <th class="px-md py-lg font-label-caps text-label-caps text-on-surface-variant text-center">EXACT</th>
+                    <th class="px-md py-lg font-label-caps text-label-caps text-on-surface-variant text-center">DIFF</th>
+                    <th class="px-md py-lg font-label-caps text-label-caps text-on-surface-variant text-center">WINS</th>
+                    <th class="px-md py-lg font-label-caps text-label-caps text-on-surface-variant text-center">BONUS</th>
+                    <th class="px-md py-lg font-label-caps text-label-caps text-primary text-center">TOTAL</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/30">
+                <!-- Top 3 -->
+                <tr class="group hover:bg-surface-container-highest transition-colors">
+                    <td class="px-md py-md font-data-mono text-data-mono text-tertiary">01</td>
+                    <td class="px-md py-md font-headline-md text-headline-md flex items-center gap-sm">
+                        <span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                        Max_Striker_88
+                    </td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">14</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">8</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">21</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">15</td>
+                    <td class="px-md py-md font-data-mono text-headline-md text-center text-tertiary">142</td>
+                </tr>
+                <tr class="group hover:bg-surface-container-highest transition-colors">
+                    <td class="px-md py-md font-data-mono text-data-mono text-on-surface-variant">02</td>
+                    <td class="px-md py-md font-headline-md text-headline-md">PredictionKing</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">12</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">11</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">19</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">10</td>
+                    <td class="px-md py-md font-data-mono text-headline-md text-center">135</td>
+                </tr>
+                <tr class="group hover:bg-surface-container-highest transition-colors">
+                    <td class="px-md py-md font-data-mono text-data-mono text-on-surface-variant">03</td>
+                    <td class="px-md py-md font-headline-md text-headline-md">GoalGetter_DE</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">10</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">14</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">18</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">5</td>
+                    <td class="px-md py-md font-data-mono text-headline-md text-center">128</td>
+                </tr>
+                <!-- Highlighted Row -->
+                <tr class="bg-secondary-container/10 border-y-2 border-secondary-container relative">
+                    <td class="px-md py-md font-data-mono text-data-mono text-secondary-container font-bold">124</td>
+                    <td class="px-md py-md font-headline-md text-headline-md text-secondary-container flex items-center gap-sm">
+                        Test User
+                        <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded uppercase tracking-tighter">YOU</span>
+                    </td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">4</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">7</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">12</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">0</td>
+                    <td class="px-md py-md font-data-mono text-headline-md text-center text-secondary-container">64</td>
+                </tr>
+                <!-- More Rows -->
+                <tr class="group hover:bg-surface-container-highest transition-colors">
+                    <td class="px-md py-md font-data-mono text-data-mono text-on-surface-variant">125</td>
+                    <td class="px-md py-md font-headline-md text-headline-md">LuckyShot</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">3</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">9</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">11</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">2</td>
+                    <td class="px-md py-md font-data-mono text-headline-md text-center">61</td>
+                </tr>
+                <tr class="group hover:bg-surface-container-highest transition-colors">
+                    <td class="px-md py-md font-data-mono text-data-mono text-on-surface-variant">126</td>
+                    <td class="px-md py-md font-headline-md text-headline-md">TacticalMaster</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">5</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">4</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">10</td>
+                    <td class="px-md py-md font-data-mono text-data-mono text-center">0</td>
+                    <td class="px-md py-md font-data-mono text-headline-md text-center">59</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Table Footer/Pagination -->
+        <div class="px-md py-lg border-t border-outline-variant bg-surface-container flex items-center justify-between">
+            <div class="text-label-caps font-label-caps text-on-surface-variant">SHOWING 124-130 OF 2,491 USERS</div>
+            <div class="flex gap-sm">
+                <button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container-highest transition-colors">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container-highest transition-colors">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar Info (Visible on Large Desktop) -->
+    <div class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-lg">
+        <div class="bg-surface-container border border-outline-variant p-lg rounded-xl">
+            <div class="flex items-center gap-sm mb-md text-primary">
+                <span class="material-symbols-outlined">info</span>
+                <h3 class="font-label-caps text-label-caps">Scoring System</h3>
+            </div>
+            <ul class="space-y-sm font-body-sm text-body-sm text-on-surface-variant">
+                <li class="flex justify-between"><span>Exact Score</span> <span class="font-data-mono text-on-surface">5 Pts</span></li>
+                <li class="flex justify-between"><span>Goal Difference</span> <span class="font-data-mono text-on-surface">3 Pts</span></li>
+                <li class="flex justify-between"><span>Correct Outcome</span> <span class="font-data-mono text-on-surface">2 Pts</span></li>
+            </ul>
+        </div>
+        <div class="md:col-span-2 relative h-48 rounded-xl overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
+            <img alt="Sports Stadium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-40" data-alt="A cinematic wide shot of a futuristic sports stadium at night, illuminated by brilliant floodlights that create long shadows. The atmosphere is tense and professional, with a color palette dominated by deep charcoal blacks and vibrant electric blue highlights. The architectural lines are sharp and modern, suggesting a high-stakes analytical environment. Soft haze catches the light, adding depth to the vast arena space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE4XTEVrhDwzexGl4JLAlDFTjDtQtSp--uez2NiKwg8d41Xb5ZjsVhWXYUZJj6Drl7FnzkWNiCe6YweMKEQK0HOeKpBbZ3W0NDReQZcZuIrTRATX21QWbxClAty9Nvib7iaFUfaVA1-Ne7Hh6zYbn5WjEAdf7A5ZQHxvxmxMhQGi9Ap3l3jj1PTng8AcQD8ORzPxDhfFJWks_XhUGIHf-VJ3YEJJ4MNwEGyCvig7U88ip60D7yG6JVImJKp16IS7reUgZQ54jYEtMK"/>
+            <div class="absolute bottom-md left-md z-20">
+                <span class="text-tertiary font-label-caps text-label-caps mb-xs block">SEASON REWARDS</span>
+                <h4 class="font-headline-lg text-headline-lg uppercase text-on-surface">Tournament Prizes</h4>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex md:hidden justify-around items-center px-margin-mobile py-2 bg-surface-container dark:bg-surface-container border-t border-outline-variant dark:border-outline-variant">
+    <button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest dark:hover:bg-surface-container-highest">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="font-label-caps text-label-caps">Dashboard</span>
+    </button>
+    <button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform duration-100">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+        <span class="font-label-caps text-label-caps">Ranking</span>
+    </button>
+    <button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest dark:hover:bg-surface-container-highest">
+        <span class="material-symbols-outlined">person</span>
+        <span class="font-label-caps text-label-caps">Profile</span>
+    </button>
+</nav>
+<script>
+    // Micro-interaction for active tab state switching
+    document.querySelectorAll('button.font-label-caps').forEach(button => {
+        button.addEventListener('click', function() {
+            if(this.closest('.bg-surface-container-low')) {
+                document.querySelectorAll('.bg-surface-container-low button').forEach(btn => {
+                    btn.classList.remove('bg-primary-container', 'text-on-primary-container');
+                    btn.classList.add('text-on-surface-variant');
+                });
+                this.classList.remove('text-on-surface-variant');
+                this.classList.add('bg-primary-container', 'text-on-primary-container');
+            }
+        });
+    });
+
+    // Simple row hover effect enhancement
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        row.addEventListener('mouseenter', () => {
+            row.style.boxShadow = 'inset 4px 0 0 0 #4b8eff';
+        });
+        row.addEventListener('mouseleave', () => {
+            row.style.boxShadow = 'none';
+        });
+    });
+</script>
+</body></html>

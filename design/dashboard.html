@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tournament Predictor - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Hanken+Grotesk', sans-serif;
+            background-color: #121317;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .live-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .glass-card {
+            background: rgba(30, 31, 35, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#121317",
+                        "tertiary": "#74d1ff",
+                        "tertiary-container": "#149ccb",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-container": "#1e1f23",
+                        "on-tertiary-container": "#002e3f",
+                        "on-primary": "#690003",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e3e2e7",
+                        "on-error": "#690005",
+                        "outline-variant": "#262626",
+                        "on-primary-fixed": "#410001",
+                        "on-background": "#e3e2e7",
+                        "on-secondary-container": "#00285c",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#e7bdb7",
+                        "surface-container-low": "#1a1b1f",
+                        "secondary-container": "#4b8eff",
+                        "surface-container-lowest": "#0d0e12",
+                        "on-secondary-fixed-variant": "#004493",
+                        "surface-container-highest": "#343539",
+                        "on-tertiary": "#003548",
+                        "on-primary-container": "#5c0002",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-variant": "#343539",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "surface-container-high": "#292a2e",
+                        "on-secondary-fixed": "#001a41",
+                        "tertiary-fixed-dim": "#74d1ff",
+                        "on-tertiary-fixed-variant": "#004d67",
+                        "surface-dim": "#121317",
+                        "primary-fixed": "#ffdad5",
+                        "on-tertiary-fixed": "#001e2b",
+                        "secondary": "#adc6ff",
+                        "on-primary-fixed-variant": "#930005",
+                        "tertiary-fixed": "#c1e8ff",
+                        "inverse-primary": "#c0000a",
+                        "primary-container": "#ff5545",
+                        "outline": "#ad8883",
+                        "surface-bright": "#38393d",
+                        "primary": "#ffb4aa",
+                        "surface": "#121317",
+                        "on-surface": "#e3e2e7",
+                        "on-secondary": "#002e69"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "48px",
+                        "xs": "4px",
+                        "margin-desktop": "64px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "max-width-desktop": "1280px",
+                        "gutter": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "data-mono": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background border-b border-outline-variant dark:border-outline-variant fixed top-0 left-0 w-full z-50">
+    <div class="hidden md:flex justify-between items-center w-full px-margin-desktop h-16 max-w-max-width-desktop mx-auto">
+        <div class="text-headline-md font-headline-md font-black text-on-background dark:text-on-background tracking-tighter">
+            TOURNAMENT PREDICTOR
+        </div>
+        <nav class="flex gap-lg">
+            <a class="text-label-caps font-label-caps text-primary dark:text-primary border-b-2 border-primary pb-1 transition-colors" href="#">Dashboard</a>
+            <a class="text-label-caps font-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Ranking</a>
+            <a class="text-label-caps font-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Profile</a>
+        </nav>
+        <button class="text-label-caps font-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors">Logout</button>
+    </div>
+</header>
+<main class="pt-24 pb-20 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-max-width-desktop mx-auto grid grid-cols-12 gap-lg">
+    <!-- Left Column: Main Feed -->
+    <div class="col-span-12 md:col-span-8 space-y-lg">
+        <!-- Live Matches Section -->
+        <section>
+            <div class="flex items-center gap-sm mb-md">
+                <span class="w-2 h-2 rounded-full bg-primary-container live-pulse"></span>
+                <h2 class="text-label-caps font-label-caps text-primary tracking-widest">LIVE NOW</h2>
+            </div>
+            <div class="bg-surface-container border border-outline-variant rounded-lg p-lg relative overflow-hidden group">
+                <div class="flex justify-between items-center">
+                    <div class="flex flex-col items-center gap-sm w-1/3">
+                        <img alt="Spain Flag" class="w-12 h-8 object-cover rounded-sm shadow-md" data-alt="A close-up high-resolution photograph of the national flag of Spain, with its vibrant red and yellow stripes, captured in a clean, professional studio lighting setup. The aesthetic is sharp and minimalist, following the high-contrast dark mode palette of the application. The flag has a subtle texture and is presented as a sleek UI element." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn0gwtzuzVJGhrTE-cvSSaRy8-SOiT1ZMHOcMIiM0xMsXJRLn4Yv1Q5HHCx2fd0ALg_Jf8jaCfTcw6KknqLFWk1yMp9Mcu8pKTKQUnAkX0QaiKJlBJWjWwyqXNI7WE_xjCUj6xpHH1UmDiKzpMFO-LxRbugE81L6KRoFr5cXk9luot0bcpaND1zqz4XqFHU2TtXI5Bdr_hu-0Qf7Uyrjd868JoTeWcdEAYep9TxzqY_BULZ0puEQSlGUlPUUqAObQwAX5T6iOuzWzd"/>
+                        <span class="text-label-caps font-label-caps">SPAIN</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-xs">
+                        <div class="text-display font-display leading-none flex gap-md">
+                            <span>1</span>
+                            <span class="text-outline-variant">:</span>
+                            <span>1</span>
+                        </div>
+                        <span class="text-label-caps font-label-caps text-primary-container">64'</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-sm w-1/3">
+                        <img alt="England Flag" class="w-12 h-8 object-cover rounded-sm shadow-md" data-alt="A close-up high-resolution photograph of the national flag of England, showing the distinctive red St George's Cross on a white background. The image is captured with professional studio lighting, reflecting a clean and analytical broadcast graphic style. The texture of the fabric is visible yet subtle, maintaining a premium look consistent with the dark stadium theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNngBLjr-9XT3owgaq833fQprFU9ubUPi7tCIoV3HpjzXzMBvPmfEf2b8ZFuEppBhKFP5FTEg-xQ3I2tW3GZimPN8FVJ1SjcLaSmEPtld0_oZbSwYARg34F6IJ9AWmnq7DU-hfP2OdcQiw2PDFz-ik79-rf1m5e4ZHS_J8uZc11_zYeZz8HqjVec4z2TCO8itoEOsJRF7_1YlkfshRJ9R6sD8vZXGdDx-52dviCpOZL-smRHGgeUHeDJlq4WsMjg--Z0c3byon2B79"/>
+                        <span class="text-label-caps font-label-caps">ENGLAND</span>
+                    </div>
+                </div>
+                <!-- Prediction Overlay -->
+                <div class="mt-lg pt-md border-t border-outline-variant flex justify-between items-center">
+                    <div class="flex items-center gap-md">
+                        <span class="text-label-caps font-label-caps text-on-surface-variant">YOUR TIP:</span>
+                        <span class="text-data-mono font-data-mono bg-surface-container-highest px-md py-xs rounded">1 : 1</span>
+                    </div>
+                    <div class="flex items-center gap-sm">
+                        <span class="text-label-caps font-label-caps text-secondary">POINTS EARNED:</span>
+                        <span class="text-headline-md font-headline-md text-secondary tracking-tighter">+4</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Upcoming Matches Section -->
+        <section>
+            <h2 class="text-label-caps font-label-caps text-on-surface-variant mb-md tracking-widest">UPCOMING FIXTURES</h2>
+            <!-- Date Group -->
+            <div class="space-y-sm">
+                <div class="text-label-caps font-label-caps text-on-surface-variant/50 px-xs">TOMORROW, JUNE 16</div>
+                <div class="bg-surface-container border border-outline-variant rounded-lg p-lg hover:border-primary/30 transition-all">
+                    <div class="flex justify-between items-center">
+                        <!-- Match Info -->
+                        <div class="flex items-center gap-lg flex-1">
+                            <div class="flex items-center gap-md w-32">
+                                <img alt="Netherlands" class="w-8 h-5 object-cover rounded-xs" data-alt="The national flag of the Netherlands, featuring bold horizontal stripes of red, white, and blue, rendered as a crisp, small-scale icon. The lighting is uniform and professional, suitable for a high-density data dashboard. The style is modern and clean, fitting into a dark-themed sports analytic interface with architectural precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNV3dEZ5y-d_BjOZJoeO6zg4jzq9iIv9n3FkIErU5c1IbH7cQsRZSTFVyOpZIRFdOm4V0f1LZprWo5chAyNwy_MZsQVpiAifld-ZePF3_l-fRLbNx0__lj1sikr7G36rC1nA0dW9dDQ-ifkBvSkONNdEhiOb9wcIy3jVXHOy7Hz796vXUskyMsXUFRBV14rKiGZwENPGCoG5DKhK21O6oNMvYTsU6YNEkCk7WvBwcPLXQ2Bt_2qdkNucSJIBwUSWqj7Buall8BugmS"/>
+                                <span class="text-body-lg font-body-lg font-bold">NED</span>
+                            </div>
+                            <div class="text-data-mono font-data-mono text-on-surface-variant">20:00</div>
+                            <div class="flex items-center gap-md w-32 justify-end">
+                                <span class="text-body-lg font-body-lg font-bold">POL</span>
+                                <img alt="Poland" class="w-8 h-5 object-cover rounded-xs" data-alt="A clean, minimalist icon representation of the national flag of Poland, with its simple white and red horizontal bands. The image is presented in a high-contrast style that complements a dark UI background. Professional lighting ensures the colors are vibrant and clearly distinguishable for a fast-paced sports prediction environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6EVfqt1H0ySnRnKo4aE5FpocGo6pccDLQ6xTBKoz2KhIo9X6WfYJgqi7tgx3oZU191eKLC_3lGMt9-prb9G2A3PvAKfsAEuY0K9BgpAdAz5w2ClFmEt2XthcsPz4w2LfM8nx7nYUFk406ePXlCCJDR6Snj8VLG5We2oRnNF_s0OB6RdW7C6Py-UnIjD3INjzMkaHcJrzRXVZOO9EaXp6JQJ5wMGUpMIw3ni-kuLgm-EbcSF2Pnshq5YyLodlA2MCo8M_up0BUQsV6"/>
+                            </div>
+                        </div>
+                        <!-- Input Zone -->
+                        <div class="flex items-center gap-md">
+                            <div class="flex gap-xs">
+                                <input class="w-10 h-10 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-headline-md focus:border-primary focus:ring-0 transition-colors" placeholder="-" type="number"/>
+                                <span class="flex items-center text-outline-variant">:</span>
+                                <input class="w-10 h-10 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-headline-md focus:border-primary focus:ring-0 transition-colors" placeholder="-" type="number"/>
+                            </div>
+                            <button class="bg-primary text-on-primary font-label-caps text-label-caps px-lg py-2 rounded-lg hover:opacity-90 active:scale-95 transition-all">
+                                SAVE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Another Match -->
+                <div class="bg-surface-container border border-outline-variant rounded-lg p-lg opacity-60 hover:opacity-100 transition-opacity">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-lg flex-1">
+                            <div class="flex items-center gap-md w-32">
+                                <img alt="Slovenia" class="w-8 h-5 object-cover rounded-xs" data-alt="The national flag of Slovenia, characterized by its white, blue, and red stripes and its coat of arms, shown as a precise, small icon for a sports UI. The visual style is professional and sharp, with balanced lighting that makes the coat of arms legible even at a small scale. It integrates seamlessly into the dark mode dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9nx-vMEX_3cko9UyRzGbNAHNhqgC4eE5ZxQzFU_QI3yCXS9XOy-RKKVUb99BwkZVq0jk6WuRvX9gJWm3Usn1kiYQ3mKLBNrrq2tZX0XgTXxLEgf6atqugDu98EckVG7xMlwZKZc2a3WNYAme8eht34C1OLMe7bSyY0fXqYKVjE3maerx-0nKkxr2zOZKjjHbKIjSYFEaVHqEAFMK8mP0uIAOpf0TQN0RSWzd3TC8Mqe6osCaHyhxfRkSJaxwwMXm7ejO-kN5ggzt3"/>
+                                <span class="text-body-lg font-body-lg font-bold">SVN</span>
+                            </div>
+                            <div class="text-data-mono font-data-mono text-on-surface-variant">18:00</div>
+                            <div class="flex items-center gap-md w-32 justify-end">
+                                <span class="text-body-lg font-body-lg font-bold">DEN</span>
+                                <img alt="Denmark" class="w-8 h-5 object-cover rounded-xs" data-alt="A minimalist and sharp graphic of the national flag of Denmark, featuring the white Scandinavian cross on a red field. The lighting is crisp and modern, emphasizing the clean lines and professional broadcast aesthetic. The flag is designed to stand out against a deep black and gray background in a data-rich sports interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK5dwlK5PFaKlhcdHT42zs1WxSG5H8NgAgGeX5dG9tBGYR4H1c_o3ZliYxBJs0l3zmmfNpS8Ir2BuWQbQS7B5q84uIbQYXoOpnfgDZ3NgabvW9a4C9Yb85blDEH5P_Rfg4t5ZV9q6WSd0-t83yIEHC_3j3o2Nj0Z7sQeWWsI36Mx0H2amzvNS6KwGcdVGrXTtis1itkFRGK4QAR-YhC1LzdT3k9XoMTtHMCwDJk_E58hT-2e06cknKPcywe4ytu6nM6zdf39BQkYu6"/>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-md">
+                            <div class="flex gap-xs">
+                                <input class="w-10 h-10 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-headline-md focus:border-primary focus:ring-0" placeholder="-" type="number"/>
+                                <span class="flex items-center text-outline-variant">:</span>
+                                <input class="w-10 h-10 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-headline-md focus:border-primary focus:ring-0" placeholder="-" type="number"/>
+                            </div>
+                            <button class="bg-primary text-on-primary font-label-caps text-label-caps px-lg py-2 rounded-lg hover:opacity-90 active:scale-95 transition-all">
+                                SAVE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Right Column: Ranking Sidebar -->
+    <aside class="col-span-12 md:col-span-4 space-y-lg">
+        <div class="bg-surface-container border border-outline-variant rounded-lg overflow-hidden">
+            <!-- Ranking Header / Tabs -->
+            <div class="p-md bg-surface-container-high border-b border-outline-variant">
+                <h3 class="text-label-caps font-label-caps text-on-surface mb-md">RANKING</h3>
+                <div class="flex gap-sm overflow-x-auto no-scrollbar">
+                    <button class="text-[10px] font-bold px-md py-1 bg-primary text-on-primary rounded-full shrink-0">GLOBAL</button>
+                    <button class="text-[10px] font-bold px-md py-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface shrink-0">LANGENFELD</button>
+                    <button class="text-[10px] font-bold px-md py-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface shrink-0">MANNHEIM</button>
+                    <button class="text-[10px] font-bold px-md py-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface shrink-0">MAINZ</button>
+                </div>
+            </div>
+            <!-- Ranking List -->
+            <div class="divide-y divide-outline-variant">
+                <!-- Top 1 -->
+                <div class="p-md flex items-center justify-between group hover:bg-surface-container-high transition-colors">
+                    <div class="flex items-center gap-md">
+                        <span class="text-data-mono font-data-mono text-tertiary w-4">1</span>
+                        <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[18px]">person</span>
+                        </div>
+                        <span class="text-body-sm font-body-sm font-bold">Marco R.</span>
+                    </div>
+                    <span class="text-data-mono font-data-mono text-on-surface">142 PTS</span>
+                </div>
+                <!-- Top 2 -->
+                <div class="p-md flex items-center justify-between group hover:bg-surface-container-high transition-colors">
+                    <div class="flex items-center gap-md">
+                        <span class="text-data-mono font-data-mono text-on-surface-variant w-4">2</span>
+                        <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[18px]">person</span>
+                        </div>
+                        <span class="text-body-sm font-body-sm font-bold">Sarah K.</span>
+                    </div>
+                    <span class="text-data-mono font-data-mono text-on-surface">138 PTS</span>
+                </div>
+                <!-- Top 3 -->
+                <div class="p-md flex items-center justify-between group hover:bg-surface-container-high transition-colors">
+                    <div class="flex items-center gap-md">
+                        <span class="text-data-mono font-data-mono text-on-surface-variant w-4">3</span>
+                        <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[18px]">person</span>
+                        </div>
+                        <span class="text-body-sm font-body-sm font-bold">Lukas M.</span>
+                    </div>
+                    <span class="text-data-mono font-data-mono text-on-surface">135 PTS</span>
+                </div>
+                <!-- Divider for distance -->
+                <div class="p-xs bg-surface-container-lowest flex justify-center">
+                    <span class="material-symbols-outlined text-outline-variant text-[16px]">more_vert</span>
+                </div>
+                <!-- Current User & Neighbors -->
+                <div class="p-md flex items-center justify-between group hover:bg-surface-container-high transition-colors">
+                    <div class="flex items-center gap-md">
+                        <span class="text-data-mono font-data-mono text-on-surface-variant w-4">87</span>
+                        <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[18px]">person</span>
+                        </div>
+                        <span class="text-body-sm font-body-sm font-bold">Jonas H.</span>
+                    </div>
+                    <span class="text-data-mono font-data-mono text-on-surface">82 PTS</span>
+                </div>
+                <!-- ACTIVE USER -->
+                <div class="p-md flex items-center justify-between bg-primary/10 border-l-4 border-primary">
+                    <div class="flex items-center gap-md">
+                        <span class="text-data-mono font-data-mono text-primary w-4">88</span>
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[18px] text-on-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+                        </div>
+                        <span class="text-body-sm font-body-sm font-bold text-primary">Test User (You)</span>
+                    </div>
+                    <span class="text-data-mono font-data-mono text-primary font-bold">79 PTS</span>
+                </div>
+                <div class="p-md flex items-center justify-between group hover:bg-surface-container-high transition-colors">
+                    <div class="flex items-center gap-md">
+                        <span class="text-data-mono font-data-mono text-on-surface-variant w-4">89</span>
+                        <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[18px]">person</span>
+                        </div>
+                        <span class="text-body-sm font-body-sm font-bold">Alex W.</span>
+                    </div>
+                    <span class="text-data-mono font-data-mono text-on-surface">78 PTS</span>
+                </div>
+            </div>
+            <a class="block p-md text-center text-label-caps font-label-caps text-secondary hover:underline bg-surface-container-low transition-all" href="#">
+                VIEW FULL RANKING
+            </a>
+        </div>
+        <!-- Mini Stats Card -->
+        <div class="bg-surface-container border border-outline-variant rounded-lg p-lg">
+            <h3 class="text-label-caps font-label-caps text-on-surface-variant mb-md">QUICK STATS</h3>
+            <div class="grid grid-cols-2 gap-md">
+                <div class="bg-surface-container-low p-md rounded border border-outline-variant">
+                    <div class="text-data-mono text-primary">85%</div>
+                    <div class="text-[10px] font-bold text-on-surface-variant uppercase">Accuracy</div>
+                </div>
+                <div class="bg-surface-container-low p-md rounded border border-outline-variant">
+                    <div class="text-data-mono text-tertiary">12</div>
+                    <div class="text-[10px] font-bold text-on-surface-variant uppercase">Correct Tips</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex md:hidden justify-around items-center px-margin-mobile py-2 bg-surface-container dark:bg-surface-container border-t border-outline-variant dark:border-outline-variant">
+    <a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform duration-100" href="#">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+        <span class="text-label-caps font-label-caps">Dashboard</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest dark:hover:bg-surface-container-highest" href="#">
+        <span class="material-symbols-outlined">leaderboard</span>
+        <span class="text-label-caps font-label-caps">Ranking</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest dark:hover:bg-surface-container-highest" href="#">
+        <span class="material-symbols-outlined">person</span>
+        <span class="text-label-caps font-label-caps">Profile</span>
+    </a>
+</nav>
+<script>
+    // Simple Interaction: Mock Save Button
+    document.querySelectorAll('button').forEach(button => {
+        if (button.innerText === 'SAVE') {
+            button.addEventListener('click', function() {
+                const originalText = this.innerText;
+                this.innerText = 'SAVED';
+                this.classList.add('bg-tertiary', 'text-on-tertiary');
+                this.classList.remove('bg-primary', 'text-on-primary');
+
+                setTimeout(() => {
+                    this.innerText = originalText;
+                    this.classList.remove('bg-tertiary', 'text-on-tertiary');
+                    this.classList.add('bg-primary', 'text-on-primary');
+                }, 2000);
+            });
+        }
+    });
+</script>
+</body></html>

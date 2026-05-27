@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>TOURNAMENT PREDICTOR - Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#121317",
+                        "tertiary": "#74d1ff",
+                        "tertiary-container": "#149ccb",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-container": "#1e1f23",
+                        "on-tertiary-container": "#002e3f",
+                        "on-primary": "#690003",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e3e2e7",
+                        "on-error": "#690005",
+                        "outline-variant": "#262626",
+                        "on-primary-fixed": "#410001",
+                        "on-background": "#e3e2e7",
+                        "on-secondary-container": "#00285c",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#e7bdb7",
+                        "surface-container-low": "#1a1b1f",
+                        "secondary-container": "#4b8eff",
+                        "surface-container-lowest": "#0d0e12",
+                        "on-secondary-fixed-variant": "#004493",
+                        "surface-container-highest": "#343539",
+                        "on-tertiary": "#003548",
+                        "on-primary-container": "#5c0002",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-variant": "#343539",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "surface-container-high": "#292a2e",
+                        "on-secondary-fixed": "#001a41",
+                        "tertiary-fixed-dim": "#74d1ff",
+                        "on-tertiary-fixed-variant": "#004d67",
+                        "surface-dim": "#121317",
+                        "primary-fixed": "#ffdad5",
+                        "on-tertiary-fixed": "#001e2b",
+                        "secondary": "#adc6ff",
+                        "on-primary-fixed-variant": "#930005",
+                        "tertiary-fixed": "#c1e8ff",
+                        "inverse-primary": "#c0000a",
+                        "primary-container": "#ff5545",
+                        "outline": "#ad8883",
+                        "surface-bright": "#38393d",
+                        "primary": "#ffb4aa",
+                        "surface": "#121317",
+                        "on-surface": "#e3e2e7",
+                        "on-secondary": "#002e69"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "48px",
+                        "xs": "4px",
+                        "margin-desktop": "64px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "max-width-desktop": "1280px",
+                        "gutter": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "data-mono": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #e3e2e7;
+            -webkit-font-smoothing: antialiased;
+        }
+        .stadium-bg {
+            background:
+                    linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.95)),
+                    url('image-stadium-aerial');
+            background-size: cover;
+            background-position: center;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center stadium-bg p-margin-mobile md:p-0">
+<!-- Background Image with prompt as required -->
+<div class="fixed inset-0 -z-10 bg-black overflow-hidden">
+    <img class="w-full h-full object-cover opacity-30 grayscale brightness-50" data-alt="A cinematic aerial view of a massive football stadium at night under heavy floodlights. The scene is dominated by deep blacks and cool grays, creating a high-stakes professional broadcast atmosphere. Sharp rays of light pierce through a light mist over the pitch, emphasizing a dramatic and authoritative sports environment. The overall mood is cold, precise, and intense, mirroring a premium high-contrast dark mode UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBEINiMZwPA4GO5c5WWZENMMZPFRUFbJL9xLX6jKl5eSogHE-ffRd7eJT6wdRoXyBKE4OvnARn6A8tsoqWTSwPxHvRPgGwO6cHCZmf2Tx-GcwkAz9e--fg2nwOWDG-CyaUQvcwO_fCv-I3DmW2V8A1DfAvGR2lwGU3yzO5S-UBD42JPwSmRSGrCwwLMJI0NDE4SnF69R9aVID0B5tjrNWCWCla2lRlxNl_vNLAOFomGPmBXWkYAU5kTjcEv-iV-ojFPHR59VL4jet-"/>
+</div>
+<!-- Login Container -->
+<main class="w-full max-w-[440px] z-10">
+    <!-- Brand Header (Based on TopAppBar style_brand_logo) -->
+    <div class="mb-lg text-center">
+        <h1 class="text-headline-lg font-headline-lg font-black text-on-background tracking-tighter uppercase">
+            TOURNAMENT PREDICTOR
+        </h1>
+        <p class="text-on-surface-variant font-body-sm text-body-sm mt-xs opacity-60">
+            PRO-GRADE ANALYTICS &amp; FORECASTING
+        </p>
+    </div>
+    <!-- Auth Card -->
+    <div class="bg-surface-container border border-outline-variant p-xl shadow-2xl">
+        <form action="#" class="space-y-lg">
+            <!-- Email Field -->
+            <div class="space-y-xs">
+                <label class="text-label-caps font-label-caps text-on-surface-variant uppercase" for="email">
+                    Email Address
+                </label>
+                <div class="relative">
+                    <input class="w-full bg-surface-container-low border border-outline-variant focus:border-primary px-md py-md text-on-surface font-body-lg text-body-lg outline-none transition-all placeholder:text-surface-container-highest" id="email" name="email" placeholder="name@example.com" required="" type="email"/>
+                </div>
+            </div>
+            <!-- Password Field -->
+            <div class="space-y-xs">
+                <div class="flex justify-between items-end">
+                    <label class="text-label-caps font-label-caps text-on-surface-variant uppercase" for="password">
+                        Password
+                    </label>
+                </div>
+                <div class="relative">
+                    <input class="w-full bg-surface-container-low border border-outline-variant focus:border-primary px-md py-md text-on-surface font-body-lg text-body-lg outline-none transition-all placeholder:text-surface-container-highest" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+                </div>
+            </div>
+            <!-- Primary Action -->
+            <div class="pt-md">
+                <button class="w-full bg-[#ff3b30] text-white font-headline-md text-headline-md py-md hover:bg-[#d32f2f] active:scale-[0.98] transition-all duration-100 font-bold uppercase tracking-tight" type="submit">
+                    Sign In
+                </button>
+            </div>
+            <!-- Secondary Action -->
+            <div class="text-center pt-md">
+                <a class="text-secondary font-label-caps text-label-caps uppercase hover:text-tertiary transition-colors border-b border-transparent hover:border-tertiary pb-1" href="#">
+                    Create an account
+                </a>
+            </div>
+        </form>
+    </div>
+    <!-- Footer Meta -->
+    <div class="mt-xl text-center">
+        <p class="text-on-surface-variant font-data-mono text-data-mono opacity-40 uppercase">
+            © 2024 TOURNAMENT PREDICTOR / DATA SECURED
+        </p>
+    </div>
+</main>
+<!-- Micro-interaction for inputs -->
+<script>
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('focus', () => {
+            input.parentElement.parentElement.querySelector('label').style.color = 'var(--primary)';
+        });
+        input.addEventListener('blur', () => {
+            input.parentElement.parentElement.querySelector('label').style.color = '';
+        });
+    });
+
+    // Atmospheric parallax tilt effect for the card
+    const card = document.querySelector('.bg-surface-container');
+    document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 768) return;
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+
+    // Reset tilt on mouse out
+    document.addEventListener('mouseleave', () => {
+        card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    });
+</script>
+</body></html>

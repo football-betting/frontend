@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tournament Predictor - Join the Game</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#121317",
+                        "tertiary": "#74d1ff",
+                        "tertiary-container": "#149ccb",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-container": "#1e1f23",
+                        "on-tertiary-container": "#002e3f",
+                        "on-primary": "#690003",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e3e2e7",
+                        "on-error": "#690005",
+                        "outline-variant": "#5d3f3b",
+                        "on-primary-fixed": "#410001",
+                        "on-background": "#e3e2e7",
+                        "on-secondary-container": "#00285c",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#e7bdb7",
+                        "surface-container-low": "#1a1b1f",
+                        "secondary-container": "#4b8eff",
+                        "surface-container-lowest": "#0d0e12",
+                        "on-secondary-fixed-variant": "#004493",
+                        "surface-container-highest": "#343539",
+                        "on-tertiary": "#003548",
+                        "on-primary-container": "#5c0002",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-variant": "#343539",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "surface-container-high": "#292a2e",
+                        "on-secondary-fixed": "#001a41",
+                        "tertiary-fixed-dim": "#74d1ff",
+                        "on-tertiary-fixed-variant": "#004d67",
+                        "surface-dim": "#121317",
+                        "primary-fixed": "#ffdad5",
+                        "on-tertiary-fixed": "#001e2b",
+                        "secondary": "#adc6ff",
+                        "on-primary-fixed-variant": "#930005",
+                        "tertiary-fixed": "#c1e8ff",
+                        "inverse-primary": "#c0000a",
+                        "primary-container": "#ff5545",
+                        "outline": "#ad8883",
+                        "surface-bright": "#38393d",
+                        "primary": "#ffb4aa",
+                        "surface": "#121317",
+                        "on-surface": "#e3e2e7",
+                        "on-secondary": "#002e69"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "48px",
+                        "xs": "4px",
+                        "margin-desktop": "64px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "max-width-desktop": "1280px",
+                        "gutter": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "data-mono": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #e3e2e7;
+            font-family: 'Hanken Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .stadium-glow {
+            background: radial-gradient(circle at 50% -20%, #292a2e 0%, #121317 70%);
+        }
+        .input-focus-ring:focus {
+            outline: none;
+            border-color: #ffb4aa;
+            box-shadow: 0 0 0 1px #ffb4aa;
+        }
+    </style>
+</head>
+<body class="min-h-screen stadium-glow flex items-center justify-center p-md">
+<!-- Auth Shell Suppression: Per instructions, TopAppBar and BottomNavBar are excluded for transactional pages -->
+<main class="w-full max-w-[600px] animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <!-- Logo Branding -->
+    <div class="flex flex-col items-center mb-xl">
+        <h1 class="text-headline-lg font-headline-lg font-black text-on-background tracking-tighter uppercase mb-xs">
+            TOURNAMENT PREDICTOR
+        </h1>
+        <p class="text-label-caps font-label-caps text-on-surface-variant">Strategic Analytics &amp; Forecasts</p>
+    </div>
+    <!-- Signup Card -->
+    <div class="bg-surface-container border border-outline-variant rounded-lg p-lg shadow-2xl relative overflow-hidden">
+        <!-- Subtle atmospheric accent -->
+        <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+        <form class="space-y-lg">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                <!-- First Name -->
+                <div class="space-y-xs">
+                    <label class="text-label-caps font-label-caps text-on-surface-variant block" for="first_name">First Name</label>
+                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md text-on-surface input-focus-ring transition-all placeholder:opacity-30" id="first_name" name="first_name" placeholder="John" required="" type="text"/>
+                </div>
+                <!-- Last Name -->
+                <div class="space-y-xs">
+                    <label class="text-label-caps font-label-caps text-on-surface-variant block" for="last_name">Last Name</label>
+                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md text-on-surface input-focus-ring transition-all placeholder:opacity-30" id="last_name" name="last_name" placeholder="Doe" required="" type="text"/>
+                </div>
+            </div>
+            <!-- Username -->
+            <div class="space-y-xs">
+                <label class="text-label-caps font-label-caps text-on-surface-variant block" for="username">Username</label>
+                <div class="relative">
+                    <span class="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">person</span>
+                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md pl-[44px] text-on-surface input-focus-ring transition-all placeholder:opacity-30" id="username" name="username" placeholder="striker_01" required="" type="text"/>
+                </div>
+            </div>
+            <!-- Email -->
+            <div class="space-y-xs">
+                <label class="text-label-caps font-label-caps text-on-surface-variant block" for="email">Email Address</label>
+                <div class="relative">
+                    <span class="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">mail</span>
+                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md pl-[44px] text-on-surface input-focus-ring transition-all placeholder:opacity-30" id="email" name="email" placeholder="email@organization.com" required="" type="email"/>
+                </div>
+            </div>
+            <!-- Password -->
+            <div class="space-y-xs">
+                <label class="text-label-caps font-label-caps text-on-surface-variant block" for="password">Security Credential</label>
+                <div class="relative">
+                    <span class="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">lock</span>
+                    <input class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md pl-[44px] text-on-surface input-focus-ring transition-all placeholder:opacity-30" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+                </div>
+            </div>
+            <!-- Department Dropdown -->
+            <div class="space-y-xs">
+                <label class="text-label-caps font-label-caps text-on-surface-variant block" for="department">Department</label>
+                <select class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md text-on-surface input-focus-ring transition-all appearance-none" id="department" name="department" required="">
+                    <option disabled="" selected="" value="">Select location...</option>
+                    <option value="Langenfeld">Langenfeld</option>
+                    <option value="Mannheim">Mannheim</option>
+                    <option value="Mainz">Mainz</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-md pt-md border-t border-outline-variant/30">
+                <!-- Winner Prediction -->
+                <div class="space-y-xs">
+                    <label class="text-label-caps font-label-caps text-on-surface-variant block" for="winner_prediction">Public Champion</label>
+                    <select class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md text-on-surface input-focus-ring transition-all" id="winner_prediction" name="winner_prediction" required="">
+                        <option disabled="" selected="" value="">Select Team</option>
+                        <script>
+                            const teams = ["Germany", "France", "England", "Spain", "Portugal", "Italy", "Belgium", "Netherlands", "Croatia", "Denmark", "Switzerland", "Austria", "Hungary", "Scotland", "Slovenia", "Serbia", "Czech Republic", "Turkey", "Romania", "Slovakia", "Albania", "Poland", "Ukraine", "Georgia"];
+                            teams.forEach(t => document.write(`<option value="${t}">${t}</option>`));
+                        </script>
+                    </select>
+                </div>
+                <!-- Secret Winner Prediction -->
+                <div class="space-y-xs">
+                    <label class="text-label-caps font-label-caps text-on-surface-variant block" for="secret_winner_prediction">Secret Dark Horse</label>
+                    <select class="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg font-body-lg p-md text-on-surface input-focus-ring transition-all" id="secret_winner_prediction" name="secret_winner_prediction" required="">
+                        <option disabled="" selected="" value="">Select Team</option>
+                        <script>
+                            teams.forEach(t => document.write(`<option value="${t}">${t}</option>`));
+                        </script>
+                    </select>
+                </div>
+            </div>
+            <!-- Action Button -->
+            <button class="w-full bg-[#ff3b30] hover:bg-[#e6352b] text-white font-label-caps text-label-caps py-lg rounded transition-all active:scale-[0.98] mt-lg uppercase tracking-widest" type="submit">
+                Register
+            </button>
+        </form>
+        <div class="mt-lg pt-lg border-t border-outline-variant/20 text-center">
+            <p class="text-body-sm font-body-sm text-on-surface-variant">
+                Already part of the league? <a class="text-tertiary hover:underline" href="#">Login here</a>
+            </p>
+        </div>
+    </div>
+    <!-- Footer Data -->
+    <div class="mt-lg flex justify-between items-center px-xs opacity-40">
+        <span class="text-data-mono font-data-mono uppercase">System: Live-Sync Active</span>
+        <span class="text-data-mono font-data-mono uppercase">Ver: 2.4.0-Stable</span>
+    </div>
+</main>
+<!-- Background Atmospheric Elements (Visual Only) -->
+<div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+    <div class="absolute top-1/4 -left-1/4 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-secondary/5 blur-[120px] rounded-full"></div>
+</div>
+<script>
+    // Simple form interaction
+    document.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        const originalText = btn.textContent;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
+
+        setTimeout(() => {
+            btn.innerHTML = 'Success';
+            btn.style.backgroundColor = '#4caf50';
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                btn.style.backgroundColor = '';
+            }, 2000);
+        }, 1500);
+    });
+
+    // Dropdown styling micro-interaction
+    document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', function() {
+            if(this.value !== "") {
+                this.classList.add('text-primary');
+                this.classList.add('font-bold');
+            }
+        });
+    });
+</script>
+</body></html>

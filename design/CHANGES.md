@@ -195,14 +195,26 @@ const mono   = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
 ---
 
-## Icons (no inline SVG)
+## Icons (font-loaded + browser-cached only)
 
-**Constraint**: avoid icon libraries that inline `<svg>` per usage. Each
-inlined SVG adds 10–50 lines of markup to every render of every component
-that uses an icon — multiplied across a page, this bloats the HTML output
-and the React hydration payload.
+**The hard rule**: an icon must add **zero meaningful bytes** to the HTML
+that the server sends. The icon asset itself is downloaded **once** by the
+browser (font file or sprite image) and reused for every icon on every
+page after that.
 
-### Use Material Symbols (icon font)
+### Why this matters
+- An inline `<svg>` is 10–50 lines of markup **per icon usage**. A page
+  with 12 icons can easily ship 500+ extra lines of HTML — every render,
+  every navigation, every refresh.
+- Inlined paths also bloat the React Server Component payload and the
+  client hydration JSON.
+- A page that ships clean text-icon markup like `<span>home</span>` plus
+  one cached font file stays small forever, no matter how many icons it
+  uses.
+
+### Allowed mechanisms
+
+**Primary: Material Symbols icon font (REQUIRED for all UI icons)**
 
 This is what the HTML mockups already use. Keep it.
 
@@ -260,23 +272,52 @@ The 24 country flags in `em2024-frontend/public/svg/` should be copied to
 **Do NOT** inline flags via `dangerouslySetInnerHTML`, SVG-as-React-component
 imports, or icon libraries with flag sets.
 
-### Forbidden libraries
+### Fallback (only if Material Symbols is genuinely missing the icon)
 
-❌ `lucide-react` — inlines `<svg>` per icon
-❌ `@heroicons/react` — same
-❌ `react-icons` — same
-❌ `@radix-ui/react-icons` — same
-❌ SVG-as-React-component pattern (`import Icon from './icon.svg'`)
-❌ SVGR loader
+**Plan B: a single PNG sprite or a single SVG file referenced as `<img>`**.
 
-These would defeat the no-inline-SVG constraint.
+Both are external files the browser caches like the icon font:
 
-### If a specific icon is missing in Material Symbols
+```tsx
+// PNG sprite — one file, cached, positioned via background-position
+<span className="icon-sprite icon-sprite--foo" aria-hidden />
 
-Rare. But if it happens:
-- First, find a Material Symbols equivalent — there are 3000+ icons.
-- Only as a last resort: add a single `.svg` file in `public/icons/` and
-  reference via `<img src="/icons/foo.svg" />`. Same rule as flags.
+// Or a single .svg file as <img> (NOT inline, NOT a React component)
+<img src="/icons/foo.svg" alt="" className="w-5 h-5" />
+```
+
+Same principle: the asset lives in `public/icons/`, ships once, no
+markup explosion in the HTML.
+
+### Forbidden mechanisms
+
+❌ **Inline `<svg>...</svg>` in JSX** — every usage re-ships the paths
+❌ **`dangerouslySetInnerHTML` with SVG content** — same problem
+❌ **SVG-as-React-component** (`import Icon from './icon.svg'`) — webpack/SVGR
+   inlines the SVG into the bundle, and every usage re-renders the full
+   markup
+❌ **SVGR loader** — same as above
+❌ **Icon libraries that ship per-icon React components**:
+   - `lucide-react`
+   - `@heroicons/react`
+   - `react-icons`
+   - `@radix-ui/react-icons`
+   - `@tabler/icons-react`
+   - any other "import { Icon } from 'lib'; <Icon />" pattern that
+     resolves to inline `<svg>`
+
+### Verification grep (run in CI / pre-merge)
+
+```bash
+# These must all return zero matches in app/, components/, lib/
+grep -rn "<svg" app/ components/ lib/ 2>/dev/null
+grep -rn "dangerouslySetInnerHTML" app/ components/ lib/ 2>/dev/null
+grep -rn "lucide-react\|@heroicons\|react-icons\|@radix-ui/react-icons\|@tabler/icons-react" \
+  --include='*.ts' --include='*.tsx' --include='*.json' .
+```
+
+Flags (24 files in `public/svg/`) are the **only** SVGs in the project,
+and they are referenced as `<img src="/svg/{tla}.svg" />`, never inlined.
 
 ---
 

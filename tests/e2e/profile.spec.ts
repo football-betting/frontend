@@ -45,4 +45,32 @@ test.describe("profile page", () => {
       }
     }
   });
+
+  test("shows my own secretWinner on /user/6 but hides it on other users", async ({
+    page,
+  }) => {
+    await login(page);
+
+    // Own profile (user 6 = TestUser, secretWinner = NLD per FE-007 seed)
+    await page.goto("/user/6");
+    const ownSecretCard = page
+      .locator("div", { hasText: "SECRET WINNER" })
+      .first();
+    await expect(ownSecretCard).toBeVisible();
+    await expect(ownSecretCard).toContainText("NLD");
+    await expect(ownSecretCard).not.toContainText("Hidden");
+
+    // Another user's profile (user 1 = AdaLovelace, secretWinner = ESP per FE-007 seed)
+    await page.goto("/user/1");
+    const otherSecretCard = page
+      .locator("div", { hasText: "SECRET WINNER" })
+      .first();
+    await expect(otherSecretCard).toBeVisible();
+    await expect(otherSecretCard).toContainText("Hidden");
+    await expect(otherSecretCard).not.toContainText("ESP");
+
+    // Tournament Winner is still public — AdaLovelace.winner = DEU
+    await expect(page.locator("body")).toContainText("TOURNAMENT WINNER");
+    await expect(page.locator("body")).toContainText("DEU");
+  });
 });

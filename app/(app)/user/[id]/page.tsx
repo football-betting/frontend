@@ -81,7 +81,7 @@ export default async function UserProfilePage({
           <div className="md:col-span-4">
             <WinnerCards
               winner={localUser.winner}
-              secretWinner={localUser.secretWinner}
+              secretWinner={isOwnProfile ? localUser.secretWinner : null}
             />
           </div>
         </div>

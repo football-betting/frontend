@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `tip_user_match_unique` ON `tip` (`user_id`,`match_id`);

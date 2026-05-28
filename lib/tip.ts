@@ -33,22 +33,17 @@ export async function saveTip(
   scoreHome: number,
   scoreAway: number,
 ): Promise<TipRow> {
-  const existing = await getTipByUserAndMatch(userId, matchId);
   const now = new Date();
-  if (existing) {
-    await db
-      .update(tip)
-      .set({ scoreHome, scoreAway, date: now })
-      .where(eq(tip.id, existing.id));
-  } else {
-    await db.insert(tip).values({
-      userId,
-      matchId,
-      date: now,
-      scoreHome,
-      scoreAway,
+  // Atomic upsert keyed on the (user_id, match_id) UNIQUE INDEX
+  // (`tip_user_match_unique`). Guarantees a single row per (user, match)
+  // even under concurrent writes across Node workers.
+  await db
+    .insert(tip)
+    .values({ userId, matchId, date: now, scoreHome, scoreAway })
+    .onConflictDoUpdate({
+      target: [tip.userId, tip.matchId],
+      set: { scoreHome, scoreAway, date: now },
     });
-  }
   const fresh = await getTipByUserAndMatch(userId, matchId);
   if (!fresh) {
     throw new Error("Tip upsert failed to persist");

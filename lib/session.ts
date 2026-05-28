@@ -3,6 +3,10 @@ import { cache } from "react";
 import type { Session, User } from "lucia";
 import { lucia } from "@/lib/auth";
 
+// Auth guard pattern: protected routes live under `app/(app)/` and inherit the
+// redirect from `app/(app)/layout.tsx`. Do not re-implement the unauthenticated
+// check in individual pages — call `getCurrentSession()` directly when a page
+// needs the user; it is `cache()`-wrapped, so the second call is free.
 export const getCurrentSession = cache(
   async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
     const cookieStore = await cookies();

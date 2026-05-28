@@ -1,0 +1,126 @@
+import { getCurrentSession } from "@/lib/session";
+import { fetchApi } from "@/lib/api";
+import type { RatingResponse } from "@/lib/rating";
+import { DEPARTMENTS, displayDepartment } from "@/lib/data/departments";
+import { TopAppBar } from "@/components/dashboard/TopAppBar";
+import { BottomNav } from "@/components/dashboard/BottomNav";
+import { RankingTable } from "@/components/ranking/RankingTable";
+import { ScoringInfobox } from "@/components/ranking/ScoringInfobox";
+import {
+  RankingTabs,
+  type RankingTab,
+} from "@/components/ranking/RankingTabs";
+
+interface RankingPageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+const TAB_BY_PARAM: Record<string, string> = {
+  global: "global",
+  langenfeld: "Langenfeld",
+  mannheim: "Mannheim",
+  mainz: "Maintz",
+};
+
+async function loadRating(): Promise<RatingResponse | null> {
+  try {
+    return await fetchApi<RatingResponse>("rating", "table");
+  } catch (error) {
+    console.error("[ranking] rating API offline:", error);
+    return null;
+  }
+}
+
+function resolveInitialTab(
+  raw: string | string[] | undefined,
+): string {
+  if (typeof raw !== "string") {
+    return "global";
+  }
+  return TAB_BY_PARAM[raw.toLowerCase()] ?? "global";
+}
+
+export default async function RankingPage({
+  searchParams,
+}: RankingPageProps): Promise<React.ReactElement> {
+  const { user } = await getCurrentSession();
+  if (!user) {
+    throw new Error("Ranking rendered without a session — auth guard failed");
+  }
+  const userId = Number(user.id);
+
+  const params = await searchParams;
+  const initialActive = resolveInitialTab(params.tab);
+
+  const rating = await loadRating();
+
+  return (
+    <>
+      <TopAppBar active="ranking" />
+      <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
+        <div className="mb-lg">
+          <h1 className="text-headline-lg-mobile md:text-headline-lg uppercase tracking-tight">
+            Leaderboard
+          </h1>
+          <p className="text-body-sm text-on-surface-variant">
+            Office tournament standings.
+          </p>
+        </div>
+
+        {rating ? (
+          <>
+            <RankingTabs
+              tabs={buildTabs()}
+              initialActive={initialActive}
+              panels={buildPanels(rating, userId)}
+            />
+            <div className="mt-xl grid grid-cols-1 md:grid-cols-3 gap-lg">
+              <ScoringInfobox />
+            </div>
+          </>
+        ) : (
+          <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center">
+            <p className="text-body-lg text-on-surface mb-sm">
+              Ranking API offline
+            </p>
+            <p className="text-body-sm text-on-surface-variant">
+              The standings will appear once the Rust service is up.
+            </p>
+          </div>
+        )}
+      </main>
+      <BottomNav active="ranking" />
+    </>
+  );
+}
+
+function buildTabs(): RankingTab[] {
+  return [
+    { id: "global", label: "Global" },
+    ...DEPARTMENTS.map((d) => ({ id: d, label: displayDepartment(d) })),
+  ];
+}
+
+function buildPanels(
+  rating: RatingResponse,
+  currentUserId: number,
+): Record<string, React.ReactNode> {
+  const panels: Record<string, React.ReactNode> = {
+    global: (
+      <RankingTable
+        users={rating.global}
+        currentUserId={currentUserId}
+        emptyMessage="No ranking data yet"
+      />
+    ),
+  };
+  for (const dept of DEPARTMENTS) {
+    panels[dept] = (
+      <RankingTable
+        users={rating.departments[dept] ?? []}
+        currentUserId={currentUserId}
+      />
+    );
+  }
+  return panels;
+}

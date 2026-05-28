@@ -30,5 +30,18 @@ pnpm db:reset      # wipe + migrate + seed (FE-007)
 pnpm dev           # http://localhost:3000
 ```
 
+Seed users (all share password `test1234`):
+
+| Email | Username | Department |
+|---|---|---|
+| `me@dev.local` | TestUser | Langenfeld |
+| `ada@dev.local` | AdaLovelace | Maintz |
+| `alan@dev.local` | AlanTuring | Maintz |
+| `marie@dev.local` | MarieCurie | Mannheim |
+| `nikola@dev.local` | NikolaTesla | Mannheim |
+| `rosa@dev.local` | RosaParks | Mannheim |
+| `albert@dev.local` | AlbertEinstein | Langenfeld |
+| `isaac@dev.local` | IsaacNewton | Langenfeld |
+
 See [docs in the workspace repo](https://github.com/football-betting/workspace)
 for the full functional spec and ticket backlog.

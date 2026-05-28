@@ -316,7 +316,7 @@ async function main(): Promise<void> {
   });
   const passwordHashes = new Map<string, string>();
   for (const u of USERS) {
-    const hash = await argon2id.hash("test123");
+    const hash = await argon2id.hash("test1234");
     passwordHashes.set(u.email, hash);
     console.log(`  hashed ${u.email}`);
   }

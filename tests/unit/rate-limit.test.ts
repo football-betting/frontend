@@ -11,8 +11,19 @@ function headers(init: Record<string, string>): Headers {
 }
 
 describe("checkRateLimit", () => {
+  const originalDisable = process.env.DISABLE_RATE_LIMIT;
+
   beforeEach(() => {
     _internal.buckets.clear();
+    delete process.env.DISABLE_RATE_LIMIT;
+  });
+
+  afterEach(() => {
+    if (originalDisable === undefined) {
+      delete process.env.DISABLE_RATE_LIMIT;
+    } else {
+      process.env.DISABLE_RATE_LIMIT = originalDisable;
+    }
   });
 
   it("allows the first MAX_ATTEMPTS calls and blocks the next", () => {
@@ -22,6 +33,22 @@ describe("checkRateLimit", () => {
     const blocked = checkRateLimit("1.1.1.1", "login");
     expect(blocked.ok).toBe(false);
     expect(blocked.retryAfter).toBeGreaterThan(0);
+  });
+
+  it("DISABLE_RATE_LIMIT=1 always returns ok and never fills buckets", () => {
+    process.env.DISABLE_RATE_LIMIT = "1";
+    for (let i = 0; i < _internal.MAX_ATTEMPTS * 5; i += 1) {
+      expect(checkRateLimit("9.9.9.9", "login").ok).toBe(true);
+    }
+    expect(_internal.buckets.size).toBe(0);
+  });
+
+  it("DISABLE_RATE_LIMIT='0' / unset → normal limit applies", () => {
+    process.env.DISABLE_RATE_LIMIT = "0";
+    for (let i = 1; i <= _internal.MAX_ATTEMPTS; i += 1) {
+      expect(checkRateLimit("8.8.8.8", "login").ok).toBe(true);
+    }
+    expect(checkRateLimit("8.8.8.8", "login").ok).toBe(false);
   });
 
   it("uses independent buckets per (bucket, ip) pair", () => {

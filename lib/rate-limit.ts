@@ -1,9 +1,26 @@
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
+const MAX_BUCKETS = 10_000;
+const SWEEP_MS = 60 * 1000;
 
 type Entry = { count: number; resetAt: number };
 
 const buckets = new Map<string, Entry>();
+
+let sweepTimer: ReturnType<typeof setInterval> | undefined;
+
+function startSweep(): void {
+  if (sweepTimer || typeof setInterval !== "function") return;
+  sweepTimer = setInterval(() => {
+    const now = Date.now();
+    for (const [key, entry] of buckets) {
+      if (entry.resetAt <= now) buckets.delete(key);
+    }
+  }, SWEEP_MS);
+  if (typeof sweepTimer === "object" && sweepTimer !== null && "unref" in sweepTimer) {
+    (sweepTimer as { unref(): void }).unref();
+  }
+}
 
 export interface RateLimitResult {
   ok: boolean;
@@ -11,6 +28,20 @@ export interface RateLimitResult {
 }
 
 export function checkRateLimit(ip: string, bucket: string): RateLimitResult {
+  startSweep();
+
+  if (buckets.size >= MAX_BUCKETS) {
+    const now = Date.now();
+    for (const [key, entry] of buckets) {
+      if (entry.resetAt <= now) buckets.delete(key);
+      if (buckets.size < MAX_BUCKETS) break;
+    }
+    if (buckets.size >= MAX_BUCKETS) {
+      const oldest = buckets.keys().next().value;
+      if (oldest !== undefined) buckets.delete(oldest);
+    }
+  }
+
   const key = `${bucket}:${ip}`;
   const now = Date.now();
   const entry = buckets.get(key);
@@ -32,13 +63,30 @@ export function resetRateLimit(ip: string, bucket: string): void {
   buckets.delete(`${bucket}:${ip}`);
 }
 
+function isTrustProxy(): boolean {
+  const value = process.env.TRUST_PROXY;
+  if (!value) return false;
+  const normalized = value.toLowerCase();
+  return normalized === "1" || normalized === "true" || normalized === "yes";
+}
+
 export function getClientIp(headers: Headers): string {
-  const xff = headers.get("x-forwarded-for");
-  if (xff) {
-    const first = xff.split(",")[0]?.trim();
-    if (first) return first;
+  if (isTrustProxy()) {
+    const xff = headers.get("x-forwarded-for");
+    if (xff) {
+      const first = xff.split(",")[0]?.trim();
+      if (first) return first;
+    }
+    const real = headers.get("x-real-ip");
+    if (real) return real.trim();
   }
-  const real = headers.get("x-real-ip");
-  if (real) return real.trim();
   return "unknown";
 }
+
+export const _internal = {
+  buckets,
+  MAX_ATTEMPTS,
+  WINDOW_MS,
+  MAX_BUCKETS,
+  SWEEP_MS,
+};

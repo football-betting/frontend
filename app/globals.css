@@ -49,6 +49,11 @@
   --color-on-background: #e3e2e7;
   --color-surface-variant: #343539;
 
+  --color-success: #4ade80;
+  --color-warning: #fde047;
+  --color-neutral: #e3e2e7;
+  --color-danger: #f87171;
+
   --font-sans: var(--font-hanken-grotesk), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 

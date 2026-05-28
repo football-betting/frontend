@@ -1,0 +1,47 @@
+interface ProfileHeaderProps {
+  username: string;
+  position: number | null;
+  totalPoints: number | null;
+}
+
+function formatRank(position: number | null): string {
+  if (position === null) return "—";
+  return `#${position}`;
+}
+
+function formatPoints(points: number | null): string {
+  if (points === null) return "—";
+  return points.toLocaleString("de-DE");
+}
+
+export function ProfileHeader({
+  username,
+  position,
+  totalPoints,
+}: ProfileHeaderProps): React.ReactElement {
+  return (
+    <div>
+      <h1 className="text-headline-lg-mobile md:text-headline-lg text-on-background mb-sm">
+        {username}
+      </h1>
+      <div className="flex flex-wrap gap-md items-center mt-md">
+        <div className="bg-surface-container px-lg py-md border border-outline-variant">
+          <span className="text-label-caps uppercase text-on-surface-variant block mb-xs">
+            GLOBAL RANKING
+          </span>
+          <span className="text-display font-mono text-primary tracking-tighter">
+            {formatRank(position)}
+          </span>
+        </div>
+        <div className="bg-surface-container px-lg py-md border border-outline-variant">
+          <span className="text-label-caps uppercase text-on-surface-variant block mb-xs">
+            TOTAL POINTS
+          </span>
+          <span className="text-display font-mono text-tertiary tracking-tighter">
+            {formatPoints(totalPoints)}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}

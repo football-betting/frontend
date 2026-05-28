@@ -26,7 +26,7 @@ export default defineConfig({
     env: {
       DATABASE_URL: "../shared/db/test.db",
       RUST_API_URL: process.env.RUST_API_URL ?? "http://localhost:8080",
-      MATCH_IMPORT_API_KEY: "devkey-test",
+      DISABLE_RATE_LIMIT: "1",
     },
   },
 });

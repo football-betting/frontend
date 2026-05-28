@@ -27,7 +27,30 @@ export interface RateLimitResult {
   retryAfter?: number;
 }
 
+function isRateLimitDisabled(): boolean {
+  const value = process.env.DISABLE_RATE_LIMIT;
+  if (!value) return false;
+  const normalized = value.toLowerCase();
+  return normalized === "1" || normalized === "true" || normalized === "yes";
+}
+
+let warnedAboutProdBypass = false;
+
 export function checkRateLimit(ip: string, bucket: string): RateLimitResult {
+  if (isRateLimitDisabled()) {
+    if (
+      process.env.NODE_ENV === "production" &&
+      !warnedAboutProdBypass
+    ) {
+      console.warn(
+        "[rate-limit] DISABLE_RATE_LIMIT is set in NODE_ENV=production. " +
+          "This is a dev/test bypass and MUST NOT be enabled in production.",
+      );
+      warnedAboutProdBypass = true;
+    }
+    return { ok: true };
+  }
+
   startSweep();
 
   if (buckets.size >= MAX_BUCKETS) {

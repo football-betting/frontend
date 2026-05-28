@@ -9,6 +9,7 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatTiles } from "@/components/profile/StatTiles";
 import { WinnerCards } from "@/components/profile/WinnerCards";
 import { PredictionHistory } from "@/components/profile/PredictionHistory";
+import { isTournamentLocked } from "@/lib/tournament";
 
 interface UserPageProps {
   params: Promise<{ id: string }>;
@@ -64,6 +65,8 @@ export default async function UserProfilePage({
   const tips = ratingLoad.status === "ok" ? ratingLoad.data.tips : [];
 
   const isOwnProfile = Number(sessionUser.id) === userId;
+  const locked = await isTournamentLocked();
+  const editable = isOwnProfile && !locked;
 
   return (
     <>
@@ -82,6 +85,8 @@ export default async function UserProfilePage({
             <WinnerCards
               winner={localUser.winner}
               secretWinner={localUser.secretWinner}
+              userId={userId}
+              editable={editable}
             />
           </div>
         </div>

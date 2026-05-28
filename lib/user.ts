@@ -28,3 +28,14 @@ export async function createUser(newUser: NewUser): Promise<number> {
   }
   return created.id;
 }
+
+export async function updateUserWinners(
+  userId: number,
+  winner: string,
+  secretWinner: string,
+): Promise<void> {
+  await db
+    .update(user)
+    .set({ winner, secretWinner })
+    .where(eq(user.id, userId));
+}

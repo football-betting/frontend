@@ -40,10 +40,6 @@ function withSecurityHeaders(res: NextResponse): NextResponse {
 }
 
 export function middleware(request: NextRequest): NextResponse {
-  if (request.nextUrl.pathname === "/api/match/import") {
-    return withSecurityHeaders(NextResponse.next());
-  }
-
   if (request.method !== "GET") {
     const originHeader = request.headers.get("Origin");
     const hostHeader =

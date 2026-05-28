@@ -1,9 +1,10 @@
 export function formatDate(ts: Date | number): string {
   const d = ts instanceof Date ? ts : new Date(ts);
   return d.toLocaleDateString("de-DE", {
-    weekday: "short",
+    weekday: "long",
     day: "numeric",
     month: "long",
+    year: "numeric",
   });
 }
 

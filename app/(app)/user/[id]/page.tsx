@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
 import { getUserById } from "@/lib/user";
 import { fetchApi } from "@/lib/api";
-import type { RatingUser } from "@/lib/rating";
+import { RatingUserSchema, type RatingUser } from "@/lib/rating";
 import { TopAppBar } from "@/components/dashboard/TopAppBar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
@@ -15,13 +15,14 @@ interface UserPageProps {
   params: Promise<{ id: string }>;
 }
 
-type RatingLoad =
-  | { status: "ok"; data: RatingUser }
-  | { status: "offline" };
+type RatingLoad = { status: "ok"; data: RatingUser } | { status: "offline" };
 
 async function loadUserRating(id: number): Promise<RatingLoad> {
   try {
-    const data = await fetchApi<RatingUser>(`user/${id}`, "data");
+    const data = await fetchApi(`user/${id}`, {
+      wrappedByKey: "data",
+      schema: RatingUserSchema,
+    });
     return { status: "ok", data };
   } catch (error) {
     console.error("[profile] user rating API offline:", error);

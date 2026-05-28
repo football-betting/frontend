@@ -1,11 +1,11 @@
 # football-betting · frontend
 
-Next.js 15 frontend for the office football-prediction game. Replaces the
+Next.js 16 frontend for the office football-prediction game. Replaces the
 archived [em2024-frontend](https://github.com/football-betting/em2024-frontend).
 
 ## Stack
 
-- Next.js 15 (App Router) + TypeScript (strict)
+- Next.js 16 (App Router) + TypeScript (strict)
 - Tailwind CSS v4 (`@theme` in `app/globals.css`)
 - Drizzle ORM + better-sqlite3
 - Lucia v3 auth + Argon2id (`oslo/password`)

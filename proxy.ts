@@ -39,7 +39,7 @@ function withSecurityHeaders(res: NextResponse): NextResponse {
   return res;
 }
 
-export function middleware(request: NextRequest): NextResponse {
+export function proxy(request: NextRequest): NextResponse {
   if (request.method !== "GET") {
     const originHeader = request.headers.get("Origin");
     const hostHeader =

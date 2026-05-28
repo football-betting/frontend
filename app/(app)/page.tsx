@@ -1,13 +1,65 @@
-export default function Page() {
+import { getCurrentSession } from "@/lib/session";
+import { getLiveMatches, getUpcomingMatches } from "@/lib/match";
+import { getTipByUserAndMatchIds, type TipRow } from "@/lib/tip";
+import { fetchApi } from "@/lib/api";
+import type { RatingResponse } from "@/lib/rating";
+import { LiveBlock } from "@/components/dashboard/LiveBlock";
+import { UpcomingList } from "@/components/dashboard/UpcomingList";
+import { RankingSidebar } from "@/components/dashboard/RankingSidebar";
+import { BottomNav } from "@/components/dashboard/BottomNav";
+import { TopAppBar } from "@/components/dashboard/TopAppBar";
+
+async function loadRating(): Promise<RatingResponse | null> {
+  try {
+    return await fetchApi<RatingResponse>("rating", "table");
+  } catch (error) {
+    console.error("[dashboard] rating API offline:", error);
+    return null;
+  }
+}
+
+export default async function DashboardPage(): Promise<React.ReactElement> {
+  const { user } = await getCurrentSession();
+  if (!user) {
+    throw new Error("Dashboard rendered without a session — auth guard failed");
+  }
+  const userId = Number(user.id);
+
+  const [liveMatches, upcomingMatches, rating] = await Promise.all([
+    getLiveMatches(),
+    getUpcomingMatches(),
+    loadRating(),
+  ]);
+
+  const allMatchIds = [
+    ...liveMatches.map((m) => m.id),
+    ...upcomingMatches.map((m) => m.id),
+  ];
+  const tips = await getTipByUserAndMatchIds(userId, allMatchIds);
+
+  const tipsByMatchId = new Map<number, TipRow>();
+  for (const t of tips) {
+    if (t.matchId !== null && t.matchId !== undefined) {
+      tipsByMatchId.set(t.matchId, t);
+    }
+  }
+
   return (
-    <main className="mx-auto flex min-h-screen max-w-(--container-max-desktop) flex-col items-start justify-center gap-md p-margin-mobile lg:p-margin-desktop">
-      <span className="text-label-caps uppercase text-on-surface-variant">
-        FE-001
-      </span>
-      <h1 className="text-display text-on-background">Bootstrap OK</h1>
-      <p className="text-body-lg text-on-surface">
-        Next.js + Tailwind v4 + Drizzle + Lucia scaffold is wired up.
-      </p>
-    </main>
+    <>
+      <TopAppBar active="dashboard" />
+      <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto grid grid-cols-12 gap-lg">
+        <div className="col-span-12 md:col-span-8 space-y-lg">
+          <LiveBlock matches={liveMatches} tipsByMatchId={tipsByMatchId} />
+          <UpcomingList
+            matches={upcomingMatches}
+            tipsByMatchId={tipsByMatchId}
+          />
+        </div>
+        <div className="col-span-12 md:col-span-4">
+          <RankingSidebar rating={rating} currentUserId={userId} />
+        </div>
+      </main>
+      <BottomNav active="dashboard" />
+    </>
   );
 }

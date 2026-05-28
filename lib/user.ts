@@ -11,6 +11,12 @@ export async function getUserByEmail(
   return db.query.user.findFirst({ where: eq(user.email, email) });
 }
 
+export async function getUserById(
+  id: number,
+): Promise<DatabaseUser | undefined> {
+  return db.query.user.findFirst({ where: eq(user.id, id) });
+}
+
 export async function createUser(newUser: NewUser): Promise<number> {
   const inserted = await db
     .insert(user)

@@ -1,15 +1,12 @@
 import { getCurrentSession } from "@/lib/session";
 import { fetchApi } from "@/lib/api";
-import type { RatingResponse } from "@/lib/rating";
+import { RatingResponseSchema, type RatingResponse } from "@/lib/rating";
 import { DEPARTMENTS, displayDepartment } from "@/lib/data/departments";
 import { TopAppBar } from "@/components/dashboard/TopAppBar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { RankingTable } from "@/components/ranking/RankingTable";
 import { ScoringInfobox } from "@/components/ranking/ScoringInfobox";
-import {
-  RankingTabs,
-  type RankingTab,
-} from "@/components/ranking/RankingTabs";
+import { RankingTabs, type RankingTab } from "@/components/ranking/RankingTabs";
 
 interface RankingPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -24,16 +21,17 @@ const TAB_BY_PARAM: Record<string, string> = {
 
 async function loadRating(): Promise<RatingResponse | null> {
   try {
-    return await fetchApi<RatingResponse>("rating", "table");
+    return await fetchApi("rating", {
+      wrappedByKey: "table",
+      schema: RatingResponseSchema,
+    });
   } catch (error) {
     console.error("[ranking] rating API offline:", error);
     return null;
   }
 }
 
-function resolveInitialTab(
-  raw: string | string[] | undefined,
-): string {
+function resolveInitialTab(raw: string | string[] | undefined): string {
   if (typeof raw !== "string") {
     return "global";
   }

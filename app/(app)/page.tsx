@@ -2,7 +2,7 @@ import { getCurrentSession } from "@/lib/session";
 import { getLiveMatches, getUpcomingMatches } from "@/lib/match";
 import { getTipByUserAndMatchIds, type TipRow } from "@/lib/tip";
 import { fetchApi } from "@/lib/api";
-import type { RatingResponse } from "@/lib/rating";
+import { RatingResponseSchema, type RatingResponse } from "@/lib/rating";
 import { LiveBlock } from "@/components/dashboard/LiveBlock";
 import { UpcomingList } from "@/components/dashboard/UpcomingList";
 import { RankingSidebar } from "@/components/dashboard/RankingSidebar";
@@ -11,7 +11,10 @@ import { TopAppBar } from "@/components/dashboard/TopAppBar";
 
 async function loadRating(): Promise<RatingResponse | null> {
   try {
-    return await fetchApi<RatingResponse>("rating", "table");
+    return await fetchApi("rating", {
+      wrappedByKey: "table",
+      schema: RatingResponseSchema,
+    });
   } catch (error) {
     console.error("[dashboard] rating API offline:", error);
     return null;

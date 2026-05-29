@@ -38,18 +38,25 @@ export async function fetchApi<T>(
 
   const url = new URL(`${apiUrl}/${path}`);
 
+  // Dev-only timing visibility (incl. duplicate queries). Production stays
+  // silent to avoid log noise. Path only — never bodies, tokens, cookies or
+  // auth headers.
+  const logTiming = process.env.NODE_ENV !== "production";
   const start = performance.now();
   let res: Response;
   try {
     res = await fetch(url.toString());
   } catch (error) {
-    const ms = Math.round(performance.now() - start);
-    // Path only — never request bodies, tokens, cookies or auth headers.
-    console.log(`[rust-api] GET /${path} failed after ${ms}ms`);
+    if (logTiming) {
+      const ms = Math.round(performance.now() - start);
+      console.log(`[rust-api] GET /${path} failed after ${ms}ms`);
+    }
     throw error;
   }
-  const ms = Math.round(performance.now() - start);
-  console.log(`[rust-api] GET /${path} ${ms}ms`);
+  if (logTiming) {
+    const ms = Math.round(performance.now() - start);
+    console.log(`[rust-api] GET /${path} ${ms}ms`);
+  }
   if (!res.ok) {
     throw new Error(
       `fetchApi: ${res.status} ${res.statusText} for ${url.toString()}`,

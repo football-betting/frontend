@@ -38,7 +38,18 @@ export async function fetchApi<T>(
 
   const url = new URL(`${apiUrl}/${path}`);
 
-  const res = await fetch(url.toString());
+  const start = performance.now();
+  let res: Response;
+  try {
+    res = await fetch(url.toString());
+  } catch (error) {
+    const ms = Math.round(performance.now() - start);
+    // Path only — never request bodies, tokens, cookies or auth headers.
+    console.log(`[rust-api] GET /${path} failed after ${ms}ms`);
+    throw error;
+  }
+  const ms = Math.round(performance.now() - start);
+  console.log(`[rust-api] GET /${path} ${ms}ms`);
   if (!res.ok) {
     throw new Error(
       `fetchApi: ${res.status} ${res.statusText} for ${url.toString()}`,

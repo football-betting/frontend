@@ -48,3 +48,9 @@ declare module "lucia" {
     DatabaseUserAttributes: DatabaseUserAttributes;
   }
 }
+
+// Companion cookie marking a "remember me" login. Lucia's session-cookie
+// expiry is global, so the login route and session refresh read this flag to
+// decide whether the session cookie is persistent (30 days) or session-scoped.
+export const REMEMBER_COOKIE = "auth_remember";
+export const REMEMBER_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;

@@ -99,6 +99,22 @@ export function LoginForm(): React.ReactElement {
         </div>
       </div>
 
+      <div className="flex items-center gap-sm">
+        <input
+          className="size-4 accent-primary"
+          id="remember"
+          name="remember"
+          type="checkbox"
+          disabled={pending}
+        />
+        <label
+          className="text-body-sm text-on-surface-variant"
+          htmlFor="remember"
+        >
+          Remember me
+        </label>
+      </div>
+
       {error ? (
         <p
           aria-live="polite"

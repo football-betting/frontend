@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { cache } from "react";
 import type { Session, User } from "lucia";
-import { lucia } from "@/lib/auth";
+import { lucia, REMEMBER_COOKIE } from "@/lib/auth";
 
 // Auth guard pattern: protected routes live under `app/(app)/` and inherit the
 // redirect from `app/(app)/layout.tsx`. Do not re-implement the unauthenticated
@@ -18,7 +18,13 @@ export const getCurrentSession = cache(
     try {
       if (result.session && result.session.fresh) {
         const fresh = lucia.createSessionCookie(result.session.id);
-        cookieStore.set(fresh.name, fresh.value, fresh.attributes);
+        const remembered = cookieStore.get(REMEMBER_COOKIE)?.value === "1";
+        const attributes = { ...fresh.attributes };
+        if (!remembered) {
+          delete attributes.maxAge;
+          delete attributes.expires;
+        }
+        cookieStore.set(fresh.name, fresh.value, attributes);
       }
       if (!result.session) {
         const blank = lucia.createBlankSessionCookie();

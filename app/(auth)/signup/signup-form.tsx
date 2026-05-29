@@ -1,10 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { DEPARTMENTS, displayDepartment } from "@/lib/data/departments";
 import { TEAMS } from "@/lib/data/teams";
 
 export function SignupForm(): React.ReactElement {
+  const t = useTranslations("Auth");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -22,11 +24,11 @@ export function SignupForm(): React.ReactElement {
       typeof rePassword === "string" &&
       password !== rePassword
     ) {
-      setError("Passwords do not match.");
+      setError(t("passwordsDoNotMatch"));
       return;
     }
     if (typeof password === "string" && password.length < 8) {
-      setError("Invalid password");
+      setError(t("invalidPassword"));
       return;
     }
 
@@ -37,7 +39,7 @@ export function SignupForm(): React.ReactElement {
       typeof secretWinner === "string" &&
       winner === secretWinner
     ) {
-      setError("Winner and secret winner must differ.");
+      setError(t("winnersMustDiffer"));
       return;
     }
 
@@ -54,7 +56,7 @@ export function SignupForm(): React.ReactElement {
         return;
       }
 
-      let message = "Could not create account.";
+      let message = t("couldNotCreateAccount");
       try {
         const body: unknown = await res.json();
         if (
@@ -70,7 +72,7 @@ export function SignupForm(): React.ReactElement {
       }
       setError(message);
     } catch {
-      setError("Network error. Try again.");
+      setError(t("networkError"));
     } finally {
       setPending(false);
     }
@@ -84,7 +86,7 @@ export function SignupForm(): React.ReactElement {
             className="text-label-caps uppercase text-on-surface-variant block"
             htmlFor="firstName"
           >
-            First Name
+            {t("firstName")}
           </label>
           <input
             className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg p-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all placeholder:opacity-30"
@@ -102,7 +104,7 @@ export function SignupForm(): React.ReactElement {
             className="text-label-caps uppercase text-on-surface-variant block"
             htmlFor="lastName"
           >
-            Last Name
+            {t("lastName")}
           </label>
           <input
             className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg p-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all placeholder:opacity-30"
@@ -122,7 +124,7 @@ export function SignupForm(): React.ReactElement {
           className="text-label-caps uppercase text-on-surface-variant block"
           htmlFor="username"
         >
-          Username
+          {t("username")}
         </label>
         <div className="relative">
           <span className="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">
@@ -146,7 +148,7 @@ export function SignupForm(): React.ReactElement {
           className="text-label-caps uppercase text-on-surface-variant block"
           htmlFor="email"
         >
-          Email Address
+          {t("emailAddress")}
         </label>
         <div className="relative">
           <span className="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">
@@ -171,7 +173,7 @@ export function SignupForm(): React.ReactElement {
             className="text-label-caps uppercase text-on-surface-variant block"
             htmlFor="password"
           >
-            Password
+            {t("password")}
           </label>
           <div className="relative">
             <span className="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">
@@ -195,7 +197,7 @@ export function SignupForm(): React.ReactElement {
             className="text-label-caps uppercase text-on-surface-variant block"
             htmlFor="rePassword"
           >
-            Repeat Password
+            {t("repeatPassword")}
           </label>
           <div className="relative">
             <span className="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">
@@ -221,7 +223,7 @@ export function SignupForm(): React.ReactElement {
           className="text-label-caps uppercase text-on-surface-variant block"
           htmlFor="department"
         >
-          Department
+          {t("department")}
         </label>
         <select
           className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg p-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all appearance-none"
@@ -232,7 +234,7 @@ export function SignupForm(): React.ReactElement {
           disabled={pending}
         >
           <option disabled value="">
-            Select location...
+            {t("selectLocation")}
           </option>
           {DEPARTMENTS.map((d) => (
             <option key={d} value={d}>
@@ -248,7 +250,7 @@ export function SignupForm(): React.ReactElement {
             className="text-label-caps uppercase text-on-surface-variant block"
             htmlFor="winner"
           >
-            Tournament Winner
+            {t("tournamentWinner")}
           </label>
           <select
             className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg p-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
@@ -259,7 +261,7 @@ export function SignupForm(): React.ReactElement {
             disabled={pending}
           >
             <option disabled value="">
-              Select Team
+              {t("selectTeam")}
             </option>
             {TEAMS.map((t) => (
               <option key={t.code} value={t.code}>
@@ -273,7 +275,7 @@ export function SignupForm(): React.ReactElement {
             className="text-label-caps uppercase text-on-surface-variant block"
             htmlFor="secretWinner"
           >
-            Secret Winner
+            {t("secretWinner")}
           </label>
           <select
             className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg p-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
@@ -284,7 +286,7 @@ export function SignupForm(): React.ReactElement {
             disabled={pending}
           >
             <option disabled value="">
-              Select Team
+              {t("selectTeam")}
             </option>
             {TEAMS.map((t) => (
               <option key={t.code} value={t.code}>
@@ -314,7 +316,7 @@ export function SignupForm(): React.ReactElement {
             progress_activity
           </span>
         ) : (
-          "Register"
+          t("register")
         )}
       </button>
     </form>

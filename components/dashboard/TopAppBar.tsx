@@ -1,21 +1,24 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 
 interface TopAppBarProps {
   active: "dashboard" | "ranking" | "profile";
 }
 
 const LINKS = [
-  { id: "dashboard", label: "Dashboard", href: "/" },
-  { id: "ranking", label: "Ranking", href: "/ranking" },
-  { id: "profile", label: "Profile", href: "/profile" },
+  { id: "dashboard", href: "/" },
+  { id: "ranking", href: "/ranking" },
+  { id: "profile", href: "/profile" },
 ] as const;
 
 export function TopAppBar({ active }: TopAppBarProps): React.ReactElement {
+  const t = useTranslations("Nav");
   return (
     <header className="bg-background border-b border-outline-variant fixed top-0 left-0 w-full z-40 hidden md:block">
       <div className="flex justify-between items-center w-full px-margin-desktop h-16 max-w-(--container-max-desktop) mx-auto">
         <div className="text-headline-md font-black text-on-background tracking-tighter">
-          TOURNAMENT PREDICTOR
+          {t("title")}
         </div>
         <nav className="flex gap-lg">
           {LINKS.map((link) => {
@@ -30,19 +33,22 @@ export function TopAppBar({ active }: TopAppBarProps): React.ReactElement {
                     : "text-on-surface-variant hover:text-primary"
                 }`}
               >
-                {link.label}
+                {t(link.id)}
               </Link>
             );
           })}
         </nav>
-        <form action="/api/auth/logout" method="POST">
-          <button
-            type="submit"
-            className="text-label-caps uppercase text-on-surface-variant hover:text-primary transition-colors"
-          >
-            Logout
-          </button>
-        </form>
+        <div className="flex items-center gap-lg">
+          <LocaleSwitcher />
+          <form action="/api/auth/logout" method="POST">
+            <button
+              type="submit"
+              className="text-label-caps uppercase text-on-surface-variant hover:text-primary transition-colors"
+            >
+              {t("logout")}
+            </button>
+          </form>
+        </div>
       </div>
     </header>
   );

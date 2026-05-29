@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 interface StatTilesProps {
   exact: number | null;
   diff: number | null;
@@ -5,11 +7,14 @@ interface StatTilesProps {
   bonus: number | null;
 }
 
-const TILES: { key: keyof StatTilesProps; label: string }[] = [
-  { key: "exact", label: "EXACT" },
-  { key: "diff", label: "DIFF" },
-  { key: "wins", label: "WINS" },
-  { key: "bonus", label: "BONUS" },
+const TILES: {
+  key: keyof StatTilesProps;
+  labelKey: "exact" | "diff" | "wins" | "bonus";
+}[] = [
+  { key: "exact", labelKey: "exact" },
+  { key: "diff", labelKey: "diff" },
+  { key: "wins", labelKey: "wins" },
+  { key: "bonus", labelKey: "bonus" },
 ];
 
 function display(value: number | null): string {
@@ -18,6 +23,7 @@ function display(value: number | null): string {
 }
 
 export function StatTiles(props: StatTilesProps): React.ReactElement {
+  const t = useTranslations("Profile");
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-md mt-lg">
       {TILES.map((tile) => (
@@ -26,7 +32,7 @@ export function StatTiles(props: StatTilesProps): React.ReactElement {
           className="p-md border border-outline-variant bg-surface-container-low"
         >
           <span className="text-label-caps uppercase text-on-surface-variant block">
-            {tile.label}
+            {t(tile.labelKey)}
           </span>
           <span className="text-headline-md font-mono text-on-background">
             {display(props[tile.key])}

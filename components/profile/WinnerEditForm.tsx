@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { TEAMS } from "@/lib/data/teams";
 
@@ -17,6 +18,7 @@ export function WinnerEditForm({
   onCancel,
   onSaved,
 }: WinnerEditFormProps): React.ReactElement {
+  const t = useTranslations("Profile");
   const router = useRouter();
   const [winner, setWinner] = useState(initialWinner);
   const [secretWinner, setSecretWinner] = useState(initialSecret);
@@ -27,7 +29,7 @@ export function WinnerEditForm({
     event.preventDefault();
     setError(null);
     if (winner === secretWinner) {
-      setError("Winner and secret winner must differ.");
+      setError(t("winnersMustDiffer"));
       return;
     }
     setPending(true);
@@ -47,7 +49,7 @@ export function WinnerEditForm({
         router.refresh();
         return;
       }
-      let message = "Failed to update winners.";
+      let message = t("failedToUpdateWinners");
       try {
         const body: unknown = await res.json();
         if (
@@ -63,7 +65,7 @@ export function WinnerEditForm({
       }
       setError(message);
     } catch {
-      setError("Network error. Try again.");
+      setError(t("networkError"));
     } finally {
       setPending(false);
     }
@@ -76,14 +78,14 @@ export function WinnerEditForm({
     >
       <label className="flex flex-col gap-xs">
         <span className="text-label-caps uppercase text-on-surface-variant">
-          Tournament Winner
+          {t("tournamentWinner")}
         </span>
         <select
           required
           value={winner}
           onChange={(e) => setWinner(e.target.value)}
           disabled={pending}
-          aria-label="Tournament winner"
+          aria-label={t("winnerSelectLabel")}
           className="min-h-12 px-md bg-surface-container-low border border-outline-variant rounded text-body-lg focus:border-primary focus:ring-0 disabled:opacity-60"
         >
           {TEAMS.map((t) => (
@@ -95,14 +97,14 @@ export function WinnerEditForm({
       </label>
       <label className="flex flex-col gap-xs">
         <span className="text-label-caps uppercase text-on-surface-variant">
-          Secret Winner
+          {t("secretWinner")}
         </span>
         <select
           required
           value={secretWinner}
           onChange={(e) => setSecretWinner(e.target.value)}
           disabled={pending}
-          aria-label="Secret winner"
+          aria-label={t("secretWinnerSelectLabel")}
           className="min-h-12 px-md bg-surface-container-low border border-outline-variant rounded text-body-lg focus:border-primary focus:ring-0 disabled:opacity-60"
         >
           {TEAMS.map((t) => (
@@ -127,14 +129,14 @@ export function WinnerEditForm({
           disabled={pending}
           className="px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold bg-surface-container-low border border-outline-variant hover:opacity-90 active:scale-95 disabled:opacity-60"
         >
-          Cancel
+          {t("cancel")}
         </button>
         <button
           type="submit"
           disabled={pending}
           className="px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold bg-primary text-on-primary hover:opacity-90 active:scale-95 disabled:opacity-60"
         >
-          {pending ? "..." : "Save"}
+          {pending ? "..." : t("save")}
         </button>
       </div>
     </form>

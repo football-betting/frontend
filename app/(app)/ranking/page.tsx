@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getCurrentSession } from "@/lib/session";
 import { fetchApi } from "@/lib/api";
 import { RatingResponseSchema, type RatingResponse } from "@/lib/rating";
@@ -52,6 +53,8 @@ export default async function RankingPage({
   const initialActive = resolveInitialTab(params.tab);
 
   const rating = await loadRating();
+  const t = await getTranslations("Ranking");
+  const tCommon = await getTranslations("Common");
 
   return (
     <>
@@ -59,19 +62,19 @@ export default async function RankingPage({
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
         <div className="mb-lg">
           <h1 className="text-headline-lg-mobile md:text-headline-lg uppercase tracking-tight">
-            Leaderboard
+            {t("leaderboard")}
           </h1>
           <p className="text-body-sm text-on-surface-variant">
-            Office tournament standings.
+            {t("subtitle")}
           </p>
         </div>
 
         {rating ? (
           <>
             <RankingTabs
-              tabs={buildTabs()}
+              tabs={buildTabs(tCommon("global"))}
               initialActive={initialActive}
-              panels={buildPanels(rating, userId)}
+              panels={buildPanels(rating, userId, t("noRankingData"))}
             />
             <div className="mt-xl grid grid-cols-1 md:grid-cols-3 gap-lg">
               <ScoringInfobox />
@@ -79,11 +82,9 @@ export default async function RankingPage({
           </>
         ) : (
           <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center">
-            <p className="text-body-lg text-on-surface mb-sm">
-              Ranking API offline
-            </p>
+            <p className="text-body-lg text-on-surface mb-sm">{t("offline")}</p>
             <p className="text-body-sm text-on-surface-variant">
-              The standings will appear once the Rust service is up.
+              {t("offlineHint")}
             </p>
           </div>
         )}
@@ -93,9 +94,9 @@ export default async function RankingPage({
   );
 }
 
-function buildTabs(): RankingTab[] {
+function buildTabs(globalLabel: string): RankingTab[] {
   return [
-    { id: "global", label: "Global" },
+    { id: "global", label: globalLabel },
     ...DEPARTMENTS.map((d) => ({ id: d, label: displayDepartment(d) })),
   ];
 }
@@ -103,13 +104,14 @@ function buildTabs(): RankingTab[] {
 function buildPanels(
   rating: RatingResponse,
   currentUserId: number,
+  noDataMessage: string,
 ): Record<string, React.ReactNode> {
   const panels: Record<string, React.ReactNode> = {
     global: (
       <RankingTable
         users={rating.global}
         currentUserId={currentUserId}
-        emptyMessage="No ranking data yet"
+        emptyMessage={noDataMessage}
       />
     ),
   };

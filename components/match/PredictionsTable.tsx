@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { abbreviateUsername } from "@/lib/format";
 import { scoreColor, type ScoreTone } from "@/lib/scoring";
 
@@ -75,6 +76,8 @@ export function PredictionsTable({
   currentUserId,
   emptyMessage,
 }: PredictionsTableProps): React.ReactElement {
+  const t = useTranslations("Match");
+  const tCommon = useTranslations("Common");
   if (rows.length === 0) {
     return (
       <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center text-body-sm text-on-surface-variant">
@@ -90,16 +93,16 @@ export function PredictionsTable({
           <thead>
             <tr className="bg-surface-container-high border-b border-outline-variant">
               <th className="px-lg py-md text-label-caps uppercase text-on-surface-variant">
-                RANK
+                {t("rank")}
               </th>
               <th className="px-lg py-md text-label-caps uppercase text-on-surface-variant">
-                USER
+                {t("user")}
               </th>
               <th className="px-lg py-md text-label-caps uppercase text-on-surface-variant text-center">
-                PREDICTION
+                {t("predictionCol")}
               </th>
               <th className="px-lg py-md text-label-caps uppercase text-on-surface-variant text-right">
-                POINTS
+                {t("pointsCol")}
               </th>
             </tr>
           </thead>
@@ -145,7 +148,7 @@ export function PredictionsTable({
                       </span>
                       {isCurrent ? (
                         <span className="bg-primary text-on-primary text-[10px] font-bold px-1 rounded uppercase tracking-tighter">
-                          YOU
+                          {tCommon("you")}
                         </span>
                       ) : null}
                     </Link>
@@ -209,7 +212,7 @@ export function PredictionsTable({
                       {abbreviateUsername(row.username)}
                       {isCurrent ? (
                         <span className="ml-sm bg-primary text-on-primary text-[10px] font-bold px-1 rounded uppercase tracking-tighter">
-                          YOU
+                          {tCommon("you")}
                         </span>
                       ) : null}
                     </span>

@@ -1,16 +1,18 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface BottomNavProps {
   active: "dashboard" | "ranking" | "profile";
 }
 
 const ITEMS = [
-  { id: "dashboard", label: "Dashboard", icon: "dashboard", href: "/" },
-  { id: "ranking", label: "Ranking", icon: "leaderboard", href: "/ranking" },
-  { id: "profile", label: "Profile", icon: "person", href: "/profile" },
+  { id: "dashboard", icon: "dashboard", href: "/" },
+  { id: "ranking", icon: "leaderboard", href: "/ranking" },
+  { id: "profile", icon: "person", href: "/profile" },
 ] as const;
 
 export function BottomNav({ active }: BottomNavProps): React.ReactElement {
+  const t = useTranslations("Nav");
   return (
     <nav className="fixed bottom-0 left-0 w-full z-50 flex md:hidden justify-around items-center px-margin-mobile py-2 bg-surface-container border-t border-outline-variant">
       {ITEMS.map((item) => {
@@ -31,7 +33,7 @@ export function BottomNav({ active }: BottomNavProps): React.ReactElement {
             >
               {item.icon}
             </span>
-            <span className="text-label-caps uppercase">{item.label}</span>
+            <span className="text-label-caps uppercase">{t(item.id)}</span>
           </Link>
         );
       })}

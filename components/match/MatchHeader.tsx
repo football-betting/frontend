@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import type { MatchRow } from "@/lib/match";
 import { Flag } from "@/components/dashboard/Flag";
 import { extractTime, formatDate } from "@/lib/format";
@@ -23,6 +24,7 @@ export function MatchHeader({
   match,
   liveMinute,
 }: MatchHeaderProps): React.ReactElement {
+  const t = useTranslations("Match");
   const status = resolveStatus(match.status);
   const showScore = status !== "SCHEDULED" && hasFinalScore(match);
 
@@ -46,7 +48,7 @@ export function MatchHeader({
                 </div>
               ) : status === "SCHEDULED" ? (
                 <div className="text-headline-md md:text-headline-lg font-mono text-on-surface-variant uppercase tracking-tighter">
-                  vs
+                  {t("vs")}
                 </div>
               ) : (
                 <div className="text-headline-lg md:text-display font-mono leading-none flex gap-sm md:gap-md text-primary">
@@ -100,11 +102,14 @@ function StatusBadge({
   status: Status;
   liveMinute?: number | null;
 }): React.ReactElement {
+  const t = useTranslations("Match");
   if (status === "LIVE") {
     return (
       <div className="flex items-center gap-sm bg-error-container/40 border border-error/40 px-md py-1 rounded-full">
         <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
-        <span className="text-label-caps uppercase text-primary">LIVE</span>
+        <span className="text-label-caps uppercase text-primary">
+          {t("live")}
+        </span>
         {typeof liveMinute === "number" ? (
           <span className="text-label-caps font-mono text-primary">
             {liveMinute}&apos;
@@ -117,14 +122,14 @@ function StatusBadge({
   if (status === "FINISHED") {
     return (
       <span className="bg-surface-container-highest text-on-surface px-md py-1 rounded text-label-caps uppercase border border-outline-variant">
-        FULL TIME
+        {t("fullTime")}
       </span>
     );
   }
 
   return (
     <span className="bg-surface-container-low text-on-surface-variant px-md py-1 rounded text-label-caps uppercase border border-outline-variant">
-      SCHEDULED
+      {t("scheduled")}
     </span>
   );
 }
@@ -138,6 +143,7 @@ function StatusSublabel({
   liveMinute?: number | null;
   kickoff: Date;
 }): React.ReactElement {
+  const t = useTranslations("Match");
   const kickoffLine = (
     <div className="text-label-caps uppercase text-on-surface-variant mt-xs font-mono">
       {formatDate(kickoff)} &middot; {extractTime(kickoff)}
@@ -148,7 +154,7 @@ function StatusSublabel({
     return (
       <>
         <div className="text-label-caps uppercase text-on-surface-variant mt-xs">
-          {typeof liveMinute === "number" ? `${liveMinute}'` : "Live"}
+          {typeof liveMinute === "number" ? `${liveMinute}'` : t("liveLabel")}
         </div>
         {kickoffLine}
       </>

@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getCurrentSession } from "@/lib/session";
 import { getMatchById } from "@/lib/match";
 import { fetchApi } from "@/lib/api";
@@ -127,6 +128,7 @@ export default async function MatchDetailPage({
   const predictions = await loadPredictions(matchId);
   const status = match.status;
   const isScheduled = status !== "IN_PLAY" && status !== "FINISHED";
+  const t = await getTranslations("Match");
 
   return (
     <>
@@ -136,19 +138,21 @@ export default async function MatchDetailPage({
 
         <section>
           <div className="flex justify-between items-end mb-md">
-            <h3 className="text-headline-md uppercase">User Predictions</h3>
+            <h3 className="text-headline-md uppercase">
+              {t("userPredictions")}
+            </h3>
             <div className="text-label-caps uppercase text-on-surface-variant hidden md:block">
-              Sorted by Points Scored
+              {t("sortedByPoints")}
             </div>
           </div>
 
           {predictions.status === "offline" ? (
             <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center">
               <p className="text-body-lg text-on-surface mb-sm">
-                Predictions service offline
+                {t("predictionsOffline")}
               </p>
               <p className="text-body-sm text-on-surface-variant">
-                The user predictions will appear once the Rust service is up.
+                {t("predictionsOfflineHint")}
               </p>
             </div>
           ) : (
@@ -157,8 +161,8 @@ export default async function MatchDetailPage({
               currentUserId={userId}
               emptyMessage={
                 isScheduled
-                  ? "No predictions yet"
-                  : "No predictions were submitted for this match"
+                  ? t("noPredictionsYet")
+                  : t("noPredictionsSubmitted")
               }
             />
           )}

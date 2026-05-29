@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { RatingUser } from "@/lib/rating";
 import { abbreviateUsername } from "@/lib/format";
 
@@ -10,13 +11,13 @@ interface RankingTableProps {
 
 const COLUMNS: {
   key: "sum_win_exact" | "sum_score_diff" | "sum_team" | "extra_point";
-  full: string;
-  short: string;
+  fullKey: "exact" | "diff" | "wins" | "bonus";
+  shortKey: "shortExact" | "shortDiff" | "shortWins" | "shortBonus";
 }[] = [
-  { key: "sum_win_exact", full: "EXACT", short: "RE" },
-  { key: "sum_score_diff", full: "DIFF", short: "T" },
-  { key: "sum_team", full: "WINS", short: "S" },
-  { key: "extra_point", full: "BONUS", short: "EP" },
+  { key: "sum_win_exact", fullKey: "exact", shortKey: "shortExact" },
+  { key: "sum_score_diff", fullKey: "diff", shortKey: "shortDiff" },
+  { key: "sum_team", fullKey: "wins", shortKey: "shortWins" },
+  { key: "extra_point", fullKey: "bonus", shortKey: "shortBonus" },
 ];
 
 function formatPosition(position: number): string {
@@ -26,12 +27,14 @@ function formatPosition(position: number): string {
 export function RankingTable({
   users,
   currentUserId,
-  emptyMessage = "No users in this department yet",
+  emptyMessage,
 }: RankingTableProps): React.ReactElement {
+  const t = useTranslations("Ranking");
+  const tCommon = useTranslations("Common");
   if (users.length === 0) {
     return (
       <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center text-body-sm text-on-surface-variant">
-        {emptyMessage}
+        {emptyMessage ?? t("noUsersYet")}
       </div>
     );
   }
@@ -43,21 +46,21 @@ export function RankingTable({
           <thead>
             <tr className="bg-surface-container-highest border-b border-outline-variant">
               <th className="px-md py-lg text-label-caps uppercase text-on-surface-variant">
-                POS
+                {t("pos")}
               </th>
               <th className="px-md py-lg text-label-caps uppercase text-on-surface-variant">
-                USERNAME
+                {t("username")}
               </th>
               {COLUMNS.map((col) => (
                 <th
                   key={col.key}
                   className="px-md py-lg text-label-caps uppercase text-on-surface-variant text-center"
                 >
-                  {col.full}
+                  {t(col.fullKey)}
                 </th>
               ))}
               <th className="px-md py-lg text-label-caps uppercase text-primary text-center">
-                TOTAL
+                {t("total")}
               </th>
             </tr>
           </thead>
@@ -91,7 +94,7 @@ export function RankingTable({
                     </Link>
                     {isCurrent ? (
                       <span className="ml-sm bg-primary text-on-primary text-[10px] font-bold px-1 rounded uppercase tracking-tighter">
-                        YOU
+                        {tCommon("you")}
                       </span>
                     ) : null}
                   </td>
@@ -149,7 +152,7 @@ export function RankingTable({
                   </Link>
                   {isCurrent ? (
                     <span className="bg-primary text-on-primary text-[10px] font-bold px-1 rounded uppercase tracking-tighter shrink-0">
-                      YOU
+                      {tCommon("you")}
                     </span>
                   ) : null}
                 </div>
@@ -160,7 +163,7 @@ export function RankingTable({
                 >
                   {u.score_sum}
                   <span className="text-label-caps uppercase text-on-surface-variant ml-1">
-                    P
+                    {t("pointAbbrev")}
                   </span>
                 </span>
               </div>
@@ -171,7 +174,7 @@ export function RankingTable({
                     className="flex flex-col items-center bg-surface-container rounded p-xs"
                   >
                     <dt className="text-label-caps uppercase text-on-surface-variant">
-                      {col.short}
+                      {t(col.shortKey)}
                     </dt>
                     <dd
                       className={`font-mono text-data-mono ${
@@ -188,7 +191,7 @@ export function RankingTable({
         })}
       </ul>
       <div className="px-md py-md border-t border-outline-variant bg-surface-container text-label-caps uppercase text-on-surface-variant">
-        {users.length} {users.length === 1 ? "user" : "users"}
+        {t("userCount", { count: users.length })}
       </div>
     </div>
   );

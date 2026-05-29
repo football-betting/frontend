@@ -1,8 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 
 export function LoginForm(): React.ReactElement {
+  const t = useTranslations("Auth");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -26,7 +28,7 @@ export function LoginForm(): React.ReactElement {
         return;
       }
 
-      let message = "Email or password incorrect.";
+      let message = t("loginError");
       try {
         const body: unknown = await res.json();
         if (
@@ -42,7 +44,7 @@ export function LoginForm(): React.ReactElement {
       }
       setError(message);
     } catch {
-      setError("Network error. Try again.");
+      setError(t("networkError"));
     } finally {
       setPending(false);
     }
@@ -55,7 +57,7 @@ export function LoginForm(): React.ReactElement {
           className="text-label-caps uppercase text-on-surface-variant"
           htmlFor="email"
         >
-          Email Address
+          {t("emailAddress")}
         </label>
         <div className="relative">
           <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">
@@ -79,7 +81,7 @@ export function LoginForm(): React.ReactElement {
           className="text-label-caps uppercase text-on-surface-variant"
           htmlFor="password"
         >
-          Password
+          {t("password")}
         </label>
         <div className="relative">
           <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">
@@ -111,7 +113,7 @@ export function LoginForm(): React.ReactElement {
           className="text-body-sm text-on-surface-variant"
           htmlFor="remember"
         >
-          Remember me
+          {t("rememberMe")}
         </label>
       </div>
 
@@ -135,7 +137,7 @@ export function LoginForm(): React.ReactElement {
               progress_activity
             </span>
           ) : (
-            "Sign In"
+            t("signIn")
           )}
         </button>
       </div>

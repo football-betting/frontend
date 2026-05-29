@@ -13,6 +13,7 @@ function jsonResponse(body: unknown): Response {
 afterEach(() => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
 });
 
 describe("fetchApi timing log", () => {
@@ -29,6 +30,20 @@ describe("fetchApi timing log", () => {
     expect(log).toHaveBeenCalledWith(
       expect.stringMatching(/^\[rust-api\] GET \/rating \d+ms$/),
     );
+  });
+
+  it("stays silent in production but still returns data", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => jsonResponse({ table: [] })),
+    );
+
+    const data = await fetchApi("rating", { wrappedByKey: "table" });
+
+    expect(data).toEqual([]);
+    expect(log).not.toHaveBeenCalled();
   });
 
   it("logs failure with duration and rethrows on network error", async () => {

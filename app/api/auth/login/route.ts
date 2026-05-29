@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { Argon2id } from "oslo/password";
-import { lucia } from "@/lib/auth";
+import { lucia, REMEMBER_COOKIE, REMEMBER_MAX_AGE_SECONDS } from "@/lib/auth";
 import { getUserByEmail } from "@/lib/user";
 import { loginSchema } from "@/lib/validation/auth";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
@@ -77,11 +77,33 @@ export async function POST(request: Request): Promise<Response> {
   const session = await lucia.createSession(String(existing.id), {});
   const sessionCookie = lucia.createSessionCookie(session.id);
   const cookieStore = await cookies();
-  cookieStore.set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
+
+  const rememberValue = formData.get("remember");
+  const remember =
+    rememberValue === "on" ||
+    rememberValue === "true" ||
+    rememberValue === "1";
+
+  if (remember) {
+    cookieStore.set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes,
+    );
+    cookieStore.set(REMEMBER_COOKIE, "1", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: REMEMBER_MAX_AGE_SECONDS,
+    });
+  } else {
+    const sessionScoped = { ...sessionCookie.attributes };
+    delete sessionScoped.maxAge;
+    delete sessionScoped.expires;
+    cookieStore.set(sessionCookie.name, sessionCookie.value, sessionScoped);
+    cookieStore.set(REMEMBER_COOKIE, "", { path: "/", maxAge: 0 });
+  }
 
   if (wantsJson(request)) {
     return new Response(JSON.stringify({ ok: true }), {

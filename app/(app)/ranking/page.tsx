@@ -9,7 +9,6 @@ import { BottomNav } from "@/components/dashboard/BottomNav";
 import { RankingTable } from "@/components/ranking/RankingTable";
 import { ScoringInfobox } from "@/components/ranking/ScoringInfobox";
 import { RankingTabs, type RankingTab } from "@/components/ranking/RankingTabs";
-import { PageBackground } from "@/components/PageBackground";
 
 interface RankingPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -59,7 +58,6 @@ export default async function RankingPage({
 
   return (
     <>
-      <PageBackground src="/img/bg2.png" />
       <TopAppBar active="ranking" />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
         <div className="mb-lg">

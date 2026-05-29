@@ -112,9 +112,14 @@
   --container-max-desktop: 1280px;
 }
 
-html,
-body {
+html {
   background-color: var(--color-background);
+  color: var(--color-on-background);
+  font-family: var(--font-sans);
+}
+
+body {
+  background-color: transparent;
   color: var(--color-on-background);
   font-family: var(--font-sans);
 }

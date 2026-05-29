@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
+import { PageBackground } from "@/components/PageBackground";
 
 export default async function AppLayout({
   children,
@@ -10,5 +11,10 @@ export default async function AppLayout({
   if (!user) {
     redirect("/login");
   }
-  return <>{children}</>;
+  return (
+    <>
+      <PageBackground />
+      {children}
+    </>
+  );
 }

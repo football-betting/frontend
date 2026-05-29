@@ -137,26 +137,23 @@ function StatusSublabel({
   status: Status;
   liveMinute?: number | null;
   kickoff: Date;
-}): React.ReactElement | null {
-  if (status === "LIVE") {
-    return (
-      <div className="text-label-caps uppercase text-on-surface-variant mt-xs">
-        {typeof liveMinute === "number" ? `${liveMinute}'` : "Live"}
-      </div>
-    );
-  }
-
-  if (status === "FINISHED") {
-    return (
-      <div className="text-label-caps uppercase text-on-surface-variant mt-xs">
-        FULL TIME
-      </div>
-    );
-  }
-
-  return (
+}): React.ReactElement {
+  const kickoffLine = (
     <div className="text-label-caps uppercase text-on-surface-variant mt-xs font-mono">
       {formatDate(kickoff)} &middot; {extractTime(kickoff)}
     </div>
   );
+
+  if (status === "LIVE") {
+    return (
+      <>
+        <div className="text-label-caps uppercase text-on-surface-variant mt-xs">
+          {typeof liveMinute === "number" ? `${liveMinute}'` : "Live"}
+        </div>
+        {kickoffLine}
+      </>
+    );
+  }
+
+  return kickoffLine;
 }

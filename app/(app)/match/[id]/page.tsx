@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
 import { getMatchById } from "@/lib/match";
 import { fetchApi } from "@/lib/api";
@@ -106,9 +106,7 @@ export default async function MatchDetailPage({
 }: MatchPageProps): Promise<React.ReactElement> {
   const { user } = await getCurrentSession();
   if (!user) {
-    throw new Error(
-      "Match detail rendered without a session — auth guard failed",
-    );
+    redirect("/login");
   }
   const userId = Number(user.id);
 

@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
 import { fetchApi } from "@/lib/api";
 import { RatingResponseSchema, type RatingResponse } from "@/lib/rating";
@@ -43,7 +44,7 @@ export default async function RankingPage({
 }: RankingPageProps): Promise<React.ReactElement> {
   const { user } = await getCurrentSession();
   if (!user) {
-    throw new Error("Ranking rendered without a session — auth guard failed");
+    redirect("/login");
   }
   const userId = Number(user.id);
 

@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
 import { getUserById } from "@/lib/user";
 import { fetchApi } from "@/lib/api";
@@ -35,7 +35,7 @@ export default async function UserProfilePage({
 }: UserPageProps): Promise<React.ReactElement> {
   const { user: sessionUser } = await getCurrentSession();
   if (!sessionUser) {
-    throw new Error("Profile rendered without a session — auth guard failed");
+    redirect("/login");
   }
 
   const { id: rawId } = await params;

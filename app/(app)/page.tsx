@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
 import { getLiveMatches, getUpcomingMatches } from "@/lib/match";
 import { getTipByUserAndMatchIds, type TipRow } from "@/lib/tip";
@@ -24,7 +25,7 @@ async function loadRating(): Promise<RatingResponse | null> {
 export default async function DashboardPage(): Promise<React.ReactElement> {
   const { user } = await getCurrentSession();
   if (!user) {
-    throw new Error("Dashboard rendered without a session — auth guard failed");
+    redirect("/login");
   }
   const userId = Number(user.id);
 

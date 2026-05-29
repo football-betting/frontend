@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 interface TabBarProps {
@@ -13,6 +14,7 @@ export function TabBar({
   initialActive,
   panels,
 }: TabBarProps): React.ReactElement {
+  const t = useTranslations("Dashboard");
   const [active, setActive] = useState<string>(
     initialActive ?? tabs[0]?.id ?? "",
   );
@@ -21,7 +23,7 @@ export function TabBar({
     <>
       <div className="p-md bg-surface-container-high border-b border-outline-variant">
         <h3 className="text-label-caps uppercase text-on-surface mb-md">
-          RANKING
+          {t("ranking")}
         </h3>
         <div className="flex gap-sm overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {

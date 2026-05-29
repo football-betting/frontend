@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 interface ProfileHeaderProps {
   username: string;
   position: number | null;
@@ -19,6 +21,7 @@ export function ProfileHeader({
   position,
   totalPoints,
 }: ProfileHeaderProps): React.ReactElement {
+  const t = useTranslations("Profile");
   return (
     <div>
       <h1 className="text-headline-lg-mobile md:text-headline-lg text-on-background mb-sm">
@@ -27,7 +30,7 @@ export function ProfileHeader({
       <div className="flex flex-wrap gap-md items-center mt-md">
         <div className="bg-surface-container px-lg py-md border border-outline-variant">
           <span className="text-label-caps uppercase text-on-surface-variant block mb-xs">
-            GLOBAL RANKING
+            {t("globalRanking")}
           </span>
           <span className="text-display font-mono text-primary tracking-tighter">
             {formatRank(position)}
@@ -35,7 +38,7 @@ export function ProfileHeader({
         </div>
         <div className="bg-surface-container px-lg py-md border border-outline-variant">
           <span className="text-label-caps uppercase text-on-surface-variant block mb-xs">
-            TOTAL POINTS
+            {t("totalPoints")}
           </span>
           <span className="text-display font-mono text-tertiary tracking-tighter">
             {formatPoints(totalPoints)}

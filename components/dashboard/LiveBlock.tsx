@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { MatchRow } from "@/lib/match";
 import type { TipRow } from "@/lib/tip";
 import { Flag } from "@/components/dashboard/Flag";
@@ -12,6 +13,7 @@ export function LiveBlock({
   matches: MatchRow[];
   tipsByMatchId: Map<number, TipRow>;
 }): React.ReactElement | null {
+  const t = useTranslations("Dashboard");
   const rows = matches
     .map((m) => {
       const tip = tipsByMatchId.get(m.id);
@@ -33,7 +35,7 @@ export function LiveBlock({
       <div className="flex items-center gap-sm mb-md">
         <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
         <h2 className="text-label-caps uppercase text-primary tracking-widest">
-          LIVE NOW
+          {t("liveNow")}
         </h2>
       </div>
       <div className="space-y-md">
@@ -64,7 +66,7 @@ export function LiveBlock({
                     <span>{match.awayScore ?? "-"}</span>
                   </div>
                   <span className="text-label-caps uppercase text-primary-container">
-                    LIVE
+                    {t("live")}
                   </span>
                 </div>
                 <div className="flex flex-col items-center gap-sm w-1/3">
@@ -81,7 +83,7 @@ export function LiveBlock({
               <div className="mt-lg pt-md border-t border-outline-variant flex justify-between items-center">
                 <div className="flex items-center gap-md">
                   <span className="text-label-caps uppercase text-on-surface-variant">
-                    YOUR TIP:
+                    {t("yourTip")}
                   </span>
                   <span className="font-mono text-data-mono bg-surface-container-highest px-md py-xs rounded">
                     {tip.scoreHome} : {tip.scoreAway}
@@ -89,7 +91,7 @@ export function LiveBlock({
                 </div>
                 <div className="flex items-center gap-sm">
                   <span className="text-label-caps uppercase text-on-surface-variant">
-                    POINTS:
+                    {t("points")}
                   </span>
                   <span
                     className={`text-headline-md font-bold tracking-tighter ${toneClass}`}

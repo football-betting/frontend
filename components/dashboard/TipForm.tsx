@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 
 interface TipFormProps {
@@ -14,6 +15,7 @@ export function TipForm({
   initialTip = null,
   disabled = false,
 }: TipFormProps): React.ReactElement {
+  const t = useTranslations("TipForm");
   const router = useRouter();
   const [tipHome, setTipHome] = useState<string>(
     initialTip ? String(initialTip.scoreHome) : "",
@@ -49,7 +51,7 @@ export function TipForm({
         return;
       }
 
-      let message = "Failed to save tip.";
+      let message = t("failedToSave");
       try {
         const body: unknown = await res.json();
         if (
@@ -65,19 +67,19 @@ export function TipForm({
       }
       setError(message);
     } catch {
-      setError("Network error. Try again.");
+      setError(t("networkError"));
     } finally {
       setPending(false);
     }
   }
 
   const buttonLabel = saved
-    ? "SAVED"
+    ? t("saved")
     : pending
       ? "..."
       : initialTip
-        ? "EDIT"
-        : "SAVE";
+        ? t("edit")
+        : t("save");
 
   return (
     <div className="flex flex-col gap-xs">
@@ -95,7 +97,7 @@ export function TipForm({
             onChange={(e) => setTipHome(e.target.value)}
             disabled={disabled || pending}
             placeholder="-"
-            aria-label="Home score tip"
+            aria-label={t("homeScoreTip")}
             className="w-12 min-h-12 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-mono focus:border-primary focus:ring-0 transition-colors disabled:opacity-60"
           />
           <span className="text-outline-variant">:</span>
@@ -108,7 +110,7 @@ export function TipForm({
             onChange={(e) => setTipAway(e.target.value)}
             disabled={disabled || pending}
             placeholder="-"
-            aria-label="Away score tip"
+            aria-label={t("awayScoreTip")}
             className="w-12 min-h-12 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-mono focus:border-primary focus:ring-0 transition-colors disabled:opacity-60"
           />
         </div>

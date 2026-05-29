@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { RatingMatchInfo } from "@/lib/rating";
 import { formatDate } from "@/lib/format";
 import { scoreColor, scoreToneClass } from "@/lib/scoring";
@@ -36,11 +37,12 @@ export function PredictionHistory({
   status,
   tips,
 }: PredictionHistoryProps): React.ReactElement {
+  const t = useTranslations("Profile");
   return (
     <section className="mt-xl">
       <div className="flex justify-between items-end border-b border-outline-variant pb-md mb-lg">
         <h2 className="text-headline-lg-mobile md:text-headline-lg text-on-background">
-          Prediction History
+          {t("predictionHistory")}
         </h2>
         <span className="text-label-caps uppercase text-on-surface-variant">
           {TOURNAMENT_NAME}
@@ -49,14 +51,16 @@ export function PredictionHistory({
 
       {status === "offline" ? (
         <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center">
-          <p className="text-body-lg text-on-surface mb-sm">Service offline</p>
+          <p className="text-body-lg text-on-surface mb-sm">
+            {t("serviceOffline")}
+          </p>
           <p className="text-body-sm text-on-surface-variant">
-            Prediction history will appear once the Rust service is up.
+            {t("historyOfflineHint")}
           </p>
         </div>
       ) : tips.length === 0 ? (
         <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center text-body-sm text-on-surface-variant">
-          No predictions yet
+          {t("noPredictions")}
         </div>
       ) : (
         <>
@@ -64,29 +68,29 @@ export function PredictionHistory({
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-surface-container-high text-label-caps uppercase text-on-surface-variant border-b border-outline-variant">
-                  <th className="px-lg py-md">Match</th>
-                  <th className="px-lg py-md text-center">Prediction</th>
-                  <th className="px-lg py-md text-center">Result</th>
-                  <th className="px-lg py-md text-right">Points</th>
+                  <th className="px-lg py-md">{t("match")}</th>
+                  <th className="px-lg py-md text-center">{t("prediction")}</th>
+                  <th className="px-lg py-md text-center">{t("result")}</th>
+                  <th className="px-lg py-md text-right">{t("points")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant">
-                {tips.map((t) => {
-                  const points = clampPerMatchPoints(t.score);
+                {tips.map((tip) => {
+                  const points = clampPerMatchPoints(tip.score);
                   const toneClass = scoreToneClass(scoreColor(points));
-                  const matchDate = parseDate(t.date);
+                  const matchDate = parseDate(tip.date);
                   return (
                     <tr
-                      key={t.match_id}
+                      key={tip.match_id}
                       className="bg-surface hover:bg-surface-container-lowest transition-colors"
                     >
                       <td className="px-lg py-lg">
                         <Link
-                          href={`/match/${t.match_id}`}
+                          href={`/match/${tip.match_id}`}
                           className="flex flex-col hover:underline"
                         >
                           <span className="text-body-lg font-bold text-on-background">
-                            {t.team1.tla} vs {t.team2.tla}
+                            {tip.team1.tla} vs {tip.team2.tla}
                           </span>
                           <span className="text-label-caps uppercase text-on-surface-variant font-mono">
                             {formatDate(matchDate)}
@@ -95,12 +99,12 @@ export function PredictionHistory({
                       </td>
                       <td className="px-lg py-lg text-center">
                         <span className="bg-surface-container-highest px-md py-xs rounded-sm font-mono text-data-mono text-on-background border border-outline-variant">
-                          {formatScorePair(t.tip_home, t.tip_away)}
+                          {formatScorePair(tip.tip_home, tip.tip_away)}
                         </span>
                       </td>
                       <td className="px-lg py-lg text-center">
                         <span className="bg-surface-variant text-on-surface px-md py-xs rounded-sm font-mono text-data-mono">
-                          {formatScorePair(t.score_home, t.score_away)}
+                          {formatScorePair(tip.score_home, tip.score_away)}
                         </span>
                       </td>
                       <td className="px-lg py-lg text-right">
@@ -118,20 +122,20 @@ export function PredictionHistory({
           </div>
 
           <ul className="md:hidden border border-outline-variant divide-y divide-outline-variant">
-            {tips.map((t) => {
-              const points = clampPerMatchPoints(t.score);
+            {tips.map((tip) => {
+              const points = clampPerMatchPoints(tip.score);
               const toneClass = scoreToneClass(scoreColor(points));
-              const matchDate = parseDate(t.date);
+              const matchDate = parseDate(tip.date);
               return (
-                <li key={t.match_id} className="bg-surface">
+                <li key={tip.match_id} className="bg-surface">
                   <Link
-                    href={`/match/${t.match_id}`}
+                    href={`/match/${tip.match_id}`}
                     className="block p-md hover:bg-surface-container-lowest transition-colors"
                   >
                     <div className="flex justify-between items-start gap-md mb-sm">
                       <div className="flex flex-col min-w-0">
                         <span className="text-body-lg font-bold text-on-background">
-                          {t.team1.tla} vs {t.team2.tla}
+                          {tip.team1.tla} vs {tip.team2.tla}
                         </span>
                         <span className="text-label-caps uppercase text-on-surface-variant font-mono">
                           {formatDate(matchDate)}
@@ -146,18 +150,18 @@ export function PredictionHistory({
                     <div className="grid grid-cols-2 gap-sm">
                       <div className="flex flex-col items-start">
                         <span className="text-label-caps uppercase text-on-surface-variant">
-                          Prediction
+                          {t("prediction")}
                         </span>
                         <span className="bg-surface-container-highest px-md py-xs rounded-sm font-mono text-data-mono text-on-background border border-outline-variant">
-                          {formatScorePair(t.tip_home, t.tip_away)}
+                          {formatScorePair(tip.tip_home, tip.tip_away)}
                         </span>
                       </div>
                       <div className="flex flex-col items-start">
                         <span className="text-label-caps uppercase text-on-surface-variant">
-                          Result
+                          {t("result")}
                         </span>
                         <span className="bg-surface-variant text-on-surface px-md py-xs rounded-sm font-mono text-data-mono">
-                          {formatScorePair(t.score_home, t.score_away)}
+                          {formatScorePair(tip.score_home, tip.score_away)}
                         </span>
                       </div>
                     </div>

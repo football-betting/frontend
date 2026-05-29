@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getCurrentSession } from "@/lib/session";
 import { SignupForm } from "./signup-form";
 
@@ -8,6 +9,8 @@ export default async function SignupPage(): Promise<React.ReactElement> {
   if (user) {
     redirect("/");
   }
+
+  const t = await getTranslations("Auth");
 
   return (
     <main
@@ -20,7 +23,7 @@ export default async function SignupPage(): Promise<React.ReactElement> {
       <div className="w-full max-w-[600px]">
         <div className="flex flex-col items-center mb-xl">
           <h1 className="text-headline-lg font-black text-on-background uppercase tracking-tighter mb-xs">
-            TOURNAMENT PREDICTOR
+            {t("appName")}
           </h1>
         </div>
 
@@ -31,9 +34,9 @@ export default async function SignupPage(): Promise<React.ReactElement> {
 
           <div className="mt-lg pt-lg border-t border-outline-variant/20 text-center">
             <p className="text-body-sm text-on-surface-variant">
-              Already part of the league?{" "}
+              {t("alreadyMember")}{" "}
               <Link className="text-tertiary hover:underline" href="/login">
-                Login here
+                {t("loginHere")}
               </Link>
             </p>
           </div>

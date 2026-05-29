@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Flag } from "@/components/dashboard/Flag";
 import { WinnerEditForm } from "@/components/profile/WinnerEditForm";
 
@@ -24,6 +25,7 @@ function WinnerCard({
   editable: boolean;
   onEdit: () => void;
 }): React.ReactElement {
+  const t = useTranslations("Profile");
   return (
     <div className="bg-surface-container border border-outline-variant p-lg relative overflow-hidden group">
       <div className="relative z-10">
@@ -45,7 +47,7 @@ function WinnerCard({
         <button
           type="button"
           onClick={onEdit}
-          aria-label={`Edit ${label}`}
+          aria-label={t("editLabel", { label })}
           className="absolute top-sm right-sm z-20 w-9 h-9 flex items-center justify-center rounded-full bg-surface-container-low border border-outline-variant text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high active:scale-95 transition-colors"
         >
           <span className="material-symbols-outlined text-[18px]">edit</span>
@@ -66,6 +68,7 @@ export function WinnerCards({
   userId,
   editable = false,
 }: WinnerCardsProps): React.ReactElement {
+  const t = useTranslations("Profile");
   const [isEditing, setIsEditing] = useState(false);
   void userId;
 
@@ -85,14 +88,14 @@ export function WinnerCards({
   return (
     <div className="flex flex-col gap-md">
       <WinnerCard
-        label="TOURNAMENT WINNER"
+        label={t("tournamentWinner")}
         tla={winner}
         icon="emoji_events"
         editable={editable}
         onEdit={() => setIsEditing(true)}
       />
       <WinnerCard
-        label="SECRET WINNER"
+        label={t("secretWinner")}
         tla={secretWinner}
         icon="visibility_off"
         editable={editable}

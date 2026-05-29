@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { RatingResponse, RatingUser } from "@/lib/rating";
 import { sliceGlobalShortTable } from "@/lib/rating";
 import { abbreviateUsername } from "@/lib/format";
@@ -19,6 +20,7 @@ function RankingRow({
   isCurrent?: boolean;
   showDivider?: boolean;
 }): React.ReactElement {
+  const t = useTranslations("Common");
   if (showDivider) {
     return (
       <div className="p-xs bg-surface-container-lowest flex justify-center">
@@ -70,7 +72,7 @@ function RankingRow({
           }`}
         >
           {abbreviateUsername(user.name)}
-          {isCurrent ? " (You)" : ""}
+          {isCurrent ? t("youParen") : ""}
         </span>
       </div>
       <span
@@ -78,7 +80,7 @@ function RankingRow({
           isCurrent ? "text-primary font-bold" : "text-on-surface"
         }`}
       >
-        {user.score_sum} PTS
+        {user.score_sum} {t("pts")}
       </span>
     </Link>
   );
@@ -91,6 +93,7 @@ function GlobalPanel({
   rating: RatingResponse;
   currentUserId: number;
 }): React.ReactElement {
+  const t = useTranslations("Dashboard");
   const { topRows, neighborRows, hasGap } = sliceGlobalShortTable(
     rating.global,
     currentUserId,
@@ -99,7 +102,7 @@ function GlobalPanel({
   if (topRows.length === 0) {
     return (
       <div className="p-lg text-center text-body-sm text-on-surface-variant">
-        No ranking data yet.
+        {t("noRankingData")}
       </div>
     );
   }
@@ -132,10 +135,11 @@ function DepartmentPanel({
   users: RatingUser[];
   currentUserId: number;
 }): React.ReactElement {
+  const t = useTranslations("Dashboard");
   if (users.length === 0) {
     return (
       <div className="p-lg text-center text-body-sm text-on-surface-variant">
-        No users in this department.
+        {t("noUsersInDepartment")}
       </div>
     );
   }
@@ -156,15 +160,17 @@ export function RankingSidebar({
   rating,
   currentUserId,
 }: RankingSidebarProps): React.ReactElement {
+  const t = useTranslations("Dashboard");
+  const tCommon = useTranslations("Common");
   if (!rating) {
     return (
       <aside className="space-y-lg">
         <div className="bg-surface-container border border-outline-variant rounded-lg p-lg">
           <h3 className="text-label-caps uppercase text-on-surface mb-md">
-            RANKING
+            {t("ranking")}
           </h3>
           <p className="text-body-sm text-on-surface-variant">
-            Ranking API offline. Try again later.
+            {t("rankingOffline")}
           </p>
         </div>
       </aside>
@@ -172,7 +178,7 @@ export function RankingSidebar({
   }
 
   const tabs = [
-    { id: "global", label: "Global" },
+    { id: "global", label: tCommon("global") },
     ...DEPARTMENTS.map((d) => ({ id: d, label: displayDepartment(d) })),
   ];
 
@@ -196,7 +202,7 @@ export function RankingSidebar({
           href="/ranking"
           className="block p-md text-center text-label-caps uppercase text-secondary hover:underline bg-surface-container-low transition-all"
         >
-          VIEW FULL RANKING
+          {t("viewFullRanking")}
         </Link>
       </div>
     </aside>

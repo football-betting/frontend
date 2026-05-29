@@ -9,6 +9,7 @@ import { UpcomingList } from "@/components/dashboard/UpcomingList";
 import { RankingSidebar } from "@/components/dashboard/RankingSidebar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { TopAppBar } from "@/components/dashboard/TopAppBar";
+import { PageBackground } from "@/components/PageBackground";
 
 async function loadRating(): Promise<RatingResponse | null> {
   try {
@@ -50,6 +51,7 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
 
   return (
     <>
+      <PageBackground src="/img/bg1.png" />
       <TopAppBar active="dashboard" />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto grid grid-cols-12 gap-lg">
         <div className="col-span-12 md:col-span-8 space-y-lg">

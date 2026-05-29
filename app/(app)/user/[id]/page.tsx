@@ -10,6 +10,7 @@ import { StatTiles } from "@/components/profile/StatTiles";
 import { WinnerCards } from "@/components/profile/WinnerCards";
 import { PredictionHistory } from "@/components/profile/PredictionHistory";
 import { isTournamentLocked } from "@/lib/tournament";
+import { PageBackground } from "@/components/PageBackground";
 
 interface UserPageProps {
   params: Promise<{ id: string }>;
@@ -71,6 +72,7 @@ export default async function UserProfilePage({
 
   return (
     <>
+      <PageBackground src="/img/bg2.png" />
       <TopAppBar active={isOwnProfile ? "profile" : "dashboard"} />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-lg mb-xl">

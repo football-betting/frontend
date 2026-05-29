@@ -10,6 +10,7 @@ import {
   PredictionsTable,
   type PredictionRow,
 } from "@/components/match/PredictionsTable";
+import { PageBackground } from "@/components/PageBackground";
 
 interface MatchPageProps {
   params: Promise<{ id: string }>;
@@ -132,6 +133,7 @@ export default async function MatchDetailPage({
 
   return (
     <>
+      <PageBackground src="/img/bg2.png" />
       <TopAppBar active="dashboard" />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
         <MatchHeader match={match} liveMinute={null} />

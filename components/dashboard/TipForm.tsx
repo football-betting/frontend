@@ -100,14 +100,27 @@ export function TipForm({
             {formatTipScore(savedTip)}
           </div>
           {disabled ? null : (
-            <button
-              type="button"
-              onClick={enterEdit}
-              aria-label={t("editTip")}
-              className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-on-surface-variant/70 hover:text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95"
-            >
-              <span className="material-symbols-outlined text-[20px]">edit</span>
-            </button>
+            <>
+              {/* Mobile: text button (finger-friendly tap target) */}
+              <button
+                type="button"
+                onClick={enterEdit}
+                className="md:hidden px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold border border-primary text-on-surface bg-surface-container-low hover:bg-surface-container transition-colors active:scale-95"
+              >
+                {t("edit")}
+              </button>
+              {/* Desktop: muted pencil icon */}
+              <button
+                type="button"
+                onClick={enterEdit}
+                aria-label={t("editTip")}
+                className="hidden md:flex w-10 h-10 min-h-10 items-center justify-center rounded-lg text-on-surface-variant/70 hover:text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95"
+              >
+                <span className="material-symbols-outlined text-[20px]">
+                  edit
+                </span>
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -147,11 +160,20 @@ export function TipForm({
             className="w-12 min-h-12 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-mono focus:border-primary focus:ring-0 transition-colors disabled:opacity-60"
           />
         </div>
+        {/* Mobile: text button (finger-friendly tap target) */}
+        <button
+          type="submit"
+          disabled={disabled || pending}
+          className="md:hidden px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold bg-primary text-on-primary hover:opacity-90 transition-all active:scale-95 disabled:opacity-60"
+        >
+          {pending ? "..." : t("save")}
+        </button>
+        {/* Desktop: compact save icon */}
         <button
           type="submit"
           disabled={disabled || pending}
           aria-label={t("save")}
-          className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-primary hover:bg-primary/10 transition-colors active:scale-95 disabled:opacity-60"
+          className="hidden md:flex w-10 h-10 min-h-10 items-center justify-center rounded-lg text-primary hover:bg-primary/10 transition-colors active:scale-95 disabled:opacity-60"
         >
           <span
             className={`material-symbols-outlined text-[20px] ${

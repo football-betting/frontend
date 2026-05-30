@@ -129,6 +129,9 @@ export function SignupForm(): React.ReactElement {
             disabled={pending}
           />
         </div>
+        <p className="text-body-sm text-on-surface-variant">
+          {t("valanticEmailHint")}
+        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-md">

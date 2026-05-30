@@ -9,6 +9,14 @@ export const loginSchema = z.object({
 
 export type LoginInput = z.infer<typeof loginSchema>;
 
+export function isAllowedSignupEmailDomain(email: string): boolean {
+  const domain = email.split("@")[1]?.toLowerCase();
+  if (!domain) {
+    return false;
+  }
+  return domain === "valantic.com" || domain.endsWith(".valantic.com");
+}
+
 export const signupSchema = z
   .object({
     username: z.string().min(1, { message: "username" }),
@@ -30,6 +38,15 @@ export const signupSchema = z
   .refine((data) => data.winner !== data.secretWinner, {
     message: "Winner and secret winner must differ.",
     path: ["secretWinner"],
-  });
+  })
+  .refine(
+    (data) =>
+      process.env.NODE_ENV !== "production" ||
+      isAllowedSignupEmailDomain(data.email),
+    {
+      message: "Only valantic.com email addresses are allowed.",
+      path: ["email"],
+    },
+  );
 
 export type SignupInput = z.infer<typeof signupSchema>;

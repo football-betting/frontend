@@ -130,6 +130,7 @@
     "loginHere": "Hier anmelden",
     "username": "Nutzername",
     "usernameNotEmailHint": "Das ist nicht deine Email-Adresse.",
+    "valanticEmailHint": "Nur valantic.com-Email-Adressen sind erlaubt.",
     "repeatPassword": "Passwort wiederholen",
     "department": "Standort",
     "selectLocation": "Standort wählen ...",

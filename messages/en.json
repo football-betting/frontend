@@ -130,6 +130,7 @@
     "loginHere": "Login here",
     "username": "Username",
     "usernameNotEmailHint": "This is not your email address.",
+    "valanticEmailHint": "Only valantic.com email addresses are allowed.",
     "repeatPassword": "Repeat Password",
     "department": "Department",
     "selectLocation": "Select location...",

@@ -24,6 +24,7 @@ export const user = sqliteTable("user", {
   department: text("department").notNull(),
   winner: text("winner").notNull(),
   secretWinner: text("secretWinner").notNull(),
+  avatar: text("avatar"),
 });
 
 export const session = sqliteTable("session", {

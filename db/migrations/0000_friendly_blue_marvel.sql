@@ -34,7 +34,8 @@ CREATE TABLE `user` (
 	`username` text NOT NULL,
 	`department` text NOT NULL,
 	`winner` text NOT NULL,
-	`secretWinner` text NOT NULL
+	`secretWinner` text NOT NULL,
+	`avatar` text
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);

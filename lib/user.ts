@@ -46,3 +46,10 @@ export async function updateUserPassword(
 ): Promise<void> {
   await db.update(user).set({ password }).where(eq(user.id, userId));
 }
+
+export async function updateUserAvatar(
+  userId: number,
+  avatar: string,
+): Promise<void> {
+  await db.update(user).set({ avatar }).where(eq(user.id, userId));
+}

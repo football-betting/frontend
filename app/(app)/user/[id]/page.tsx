@@ -11,6 +11,7 @@ import { WinnerCards } from "@/components/profile/WinnerCards";
 import { PredictionHistory } from "@/components/profile/PredictionHistory";
 import { isTournamentLocked } from "@/lib/tournament";
 import { displayNameFromEmail } from "@/lib/user-name";
+import { Avatar } from "@/components/Avatar";
 
 interface UserPageProps {
   params: Promise<{ id: string }>;
@@ -76,12 +77,20 @@ export default async function UserProfilePage({
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-lg mb-xl">
           <div className="md:col-span-8 flex flex-col justify-between">
-            <ProfileHeader
-              username={localUser.username}
-              displayName={displayNameFromEmail(localUser.email)}
-              position={position}
-              totalPoints={totalPoints}
-            />
+            <div className="flex items-center gap-md">
+              <Avatar
+                avatarPath={localUser.avatar}
+                email={localUser.email}
+                size={72}
+                className="shrink-0 border-2 border-outline-variant"
+              />
+              <ProfileHeader
+                username={localUser.username}
+                displayName={displayNameFromEmail(localUser.email)}
+                position={position}
+                totalPoints={totalPoints}
+              />
+            </div>
             <StatTiles exact={exact} diff={diff} wins={wins} bonus={bonus} />
           </div>
           <div className="md:col-span-4">

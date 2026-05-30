@@ -80,6 +80,7 @@
     "tournamentWinner": "TOURNAMENT WINNER",
     "secretWinner": "SECRET WINNER",
     "editLabel": "Edit {label}",
+    "pickDeadlineHint": "Editable until the first match kicks off.",
     "winnerSelectLabel": "Tournament winner",
     "secretWinnerSelectLabel": "Secret winner",
     "winnersMustDiffer": "Winner and secret winner must differ.",

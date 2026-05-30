@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 
 interface ProfileHeaderProps {
   username: string;
+  displayName: string;
   position: number | null;
   totalPoints: number | null;
 }
@@ -18,15 +19,25 @@ function formatPoints(points: number | null): string {
 
 export function ProfileHeader({
   username,
+  displayName,
   position,
   totalPoints,
 }: ProfileHeaderProps): React.ReactElement {
   const t = useTranslations("Profile");
   return (
     <div>
-      <h1 className="text-headline-lg-mobile md:text-headline-lg text-on-background mb-sm">
+      <h1
+        className={`text-headline-lg-mobile md:text-headline-lg text-on-background${
+          displayName ? "" : " mb-sm"
+        }`}
+      >
         {username}
       </h1>
+      {displayName ? (
+        <p className="text-body-lg text-on-surface-variant opacity-70 mb-sm">
+          {displayName}
+        </p>
+      ) : null}
       <div className="flex flex-wrap gap-md items-center mt-md">
         <div className="bg-surface-container px-lg py-md border border-outline-variant">
           <span className="text-label-caps uppercase text-on-surface-variant block mb-xs">

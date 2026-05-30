@@ -36,7 +36,7 @@ function WinnerCard({
           <Flag
             tla={tla}
             name={tla}
-            className="w-10 h-auto rounded-xs grayscale group-hover:grayscale-0 transition-all duration-500"
+            className="w-10 h-auto rounded-xs"
           />
           <span className="text-headline-md font-bold uppercase tracking-widest">
             {tla}
@@ -101,6 +101,11 @@ export function WinnerCards({
         editable={editable}
         onEdit={() => setIsEditing(true)}
       />
+      {editable ? (
+        <p className="text-label-caps text-on-surface-variant opacity-70">
+          {t("pickDeadlineHint")}
+        </p>
+      ) : null}
     </div>
   );
 }

@@ -5,17 +5,15 @@ export function computeScore(
   scoreAway: number,
 ): number {
   if (tipHome === scoreHome && tipAway === scoreAway) {
-    return 4;
+    return 5;
   }
   const tipDiff = tipHome - tipAway;
   const scoreDiff = scoreHome - scoreAway;
   if (tipDiff === scoreDiff) {
-    return 2;
+    return scoreHome === scoreAway ? 2 : 3;
   }
-  const tipWinner = Math.sign(tipDiff);
-  const scoreWinner = Math.sign(scoreDiff);
-  if (tipWinner === scoreWinner) {
-    return 1;
+  if (Math.sign(tipDiff) === Math.sign(scoreDiff)) {
+    return 2;
   }
   return 0;
 }

@@ -1,8 +1,8 @@
 export type ScoreTone = "success" | "warning" | "neutral" | "danger";
 
 export function scoreColor(points: number): ScoreTone {
-  if (points === 4) return "success";
-  if (points === 2) return "warning";
+  if (points === 5) return "success";
+  if (points === 3) return "warning";
   if (points === 0) return "danger";
   return "neutral";
 }

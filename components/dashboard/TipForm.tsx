@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   formatTipScore,
   initialTipEditing,
@@ -34,6 +34,15 @@ export function TipForm({
   );
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const homeInputRef = useRef<HTMLInputElement>(null);
+  const focusOnEdit = useRef(false);
+
+  useEffect(() => {
+    if (isEditing && focusOnEdit.current) {
+      focusOnEdit.current = false;
+      homeInputRef.current?.focus();
+    }
+  }, [isEditing]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -84,6 +93,7 @@ export function TipForm({
   function enterEdit(): void {
     if (disabled) return;
     setError(null);
+    focusOnEdit.current = true;
     setIsEditing(true);
   }
 
@@ -139,6 +149,7 @@ export function TipForm({
             min={0}
             max={20}
             required
+            ref={homeInputRef}
             value={tipHome}
             onChange={(e) => setTipHome(e.target.value)}
             disabled={disabled || pending}

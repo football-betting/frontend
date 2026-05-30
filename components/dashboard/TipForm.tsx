@@ -103,9 +103,10 @@ export function TipForm({
             <button
               type="button"
               onClick={enterEdit}
-              className="px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold border border-primary text-on-surface bg-surface-container-low hover:bg-surface-container transition-colors active:scale-95"
+              aria-label={t("editTip")}
+              className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors active:scale-95"
             >
-              {t("edit")}
+              <span className="material-symbols-outlined text-[20px]">edit</span>
             </button>
           )}
         </div>
@@ -149,9 +150,16 @@ export function TipForm({
         <button
           type="submit"
           disabled={disabled || pending}
-          className="px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold bg-primary text-on-primary hover:opacity-90 transition-all active:scale-95 disabled:opacity-60"
+          aria-label={t("save")}
+          className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-primary hover:bg-primary/10 transition-colors active:scale-95 disabled:opacity-60"
         >
-          {pending ? "..." : t("save")}
+          <span
+            className={`material-symbols-outlined text-[20px] ${
+              pending ? "animate-spin" : ""
+            }`}
+          >
+            {pending ? "progress_activity" : "save"}
+          </span>
         </button>
       </form>
       {error ? (

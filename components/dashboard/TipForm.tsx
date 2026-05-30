@@ -104,7 +104,7 @@ export function TipForm({
               type="button"
               onClick={enterEdit}
               aria-label={t("editTip")}
-              className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors active:scale-95"
+              className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-on-surface-variant/70 hover:text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95"
             >
               <span className="material-symbols-outlined text-[20px]">edit</span>
             </button>

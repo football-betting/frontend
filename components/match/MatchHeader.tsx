@@ -1,6 +1,7 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { MatchRow } from "@/lib/match";
 import { Flag } from "@/components/dashboard/Flag";
+import { resolveCountryName } from "@/lib/country";
 import { extractTime, formatDate } from "@/lib/format";
 
 interface MatchHeaderProps {
@@ -81,6 +82,7 @@ function TeamBlock({
   tla: string;
   name: string;
 }): React.ReactElement {
+  const tc = useTranslations("Countries");
   return (
     <div className="flex flex-col items-center flex-1 min-w-0 gap-sm">
       <Flag
@@ -89,7 +91,7 @@ function TeamBlock({
         className="w-16 h-10 md:w-20 md:h-12 object-cover rounded-sm shadow-md border border-outline-variant"
       />
       <h2 className="text-body-lg md:text-headline-md uppercase text-center font-bold truncate w-full">
-        {name}
+        {resolveCountryName(tla, name, tc)}
       </h2>
     </div>
   );
@@ -144,9 +146,10 @@ function StatusSublabel({
   kickoff: Date;
 }): React.ReactElement {
   const t = useTranslations("Match");
+  const locale = useLocale();
   const kickoffLine = (
     <div className="text-label-caps uppercase text-on-surface-variant mt-xs font-mono">
-      {formatDate(kickoff)} &middot; {extractTime(kickoff)}
+      {formatDate(kickoff, locale)} &middot; {extractTime(kickoff, locale)}
     </div>
   );
 

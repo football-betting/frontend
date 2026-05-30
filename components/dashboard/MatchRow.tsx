@@ -1,3 +1,4 @@
+import { useLocale } from "next-intl";
 import type { MatchRow as MatchRowData } from "@/lib/match";
 import type { TipRow } from "@/lib/tip";
 import { Flag } from "@/components/dashboard/Flag";
@@ -10,6 +11,7 @@ interface MatchRowProps {
 }
 
 export function MatchRow({ match, tip }: MatchRowProps): React.ReactElement {
+  const locale = useLocale();
   const now = new Date();
   const disabled =
     match.utcDate.getTime() < now.getTime() ||
@@ -36,7 +38,7 @@ export function MatchRow({ match, tip }: MatchRowProps): React.ReactElement {
             </span>
           </div>
           <div className="text-data-mono font-mono text-on-surface-variant">
-            {extractTime(match.utcDate)}
+            {extractTime(match.utcDate, locale)}
           </div>
           <div className="flex items-center gap-md w-32 justify-end">
             <span className="text-body-lg font-bold">

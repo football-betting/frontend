@@ -4,6 +4,7 @@ import type { MatchRow } from "@/lib/match";
 import type { TipRow } from "@/lib/tip";
 import { Flag } from "@/components/dashboard/Flag";
 import { computeScore } from "@/lib/score";
+import { resolveCountryName } from "@/lib/country";
 import { scoreColor, scoreToneClass } from "@/lib/scoring";
 
 export function LiveBlock({
@@ -14,6 +15,7 @@ export function LiveBlock({
   tipsByMatchId: Map<number, TipRow>;
 }): React.ReactElement | null {
   const t = useTranslations("Dashboard");
+  const tc = useTranslations("Countries");
   const rows = matches
     .map((m) => {
       const tip = tipsByMatchId.get(m.id);
@@ -56,7 +58,7 @@ export function LiveBlock({
                     className="w-12 h-8 object-cover rounded-sm shadow-md"
                   />
                   <span className="text-label-caps uppercase">
-                    {match.homeTeam.name}
+                    {resolveCountryName(match.homeTeam.tla, match.homeTeam.name, tc)}
                   </span>
                 </div>
                 <div className="flex flex-col items-center gap-xs">
@@ -76,7 +78,7 @@ export function LiveBlock({
                     className="w-12 h-8 object-cover rounded-sm shadow-md"
                   />
                   <span className="text-label-caps uppercase">
-                    {match.awayTeam.name}
+                    {resolveCountryName(match.awayTeam.tla, match.awayTeam.name, tc)}
                   </span>
                 </div>
               </div>

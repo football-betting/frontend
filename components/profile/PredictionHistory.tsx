@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { RatingMatchInfo } from "@/lib/rating";
 import { formatDate } from "@/lib/format";
 import { scoreColor, scoreToneClass } from "@/lib/scoring";
@@ -38,6 +38,7 @@ export function PredictionHistory({
   tips,
 }: PredictionHistoryProps): React.ReactElement {
   const t = useTranslations("Profile");
+  const locale = useLocale();
   return (
     <section className="mt-xl">
       <div className="flex justify-between items-end border-b border-outline-variant pb-md mb-lg">
@@ -93,7 +94,7 @@ export function PredictionHistory({
                             {tip.team1.tla} vs {tip.team2.tla}
                           </span>
                           <span className="text-label-caps uppercase text-on-surface-variant font-mono">
-                            {formatDate(matchDate)}
+                            {formatDate(matchDate, locale)}
                           </span>
                         </Link>
                       </td>
@@ -138,7 +139,7 @@ export function PredictionHistory({
                           {tip.team1.tla} vs {tip.team2.tla}
                         </span>
                         <span className="text-label-caps uppercase text-on-surface-variant font-mono">
-                          {formatDate(matchDate)}
+                          {formatDate(matchDate, locale)}
                         </span>
                       </div>
                       <span

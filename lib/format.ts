@@ -1,6 +1,6 @@
-export function formatDate(ts: Date | number): string {
+export function formatDate(ts: Date | number, locale: string): string {
   const d = ts instanceof Date ? ts : new Date(ts);
-  return d.toLocaleDateString("de-DE", {
+  return d.toLocaleDateString(locale, {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -16,9 +16,9 @@ export function formatDateKey(ts: Date | number): string {
   return `${yyyy}-${mm}-${dd}`;
 }
 
-export function extractTime(ts: Date | number): string {
+export function extractTime(ts: Date | number, locale: string): string {
   const d = ts instanceof Date ? ts : new Date(ts);
-  return d.toLocaleTimeString("de-DE", {
+  return d.toLocaleTimeString(locale, {
     hour: "2-digit",
     minute: "2-digit",
   });

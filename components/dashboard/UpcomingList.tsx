@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { MatchRow as MatchRowData } from "@/lib/match";
 import type { TipRow } from "@/lib/tip";
 import { MatchRow } from "@/components/dashboard/MatchRow";
@@ -15,6 +15,7 @@ export function UpcomingList({
   tipsByMatchId,
 }: UpcomingListProps): React.ReactElement {
   const t = useTranslations("Dashboard");
+  const locale = useLocale();
   if (matches.length === 0) {
     return (
       <section>
@@ -40,7 +41,7 @@ export function UpcomingList({
         {dateKeys.map((key) => {
           const dayMatches = grouped[key];
           if (!dayMatches || dayMatches.length === 0) return null;
-          const heading = formatDate(dayMatches[0]!.utcDate);
+          const heading = formatDate(dayMatches[0]!.utcDate, locale);
           return (
             <div key={key} className="space-y-sm">
               <div className="text-label-caps uppercase text-on-surface-variant/60 px-xs">

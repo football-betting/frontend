@@ -80,6 +80,7 @@
     "tournamentWinner": "TURNIERSIEGER",
     "secretWinner": "GEHEIMSIEGER",
     "editLabel": "{label} bearbeiten",
+    "pickDeadlineHint": "Änderbar bis zum Anpfiff des ersten Spiels.",
     "winnerSelectLabel": "Turniersieger",
     "secretWinnerSelectLabel": "Geheimsieger",
     "winnersMustDiffer": "Sieger und Geheimsieger müssen unterschiedlich sein.",

@@ -10,6 +10,7 @@ import { StatTiles } from "@/components/profile/StatTiles";
 import { WinnerCards } from "@/components/profile/WinnerCards";
 import { PredictionHistory } from "@/components/profile/PredictionHistory";
 import { isTournamentLocked } from "@/lib/tournament";
+import { displayNameFromEmail } from "@/lib/user-name";
 
 interface UserPageProps {
   params: Promise<{ id: string }>;
@@ -77,6 +78,7 @@ export default async function UserProfilePage({
           <div className="md:col-span-8 flex flex-col justify-between">
             <ProfileHeader
               username={localUser.username}
+              displayName={displayNameFromEmail(localUser.email)}
               position={position}
               totalPoints={totalPoints}
             />

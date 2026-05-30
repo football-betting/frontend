@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
-import { initialTipEditing, type TipScore } from "@/lib/tip-view";
+import {
+  formatTipScore,
+  initialTipEditing,
+  type TipScore,
+} from "@/lib/tip-view";
 
 interface TipFormProps {
   matchId: number;
@@ -95,17 +99,11 @@ export function TipForm({
         <div className="flex items-center gap-md justify-end">
           <div
             onClick={disabled ? undefined : enterEdit}
-            className={`flex items-center gap-xs ${
+            className={`text-headline-md font-mono min-h-12 flex items-center tabular-nums ${
               disabled ? "" : "cursor-pointer"
             }`}
           >
-            <span className="w-12 min-h-12 flex items-center justify-center bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-mono tabular-nums">
-              {savedTip.scoreHome}
-            </span>
-            <span className="text-outline-variant">:</span>
-            <span className="w-12 min-h-12 flex items-center justify-center bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-mono tabular-nums">
-              {savedTip.scoreAway}
-            </span>
+            {formatTipScore(savedTip)}
           </div>
           {disabled ? null : (
             <button

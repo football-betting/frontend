@@ -168,5 +168,16 @@
     "logout": "Logout",
     "logoutHeading": "Logout from this device",
     "logoutHint": "Your current session will be terminated immediately."
+  },
+  "Countries": {
+    "GER": "Germany",
+    "ESP": "Spain",
+    "FRA": "France",
+    "ITA": "Italy",
+    "POR": "Portugal",
+    "ENG": "England",
+    "NED": "Netherlands",
+    "POL": "Poland",
+    "CRO": "Croatia"
   }
 }

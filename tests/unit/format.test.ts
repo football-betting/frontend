@@ -9,11 +9,16 @@ import {
 describe("formatDate", () => {
   it("formats a German locale long date string", () => {
     const date = new Date(2022, 11, 31);
-    expect(formatDate(date.getTime())).toBe("Samstag, 31. Dezember 2022");
+    expect(formatDate(date.getTime(), "de")).toBe("Samstag, 31. Dezember 2022");
+  });
+
+  it("formats an English locale long date string", () => {
+    const date = new Date(2022, 11, 31);
+    expect(formatDate(date.getTime(), "en")).toBe("Saturday, December 31, 2022");
   });
 
   it("accepts a Date object directly", () => {
-    expect(formatDate(new Date(2022, 11, 31))).toBe(
+    expect(formatDate(new Date(2022, 11, 31), "de")).toBe(
       "Samstag, 31. Dezember 2022",
     );
   });
@@ -27,7 +32,11 @@ describe("formatDateKey", () => {
 
 describe("extractTime", () => {
   it("returns the German locale HH:MM string", () => {
-    expect(extractTime(new Date(2022, 11, 31, 13, 45))).toBe("13:45");
+    expect(extractTime(new Date(2022, 11, 31, 13, 45), "de")).toBe("13:45");
+  });
+
+  it("returns the English locale 12-hour string", () => {
+    expect(extractTime(new Date(2022, 11, 31, 13, 45), "en")).toBe("01:45 PM");
   });
 });
 

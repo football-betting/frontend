@@ -168,5 +168,16 @@
     "logout": "Abmelden",
     "logoutHeading": "Von diesem Gerät abmelden",
     "logoutHint": "Deine aktuelle Sitzung wird sofort beendet."
+  },
+  "Countries": {
+    "GER": "Deutschland",
+    "ESP": "Spanien",
+    "FRA": "Frankreich",
+    "ITA": "Italien",
+    "POR": "Portugal",
+    "ENG": "England",
+    "NED": "Niederlande",
+    "POL": "Polen",
+    "CRO": "Kroatien"
   }
 }

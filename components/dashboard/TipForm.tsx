@@ -34,13 +34,11 @@ export function TipForm({
   );
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [saved, setSaved] = useState(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     if (disabled) return;
     setError(null);
-    setSaved(false);
     setPending(true);
 
     const form = new FormData();
@@ -55,7 +53,6 @@ export function TipForm({
       });
 
       if (res.ok) {
-        setSaved(true);
         setSavedTip({ scoreHome: Number(tipHome), scoreAway: Number(tipAway) });
         setIsEditing(false);
         router.refresh();
@@ -86,12 +83,9 @@ export function TipForm({
 
   function enterEdit(): void {
     if (disabled) return;
-    setSaved(false);
     setError(null);
     setIsEditing(true);
   }
-
-  const buttonLabel = saved ? t("saved") : pending ? "..." : t("save");
 
   if (!isEditing && savedTip) {
     return (
@@ -106,14 +100,27 @@ export function TipForm({
             {formatTipScore(savedTip)}
           </div>
           {disabled ? null : (
-            <button
-              type="button"
-              onClick={enterEdit}
-              aria-label={t("editTip")}
-              className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors active:scale-95"
-            >
-              <span className="material-symbols-outlined text-[20px]">edit</span>
-            </button>
+            <>
+              {/* Mobile: secondary text button (grey with primary border) */}
+              <button
+                type="button"
+                onClick={enterEdit}
+                className="md:hidden px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold border border-primary text-on-surface bg-surface-container-low hover:bg-surface-container transition-colors active:scale-95"
+              >
+                {t("edit")}
+              </button>
+              {/* Desktop: compact pencil icon */}
+              <button
+                type="button"
+                onClick={enterEdit}
+                aria-label={t("editTip")}
+                className="hidden md:flex w-10 h-10 min-h-10 items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors active:scale-95"
+              >
+                <span className="material-symbols-outlined text-[20px]">
+                  edit
+                </span>
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -153,16 +160,28 @@ export function TipForm({
             className="w-12 min-h-12 bg-surface-container-low border border-outline-variant rounded text-center text-headline-md font-mono focus:border-primary focus:ring-0 transition-colors disabled:opacity-60"
           />
         </div>
+        {/* Mobile: full text button (room available in the single column) */}
         <button
           type="submit"
           disabled={disabled || pending}
-          className={`px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold transition-all active:scale-95 disabled:opacity-60 ${
-            saved
-              ? "bg-tertiary text-on-tertiary"
-              : "bg-primary text-on-primary hover:opacity-90"
-          }`}
+          className="md:hidden px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold bg-primary text-on-primary hover:opacity-90 transition-all active:scale-95 disabled:opacity-60"
         >
-          {buttonLabel}
+          {pending ? "..." : t("save")}
+        </button>
+        {/* Desktop: compact icon (narrow two-column grid) */}
+        <button
+          type="submit"
+          disabled={disabled || pending}
+          aria-label={t("save")}
+          className="hidden md:flex w-10 h-10 min-h-10 items-center justify-center rounded-lg text-primary hover:bg-primary/10 transition-colors active:scale-95 disabled:opacity-60"
+        >
+          <span
+            className={`material-symbols-outlined text-[20px] ${
+              pending ? "animate-spin" : ""
+            }`}
+          >
+            {pending ? "progress_activity" : "check"}
+          </span>
         </button>
       </form>
       {error ? (

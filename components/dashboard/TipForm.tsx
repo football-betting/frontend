@@ -105,7 +105,7 @@ export function TipForm({
               <button
                 type="button"
                 onClick={enterEdit}
-                className="md:hidden px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold border border-primary text-on-surface bg-surface-container-low hover:bg-surface-container transition-colors active:scale-95"
+                className="md:hidden px-lg py-2 min-h-12 rounded-lg text-label-caps uppercase font-bold border border-outline-variant text-on-surface-variant bg-surface-container-low hover:bg-surface-container transition-colors active:scale-95"
               >
                 {t("edit")}
               </button>

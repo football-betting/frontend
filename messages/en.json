@@ -29,6 +29,7 @@
   "TipForm": {
     "saved": "SAVED",
     "edit": "EDIT",
+    "editTip": "Edit tip",
     "save": "SAVE",
     "failedToSave": "Failed to save tip.",
     "networkError": "Network error. Try again.",

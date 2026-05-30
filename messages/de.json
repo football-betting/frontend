@@ -29,6 +29,7 @@
   "TipForm": {
     "saved": "GESPEICHERT",
     "edit": "BEARBEITEN",
+    "editTip": "Tipp bearbeiten",
     "save": "SPEICHERN",
     "failedToSave": "Tipp konnte nicht gespeichert werden.",
     "networkError": "Netzwerkfehler. Bitte erneut versuchen.",

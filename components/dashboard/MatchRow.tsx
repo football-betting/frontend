@@ -21,7 +21,7 @@ export function MatchRow({ match, tip }: MatchRowProps): React.ReactElement {
       className={`bg-surface-container border border-outline-variant rounded-lg p-lg transition-all ${
         disabled
           ? "opacity-60"
-          : "hover:border-primary/30"
+          : "hover:border-primary/30 has-[[data-editing]]:border-primary"
       }`}
     >
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-md">

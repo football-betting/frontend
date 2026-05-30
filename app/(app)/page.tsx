@@ -52,14 +52,19 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
     <>
       <TopAppBar active="dashboard" />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto grid grid-cols-12 gap-lg">
-        <div className="col-span-12 md:col-span-8 space-y-lg">
+        <div className="col-span-12 min-[980px]:col-span-8 space-y-lg">
           <LiveBlock matches={liveMatches} tipsByMatchId={tipsByMatchId} />
+          {/* Below 980px: ranking sits between live and upcoming fixtures */}
+          <div className="min-[980px]:hidden">
+            <RankingSidebar rating={rating} currentUserId={userId} />
+          </div>
           <UpcomingList
             matches={upcomingMatches}
             tipsByMatchId={tipsByMatchId}
           />
         </div>
-        <div className="col-span-12 md:col-span-4">
+        {/* From 980px: ranking as the right sidebar */}
+        <div className="hidden min-[980px]:block col-span-12 min-[980px]:col-span-4">
           <RankingSidebar rating={rating} currentUserId={userId} />
         </div>
       </main>

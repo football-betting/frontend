@@ -230,6 +230,26 @@ function buildMatches(now: number): SeedMatch[] {
       homeScore: null,
       awayScore: null,
     },
+    // Second fixtures sharing an already-used upcoming day (identical utcDate)
+    // so the per-day grouping shows days with more than one match.
+    {
+      id: 13,
+      homeTeam: TEAM.POR,
+      awayTeam: TEAM.NED,
+      status: "SCHEDULED",
+      utcDate: now + 1 * DAY,
+      homeScore: null,
+      awayScore: null,
+    },
+    {
+      id: 14,
+      homeTeam: TEAM.CRO,
+      awayTeam: TEAM.POL,
+      status: "SCHEDULED",
+      utcDate: now + 2 * DAY,
+      homeScore: null,
+      awayScore: null,
+    },
   ];
 }
 

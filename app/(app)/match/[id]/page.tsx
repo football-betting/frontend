@@ -147,7 +147,7 @@ export default async function MatchDetailPage({
           </div>
 
           {predictions.status === "offline" ? (
-            <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center">
+            <div className="bg-surface-container-low border border-outline-variant rounded-lg p-xl text-center">
               <p className="text-body-lg text-on-surface mb-sm">
                 {t("predictionsOffline")}
               </p>

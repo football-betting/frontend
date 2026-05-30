@@ -38,7 +38,7 @@ export default async function LoginPage({
           </p>
         </div>
 
-        <div className="bg-surface-container border border-outline-variant p-xl shadow-2xl">
+        <div className="bg-surface-container border border-outline-variant rounded-lg p-xl shadow-2xl">
           {registered ? (
             <p
               aria-live="polite"

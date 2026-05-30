@@ -50,7 +50,7 @@ export function PredictionHistory({
       </div>
 
       {status === "offline" ? (
-        <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center">
+        <div className="bg-surface-container-low border border-outline-variant rounded-lg p-xl text-center">
           <p className="text-body-lg text-on-surface mb-sm">
             {t("serviceOffline")}
           </p>
@@ -59,7 +59,7 @@ export function PredictionHistory({
           </p>
         </div>
       ) : tips.length === 0 ? (
-        <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center text-body-sm text-on-surface-variant">
+        <div className="bg-surface-container-low border border-outline-variant rounded-lg p-xl text-center text-body-sm text-on-surface-variant">
           {t("noPredictions")}
         </div>
       ) : (

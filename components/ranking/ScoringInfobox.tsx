@@ -19,7 +19,7 @@ const ROWS: {
 export function ScoringInfobox(): React.ReactElement {
   const t = useTranslations("Scoring");
   return (
-    <aside className="bg-surface-container border border-outline-variant p-lg rounded-xl">
+    <aside className="bg-surface-container border border-outline-variant p-lg rounded-lg">
       <div className="flex items-center gap-sm mb-md text-primary">
         <span className="material-symbols-outlined">info</span>
         <h3 className="text-label-caps uppercase">{t("title")}</h3>

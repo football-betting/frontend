@@ -81,7 +81,7 @@ export default async function RankingPage({
             </div>
           </>
         ) : (
-          <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center">
+          <div className="bg-surface-container-low border border-outline-variant rounded-lg p-xl text-center">
             <p className="text-body-lg text-on-surface mb-sm">{t("offline")}</p>
             <p className="text-body-sm text-on-surface-variant">
               {t("offlineHint")}

@@ -36,7 +36,7 @@ function WinnerCard({
           <Flag
             tla={tla}
             name={tla}
-            className="w-10 h-auto rounded-xs"
+            className="w-10 h-auto rounded-sm"
           />
           <span className="text-headline-md font-bold uppercase tracking-widest">
             {tla}

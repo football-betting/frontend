@@ -33,14 +33,14 @@ export function RankingTable({
   const tCommon = useTranslations("Common");
   if (users.length === 0) {
     return (
-      <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center text-body-sm text-on-surface-variant">
+      <div className="bg-surface-container-low border border-outline-variant rounded-lg p-xl text-center text-body-sm text-on-surface-variant">
         {emptyMessage ?? t("noUsersYet")}
       </div>
     );
   }
 
   return (
-    <div className="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden shadow-2xl">
+    <div className="bg-surface-container-low border border-outline-variant rounded-lg overflow-hidden shadow-2xl">
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>

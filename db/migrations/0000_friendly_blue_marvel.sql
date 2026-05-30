@@ -31,8 +31,6 @@ CREATE TABLE `user` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`email` text NOT NULL,
 	`password` text NOT NULL,
-	`firstName` text NOT NULL,
-	`lastName` text NOT NULL,
 	`username` text NOT NULL,
 	`department` text NOT NULL,
 	`winner` text NOT NULL,
@@ -40,3 +38,5 @@ CREATE TABLE `user` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);

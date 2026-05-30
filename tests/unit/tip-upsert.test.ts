@@ -14,14 +14,13 @@ const BASELINE_SCHEMA = `
     "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
     "email" text NOT NULL,
     "password" text NOT NULL,
-    "firstName" text NOT NULL,
-    "lastName" text NOT NULL,
     "username" text NOT NULL,
     "department" text NOT NULL,
     "winner" text NOT NULL,
     "secretWinner" text NOT NULL
   );
   CREATE UNIQUE INDEX "user_email_unique" ON "user" ("email");
+  CREATE UNIQUE INDEX "user_username_unique" ON "user" ("username");
 
   CREATE TABLE "match" (
     "id" integer PRIMARY KEY NOT NULL,
@@ -72,8 +71,8 @@ beforeEach(() => {
 
   sqlite
     .prepare(
-      `INSERT INTO user (id, email, password, firstName, lastName, username, department, winner, secretWinner)
-       VALUES (1, 'u@dev.local', 'x', 'U', 'Ser', 'User', 'Maintz', 'DEU', 'ESP')`,
+      `INSERT INTO user (id, email, password, username, department, winner, secretWinner)
+       VALUES (1, 'u@dev.local', 'x', 'User', 'Maintz', 'DEU', 'ESP')`,
     )
     .run();
   sqlite

@@ -80,45 +80,6 @@ export function SignupForm(): React.ReactElement {
 
   return (
     <form className="space-y-lg" onSubmit={onSubmit} noValidate>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <div className="space-y-xs">
-          <label
-            className="text-label-caps uppercase text-on-surface-variant block"
-            htmlFor="firstName"
-          >
-            {t("firstName")}
-          </label>
-          <input
-            className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg p-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all placeholder:opacity-30"
-            id="firstName"
-            name="firstName"
-            placeholder="John"
-            required
-            type="text"
-            autoComplete="given-name"
-            disabled={pending}
-          />
-        </div>
-        <div className="space-y-xs">
-          <label
-            className="text-label-caps uppercase text-on-surface-variant block"
-            htmlFor="lastName"
-          >
-            {t("lastName")}
-          </label>
-          <input
-            className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-lg p-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all placeholder:opacity-30"
-            id="lastName"
-            name="lastName"
-            placeholder="Doe"
-            required
-            type="text"
-            autoComplete="family-name"
-            disabled={pending}
-          />
-        </div>
-      </div>
-
       <div className="space-y-xs">
         <label
           className="text-label-caps uppercase text-on-surface-variant block"
@@ -141,6 +102,9 @@ export function SignupForm(): React.ReactElement {
             disabled={pending}
           />
         </div>
+        <p className="text-body-sm text-on-surface-variant">
+          {t("usernameNotEmailHint")}
+        </p>
       </div>
 
       <div className="space-y-xs">

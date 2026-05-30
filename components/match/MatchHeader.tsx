@@ -91,7 +91,10 @@ function TeamBlock({
         className="w-16 h-10 md:w-20 md:h-12 object-cover rounded-sm shadow-md border border-outline-variant"
       />
       <h2 className="text-body-lg md:text-headline-md uppercase text-center font-bold truncate w-full">
-        {resolveCountryName(tla, name, tc)}
+        <span className="md:hidden">{tla}</span>
+        <span className="hidden md:inline">
+          {resolveCountryName(tla, name, tc)}
+        </span>
       </h2>
     </div>
   );

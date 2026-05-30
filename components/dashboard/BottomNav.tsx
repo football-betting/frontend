@@ -2,13 +2,14 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 interface BottomNavProps {
-  active: "dashboard" | "ranking" | "profile";
+  active: "dashboard" | "ranking" | "profile" | "settings";
 }
 
 const ITEMS = [
   { id: "dashboard", icon: "dashboard", href: "/" },
   { id: "ranking", icon: "leaderboard", href: "/ranking" },
   { id: "profile", icon: "person", href: "/profile" },
+  { id: "settings", icon: "settings", href: "/settings" },
 ] as const;
 
 export function BottomNav({ active }: BottomNavProps): React.ReactElement {

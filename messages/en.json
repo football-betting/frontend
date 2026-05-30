@@ -4,7 +4,8 @@
     "dashboard": "Dashboard",
     "ranking": "Ranking",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "settings": "Settings"
   },
   "Common": {
     "you": "YOU",
@@ -142,5 +143,30 @@
     "invalidPassword": "Invalid password",
     "winnersMustDiffer": "Winner and secret winner must differ.",
     "couldNotCreateAccount": "Could not create account."
+  },
+  "Settings": {
+    "title": "Profile Settings",
+    "subtitle": "Manage your account identity and security preferences.",
+    "identity": "Identity",
+    "security": "Security & Credentials",
+    "session": "Session Management",
+    "username": "Username",
+    "email": "Email Address",
+    "changePhoto": "Change photo",
+    "changePhotoSoon": "Photo upload coming soon.",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Minimum 8 characters",
+    "confirmPassword": "Confirm New Password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "updatePassword": "Update Password",
+    "updateSuccess": "Password updated successfully.",
+    "updateFailed": "Could not update password.",
+    "newPasswordTooShort": "New password must be at least 8 characters.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "networkError": "Network error. Try again.",
+    "logout": "Logout",
+    "logoutHeading": "Logout from this device",
+    "logoutHint": "Your current session will be terminated immediately."
   }
 }

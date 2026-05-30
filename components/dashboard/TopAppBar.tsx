@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 
 interface TopAppBarProps {
-  active: "dashboard" | "ranking" | "profile";
+  active: "dashboard" | "ranking" | "profile" | "settings";
 }
 
 const LINKS = [
@@ -39,6 +39,17 @@ export function TopAppBar({ active }: TopAppBarProps): React.ReactElement {
           })}
         </nav>
         <div className="flex items-center gap-lg">
+          <Link
+            href="/settings"
+            aria-label={t("settings")}
+            className={`material-symbols-outlined transition-colors ${
+              active === "settings"
+                ? "text-primary"
+                : "text-on-surface-variant hover:text-primary"
+            }`}
+          >
+            settings
+          </Link>
           <LocaleSwitcher />
           <form action="/api/auth/logout" method="POST">
             <button

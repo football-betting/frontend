@@ -39,3 +39,10 @@ export async function updateUserWinners(
     .set({ winner, secretWinner })
     .where(eq(user.id, userId));
 }
+
+export async function updateUserPassword(
+  userId: number,
+  password: string,
+): Promise<void> {
+  await db.update(user).set({ password }).where(eq(user.id, userId));
+}

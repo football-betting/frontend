@@ -4,7 +4,8 @@
     "dashboard": "Dashboard",
     "ranking": "Rangliste",
     "profile": "Profil",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "settings": "Einstellungen"
   },
   "Common": {
     "you": "DU",
@@ -142,5 +143,30 @@
     "invalidPassword": "Ungültiges Passwort",
     "winnersMustDiffer": "Sieger und Geheimsieger müssen unterschiedlich sein.",
     "couldNotCreateAccount": "Konto konnte nicht erstellt werden."
+  },
+  "Settings": {
+    "title": "Profil-Einstellungen",
+    "subtitle": "Verwalte deine Konto-Identität und Sicherheitseinstellungen.",
+    "identity": "Identität",
+    "security": "Sicherheit & Zugangsdaten",
+    "session": "Sitzungsverwaltung",
+    "username": "Benutzername",
+    "email": "E-Mail-Adresse",
+    "changePhoto": "Foto ändern",
+    "changePhotoSoon": "Foto-Upload folgt in Kürze.",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "newPasswordPlaceholder": "Mindestens 8 Zeichen",
+    "confirmPassword": "Neues Passwort bestätigen",
+    "confirmPasswordPlaceholder": "Neues Passwort bestätigen",
+    "updatePassword": "Passwort aktualisieren",
+    "updateSuccess": "Passwort erfolgreich aktualisiert.",
+    "updateFailed": "Passwort konnte nicht aktualisiert werden.",
+    "newPasswordTooShort": "Das neue Passwort muss mindestens 8 Zeichen lang sein.",
+    "passwordsDoNotMatch": "Passwörter stimmen nicht überein.",
+    "networkError": "Netzwerkfehler. Bitte erneut versuchen.",
+    "logout": "Abmelden",
+    "logoutHeading": "Von diesem Gerät abmelden",
+    "logoutHint": "Deine aktuelle Sitzung wird sofort beendet."
   }
 }

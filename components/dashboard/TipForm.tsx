@@ -3,10 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
+import {
+  formatTipScore,
+  initialTipEditing,
+  type TipScore,
+} from "@/lib/tip-view";
 
 interface TipFormProps {
   matchId: number;
-  initialTip?: { scoreHome: number; scoreAway: number } | null;
+  initialTip?: TipScore | null;
   disabled?: boolean;
 }
 
@@ -22,6 +27,10 @@ export function TipForm({
   );
   const [tipAway, setTipAway] = useState<string>(
     initialTip ? String(initialTip.scoreAway) : "",
+  );
+  const [savedTip, setSavedTip] = useState<TipScore | null>(initialTip);
+  const [isEditing, setIsEditing] = useState<boolean>(
+    initialTipEditing(initialTip),
   );
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +56,8 @@ export function TipForm({
 
       if (res.ok) {
         setSaved(true);
+        setSavedTip({ scoreHome: Number(tipHome), scoreAway: Number(tipAway) });
+        setIsEditing(false);
         router.refresh();
         return;
       }
@@ -73,13 +84,42 @@ export function TipForm({
     }
   }
 
-  const buttonLabel = saved
-    ? t("saved")
-    : pending
-      ? "..."
-      : initialTip
-        ? t("edit")
-        : t("save");
+  function enterEdit(): void {
+    if (disabled) return;
+    setSaved(false);
+    setError(null);
+    setIsEditing(true);
+  }
+
+  const buttonLabel = saved ? t("saved") : pending ? "..." : t("save");
+
+  if (!isEditing && savedTip) {
+    return (
+      <div className="flex flex-col gap-xs">
+        <div className="flex items-center gap-md justify-end">
+          <button
+            type="button"
+            onClick={enterEdit}
+            disabled={disabled}
+            aria-label={t("editTip")}
+            className="text-headline-md font-mono min-h-12 px-md tabular-nums disabled:cursor-default disabled:opacity-100 enabled:hover:text-primary transition-colors"
+          >
+            {formatTipScore(savedTip)}
+          </button>
+          {disabled ? null : (
+            <button
+              type="button"
+              onClick={enterEdit}
+              aria-label={t("editTip")}
+              className="w-10 h-10 min-h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors active:scale-95"
+            >
+              <span className="material-symbols-outlined text-[20px]">edit</span>
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-xs">

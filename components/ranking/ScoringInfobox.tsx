@@ -1,17 +1,25 @@
 import { useTranslations } from "next-intl";
 
 const ROWS: {
-  labelKey: "exactScore" | "goalDifference" | "correctOutcome" | "tournamentWinner" | "secretWinner";
+  labelKey:
+    | "exactScore"
+    | "goalDifference"
+    | "correctOutcome"
+    | "drawCorrect"
+    | "tournamentWinner"
+    | "secretWinner";
   valueKey:
     | "exactScoreValue"
     | "goalDifferenceValue"
     | "correctOutcomeValue"
+    | "drawCorrectValue"
     | "tournamentWinnerValue"
     | "secretWinnerValue";
 }[] = [
   { labelKey: "exactScore", valueKey: "exactScoreValue" },
   { labelKey: "goalDifference", valueKey: "goalDifferenceValue" },
   { labelKey: "correctOutcome", valueKey: "correctOutcomeValue" },
+  { labelKey: "drawCorrect", valueKey: "drawCorrectValue" },
   { labelKey: "tournamentWinner", valueKey: "tournamentWinnerValue" },
   { labelKey: "secretWinner", valueKey: "secretWinnerValue" },
 ];

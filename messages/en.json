@@ -61,15 +61,17 @@
   "Scoring": {
     "title": "Scoring System",
     "exactScore": "Exact Score",
-    "goalDifference": "Goal Difference",
+    "goalDifference": "Goal Difference (non-draw)",
     "correctOutcome": "Correct Outcome",
+    "drawCorrect": "Draw correct, wrong score",
     "tournamentWinner": "Tournament Winner",
     "secretWinner": "Secret Winner",
-    "exactScoreValue": "4 Pts",
-    "goalDifferenceValue": "2 Pts",
-    "correctOutcomeValue": "1 Pt",
-    "tournamentWinnerValue": "+15 Pts (bonus)",
-    "secretWinnerValue": "+7 Pts (bonus)"
+    "exactScoreValue": "5 Pts",
+    "goalDifferenceValue": "3 Pts",
+    "correctOutcomeValue": "2 Pts",
+    "drawCorrectValue": "2 Pts",
+    "tournamentWinnerValue": "+12 Pts (bonus)",
+    "secretWinnerValue": "+6 Pts (bonus)"
   },
   "Profile": {
     "globalRanking": "GLOBAL RANKING",

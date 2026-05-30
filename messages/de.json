@@ -61,15 +61,17 @@
   "Scoring": {
     "title": "Punktesystem",
     "exactScore": "Exaktes Ergebnis",
-    "goalDifference": "Tordifferenz",
+    "goalDifference": "Tordifferenz (kein Unentschieden)",
     "correctOutcome": "Richtiger Ausgang",
+    "drawCorrect": "Unentschieden richtig, Ergebnis falsch",
     "tournamentWinner": "Turniersieger",
     "secretWinner": "Geheimsieger",
-    "exactScoreValue": "4 Pkt",
-    "goalDifferenceValue": "2 Pkt",
-    "correctOutcomeValue": "1 Pkt",
-    "tournamentWinnerValue": "+15 Pkt (Bonus)",
-    "secretWinnerValue": "+7 Pkt (Bonus)"
+    "exactScoreValue": "5 Pkt",
+    "goalDifferenceValue": "3 Pkt",
+    "correctOutcomeValue": "2 Pkt",
+    "drawCorrectValue": "2 Pkt",
+    "tournamentWinnerValue": "+12 Pkt (Bonus)",
+    "secretWinnerValue": "+6 Pkt (Bonus)"
   },
   "Profile": {
     "globalRanking": "GLOBALE RANGLISTE",

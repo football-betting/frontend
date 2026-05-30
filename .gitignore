@@ -48,3 +48,6 @@ yarn-error.log*
 # Local data
 *.db
 *.db-journal
+
+# Generated flag assets (copied from flag-icons via copy-flags script)
+/public/flags

@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "copy-flags": "node scripts/copy-flags.mjs",
+    "predev": "node scripts/copy-flags.mjs",
+    "prebuild": "node scripts/copy-flags.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -44,6 +47,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "^16.2.6",
+    "flag-icons": "^7.5.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^4.0.0",
     "tsx": "^4.19.2",

@@ -18,12 +18,10 @@ export function MatchRow({ match, tip }: MatchRowProps): React.ReactElement {
 
   return (
     <div
-      className={`bg-surface-container border rounded-lg p-lg transition-all ${
+      className={`bg-surface-container border border-outline-variant rounded-lg p-lg transition-all ${
         disabled
-          ? "border-outline-variant opacity-60"
-          : tip
-            ? "border-outline-variant hover:border-primary/30"
-            : "border-outline hover:border-primary/40"
+          ? "opacity-60"
+          : "hover:border-primary/30 focus-within:border-outline"
       }`}
     >
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-md">

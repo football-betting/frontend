@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCurrentSession } from "@/lib/session";
+import { getUserById } from "@/lib/user";
 import { TopAppBar } from "@/components/dashboard/TopAppBar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { PasswordChangeForm } from "@/components/settings/PasswordChangeForm";
+import { AvatarUpload } from "@/components/settings/AvatarUpload";
 
 function LogoutButton({ label }: { label: string }): React.ReactElement {
   return (
@@ -23,6 +25,7 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
   if (!user) {
     redirect("/login");
   }
+  const localUser = await getUserById(Number(user.id));
   const t = await getTranslations("Settings");
 
   return (
@@ -56,34 +59,10 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
               <h2 className="text-label-caps uppercase tracking-widest text-primary mb-lg">
                 {t("identity")}
               </h2>
-              <div className="flex flex-col items-center mb-xl">
-                <div className="relative">
-                  <div className="h-32 w-32 rounded-full border-4 border-outline-variant overflow-hidden bg-surface-container-highest flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[64px] text-on-surface-variant">
-                      person
-                    </span>
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    className="absolute bottom-0 right-0 bg-surface-container-highest text-on-surface-variant p-2 rounded-full border-2 border-background"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">
-                      photo_camera
-                    </span>
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  disabled
-                  title={t("changePhotoSoon")}
-                  className="mt-md text-label-caps uppercase text-on-surface-variant opacity-50 cursor-not-allowed"
-                >
-                  {t("changePhoto")}
-                </button>
-                <p className="mt-xs text-[11px] text-on-surface-variant">
-                  {t("changePhotoSoon")}
-                </p>
-              </div>
+              <AvatarUpload
+                avatarPath={localUser?.avatar}
+                email={user.email}
+              />
               <div className="space-y-md">
                 <div>
                   <label className="block text-label-caps uppercase text-on-surface-variant mb-xs">

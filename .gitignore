@@ -51,3 +51,6 @@ yarn-error.log*
 
 # Generated flag assets (copied from flag-icons via copy-flags script)
 /public/flags
+
+# Uploaded user avatars (runtime data, not committed)
+/public/uploads

@@ -26,13 +26,19 @@ const REQUIRED_FIELDS = [
   "email",
   "password",
   "rePassword",
-  "firstName",
-  "lastName",
   "username",
   "department",
   "winner",
   "secretWinner",
 ] as const;
+
+function isUniqueConstraintError(err: unknown): boolean {
+  if (typeof err !== "object" || err === null) {
+    return false;
+  }
+  const code = (err as { code?: unknown }).code;
+  return typeof code === "string" && code.startsWith("SQLITE_CONSTRAINT");
+}
 
 export async function POST(request: Request): Promise<Response> {
   const ip = getClientIp(request.headers);
@@ -72,8 +78,6 @@ export async function POST(request: Request): Promise<Response> {
     email: formData.get("email"),
     password: formData.get("password"),
     rePassword: formData.get("rePassword"),
-    firstName: formData.get("firstName"),
-    lastName: formData.get("lastName"),
     username: formData.get("username"),
     department: formData.get("department"),
     winner: formData.get("winner"),
@@ -96,16 +100,21 @@ export async function POST(request: Request): Promise<Response> {
 
   const passwordHash = await argon2id.hash(data.password);
 
-  await createUser({
-    email: data.email,
-    password: passwordHash,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    username: data.username,
-    department: data.department,
-    winner: data.winner,
-    secretWinner: data.secretWinner,
-  });
+  try {
+    await createUser({
+      email: data.email,
+      password: passwordHash,
+      username: data.username,
+      department: data.department,
+      winner: data.winner,
+      secretWinner: data.secretWinner,
+    });
+  } catch (err) {
+    if (isUniqueConstraintError(err)) {
+      return jsonError("This username is already taken.", 409);
+    }
+    throw err;
+  }
 
   if (wantsJson(request)) {
     return new Response(JSON.stringify({ ok: true }), {

@@ -7,8 +7,6 @@ test.describe("auth happy path", () => {
     const unique = `e2e-signup-${Date.now()}@dev.local`;
     await page.goto("/signup");
 
-    await page.fill("#firstName", "E2E");
-    await page.fill("#lastName", "Tester");
     await page.fill("#username", `e2e_${Date.now()}`);
     await page.fill("#email", unique);
     await page.fill("#password", "test1234");
@@ -29,7 +27,7 @@ test.describe("auth happy path", () => {
     page,
   }) => {
     await page.goto("/login");
-    await page.fill("#email", "me@dev.local");
+    await page.fill("#email", "test.user@local.dev");
     await page.fill("#password", "test1234");
     await page.click("button[type=submit]");
     await page.waitForURL("http://localhost:3000/");

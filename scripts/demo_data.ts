@@ -7,8 +7,6 @@ type TeamRef = { name: string; tla: string };
 type SeedUser = {
   email: string;
   username: string;
-  firstName: string;
-  lastName: string;
   department: string;
   winner: string;
   secretWinner: string;
@@ -45,73 +43,57 @@ const TEAM = {
 
 const USERS: SeedUser[] = [
   {
-    email: "ada@dev.local",
+    email: "ada.lovelace@local.dev",
     username: "AdaLovelace",
-    firstName: "Ada",
-    lastName: "Lovelace",
     department: "Maintz",
     winner: "DEU",
     secretWinner: "ESP",
   },
   {
-    email: "alan@dev.local",
+    email: "alan.turing@local.dev",
     username: "AlanTuring",
-    firstName: "Alan",
-    lastName: "Turing",
     department: "Maintz",
     winner: "ENG",
     secretWinner: "FRA",
   },
   {
-    email: "marie@dev.local",
+    email: "marie.curie@local.dev",
     username: "MarieCurie",
-    firstName: "Marie",
-    lastName: "Curie",
     department: "Mannheim",
     winner: "FRA",
     secretWinner: "DEU",
   },
   {
-    email: "nikola@dev.local",
+    email: "nikola.tesla@local.dev",
     username: "NikolaTesla",
-    firstName: "Nikola",
-    lastName: "Tesla",
     department: "Mannheim",
     winner: "HRV",
     secretWinner: "ITA",
   },
   {
-    email: "rosa@dev.local",
+    email: "rosa.parks@local.dev",
     username: "RosaParks",
-    firstName: "Rosa",
-    lastName: "Parks",
     department: "Mannheim",
     winner: "ESP",
     secretWinner: "POR",
   },
   {
-    email: "me@dev.local",
+    email: "test.user@local.dev",
     username: "TestUser",
-    firstName: "Test",
-    lastName: "User",
     department: "Langenfeld",
     winner: "DEU",
     secretWinner: "NLD",
   },
   {
-    email: "albert@dev.local",
+    email: "albert.einstein@local.dev",
     username: "AlbertEinstein",
-    firstName: "Albert",
-    lastName: "Einstein",
     department: "Langenfeld",
     winner: "DEU",
     secretWinner: "ITA",
   },
   {
-    email: "isaac@dev.local",
+    email: "isaac.newton@local.dev",
     username: "IsaacNewton",
-    firstName: "Isaac",
-    lastName: "Newton",
     department: "Langenfeld",
     winner: "POR",
     secretWinner: "ENG",
@@ -254,61 +236,236 @@ function buildMatches(now: number): SeedMatch[] {
 }
 
 const TIPS: SeedTip[] = [
-  { userEmail: "ada@dev.local", matchId: 1, scoreHome: 2, scoreAway: 0 },
-  { userEmail: "ada@dev.local", matchId: 2, scoreHome: 1, scoreAway: 1 },
-  { userEmail: "ada@dev.local", matchId: 3, scoreHome: 0, scoreAway: 2 },
-  { userEmail: "ada@dev.local", matchId: 4, scoreHome: 3, scoreAway: 2 },
-  { userEmail: "ada@dev.local", matchId: 5, scoreHome: 1, scoreAway: 1 },
-  { userEmail: "ada@dev.local", matchId: 6, scoreHome: 0, scoreAway: 0 },
-  { userEmail: "ada@dev.local", matchId: 7, scoreHome: 2, scoreAway: 1 },
+  {
+    userEmail: "ada.lovelace@local.dev",
+    matchId: 1,
+    scoreHome: 2,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "ada.lovelace@local.dev",
+    matchId: 2,
+    scoreHome: 1,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "ada.lovelace@local.dev",
+    matchId: 3,
+    scoreHome: 0,
+    scoreAway: 2,
+  },
+  {
+    userEmail: "ada.lovelace@local.dev",
+    matchId: 4,
+    scoreHome: 3,
+    scoreAway: 2,
+  },
+  {
+    userEmail: "ada.lovelace@local.dev",
+    matchId: 5,
+    scoreHome: 1,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "ada.lovelace@local.dev",
+    matchId: 6,
+    scoreHome: 0,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "ada.lovelace@local.dev",
+    matchId: 7,
+    scoreHome: 2,
+    scoreAway: 1,
+  },
 
-  { userEmail: "alan@dev.local", matchId: 1, scoreHome: 3, scoreAway: 1 },
-  { userEmail: "alan@dev.local", matchId: 2, scoreHome: 0, scoreAway: 0 },
-  { userEmail: "alan@dev.local", matchId: 3, scoreHome: 1, scoreAway: 3 },
-  { userEmail: "alan@dev.local", matchId: 4, scoreHome: 2, scoreAway: 1 },
-  { userEmail: "alan@dev.local", matchId: 5, scoreHome: 2, scoreAway: 2 },
-  { userEmail: "alan@dev.local", matchId: 6, scoreHome: 1, scoreAway: 1 },
+  {
+    userEmail: "alan.turing@local.dev",
+    matchId: 1,
+    scoreHome: 3,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "alan.turing@local.dev",
+    matchId: 2,
+    scoreHome: 0,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "alan.turing@local.dev",
+    matchId: 3,
+    scoreHome: 1,
+    scoreAway: 3,
+  },
+  {
+    userEmail: "alan.turing@local.dev",
+    matchId: 4,
+    scoreHome: 2,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "alan.turing@local.dev",
+    matchId: 5,
+    scoreHome: 2,
+    scoreAway: 2,
+  },
+  {
+    userEmail: "alan.turing@local.dev",
+    matchId: 6,
+    scoreHome: 1,
+    scoreAway: 1,
+  },
 
-  { userEmail: "marie@dev.local", matchId: 1, scoreHome: 1, scoreAway: 0 },
-  { userEmail: "marie@dev.local", matchId: 2, scoreHome: 2, scoreAway: 2 },
-  { userEmail: "marie@dev.local", matchId: 3, scoreHome: 1, scoreAway: 3 },
-  { userEmail: "marie@dev.local", matchId: 4, scoreHome: 1, scoreAway: 0 },
-  { userEmail: "marie@dev.local", matchId: 7, scoreHome: 0, scoreAway: 1 },
+  {
+    userEmail: "marie.curie@local.dev",
+    matchId: 1,
+    scoreHome: 1,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "marie.curie@local.dev",
+    matchId: 2,
+    scoreHome: 2,
+    scoreAway: 2,
+  },
+  {
+    userEmail: "marie.curie@local.dev",
+    matchId: 3,
+    scoreHome: 1,
+    scoreAway: 3,
+  },
+  {
+    userEmail: "marie.curie@local.dev",
+    matchId: 4,
+    scoreHome: 1,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "marie.curie@local.dev",
+    matchId: 7,
+    scoreHome: 0,
+    scoreAway: 1,
+  },
 
-  { userEmail: "nikola@dev.local", matchId: 1, scoreHome: 0, scoreAway: 2 },
-  { userEmail: "nikola@dev.local", matchId: 3, scoreHome: 2, scoreAway: 0 },
-  { userEmail: "nikola@dev.local", matchId: 4, scoreHome: 0, scoreAway: 3 },
-  { userEmail: "nikola@dev.local", matchId: 5, scoreHome: 0, scoreAway: 2 },
-  { userEmail: "nikola@dev.local", matchId: 6, scoreHome: 3, scoreAway: 0 },
-  { userEmail: "nikola@dev.local", matchId: 7, scoreHome: 1, scoreAway: 2 },
+  {
+    userEmail: "nikola.tesla@local.dev",
+    matchId: 1,
+    scoreHome: 0,
+    scoreAway: 2,
+  },
+  {
+    userEmail: "nikola.tesla@local.dev",
+    matchId: 3,
+    scoreHome: 2,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "nikola.tesla@local.dev",
+    matchId: 4,
+    scoreHome: 0,
+    scoreAway: 3,
+  },
+  {
+    userEmail: "nikola.tesla@local.dev",
+    matchId: 5,
+    scoreHome: 0,
+    scoreAway: 2,
+  },
+  {
+    userEmail: "nikola.tesla@local.dev",
+    matchId: 6,
+    scoreHome: 3,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "nikola.tesla@local.dev",
+    matchId: 7,
+    scoreHome: 1,
+    scoreAway: 2,
+  },
 
-  { userEmail: "rosa@dev.local", matchId: 1, scoreHome: 2, scoreAway: 0 },
-  { userEmail: "rosa@dev.local", matchId: 2, scoreHome: 0, scoreAway: 1 },
-  { userEmail: "rosa@dev.local", matchId: 3, scoreHome: 1, scoreAway: 2 },
-  { userEmail: "rosa@dev.local", matchId: 4, scoreHome: 2, scoreAway: 2 },
-  { userEmail: "rosa@dev.local", matchId: 5, scoreHome: 1, scoreAway: 0 },
-  { userEmail: "rosa@dev.local", matchId: 7, scoreHome: 0, scoreAway: 0 },
+  { userEmail: "rosa.parks@local.dev", matchId: 1, scoreHome: 2, scoreAway: 0 },
+  { userEmail: "rosa.parks@local.dev", matchId: 2, scoreHome: 0, scoreAway: 1 },
+  { userEmail: "rosa.parks@local.dev", matchId: 3, scoreHome: 1, scoreAway: 2 },
+  { userEmail: "rosa.parks@local.dev", matchId: 4, scoreHome: 2, scoreAway: 2 },
+  { userEmail: "rosa.parks@local.dev", matchId: 5, scoreHome: 1, scoreAway: 0 },
+  { userEmail: "rosa.parks@local.dev", matchId: 7, scoreHome: 0, scoreAway: 0 },
 
-  { userEmail: "me@dev.local", matchId: 1, scoreHome: 1, scoreAway: 0 },
-  { userEmail: "me@dev.local", matchId: 2, scoreHome: 2, scoreAway: 2 },
-  { userEmail: "me@dev.local", matchId: 3, scoreHome: 0, scoreAway: 2 },
-  { userEmail: "me@dev.local", matchId: 4, scoreHome: 3, scoreAway: 3 },
-  { userEmail: "me@dev.local", matchId: 5, scoreHome: 0, scoreAway: 0 },
-  { userEmail: "me@dev.local", matchId: 6, scoreHome: 1, scoreAway: 0 },
-  { userEmail: "me@dev.local", matchId: 7, scoreHome: 2, scoreAway: 0 },
+  { userEmail: "test.user@local.dev", matchId: 1, scoreHome: 1, scoreAway: 0 },
+  { userEmail: "test.user@local.dev", matchId: 2, scoreHome: 2, scoreAway: 2 },
+  { userEmail: "test.user@local.dev", matchId: 3, scoreHome: 0, scoreAway: 2 },
+  { userEmail: "test.user@local.dev", matchId: 4, scoreHome: 3, scoreAway: 3 },
+  { userEmail: "test.user@local.dev", matchId: 5, scoreHome: 0, scoreAway: 0 },
+  { userEmail: "test.user@local.dev", matchId: 6, scoreHome: 1, scoreAway: 0 },
+  { userEmail: "test.user@local.dev", matchId: 7, scoreHome: 2, scoreAway: 0 },
 
-  { userEmail: "albert@dev.local", matchId: 1, scoreHome: 3, scoreAway: 0 },
-  { userEmail: "albert@dev.local", matchId: 2, scoreHome: 1, scoreAway: 1 },
-  { userEmail: "albert@dev.local", matchId: 3, scoreHome: 1, scoreAway: 1 },
-  { userEmail: "albert@dev.local", matchId: 5, scoreHome: 1, scoreAway: 1 },
-  { userEmail: "albert@dev.local", matchId: 6, scoreHome: 0, scoreAway: 0 },
+  {
+    userEmail: "albert.einstein@local.dev",
+    matchId: 1,
+    scoreHome: 3,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "albert.einstein@local.dev",
+    matchId: 2,
+    scoreHome: 1,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "albert.einstein@local.dev",
+    matchId: 3,
+    scoreHome: 1,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "albert.einstein@local.dev",
+    matchId: 5,
+    scoreHome: 1,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "albert.einstein@local.dev",
+    matchId: 6,
+    scoreHome: 0,
+    scoreAway: 0,
+  },
 
-  { userEmail: "isaac@dev.local", matchId: 2, scoreHome: 1, scoreAway: 0 },
-  { userEmail: "isaac@dev.local", matchId: 3, scoreHome: 2, scoreAway: 1 },
-  { userEmail: "isaac@dev.local", matchId: 4, scoreHome: 4, scoreAway: 3 },
-  { userEmail: "isaac@dev.local", matchId: 5, scoreHome: 2, scoreAway: 1 },
-  { userEmail: "isaac@dev.local", matchId: 6, scoreHome: 2, scoreAway: 2 },
-  { userEmail: "isaac@dev.local", matchId: 7, scoreHome: 1, scoreAway: 1 },
+  {
+    userEmail: "isaac.newton@local.dev",
+    matchId: 2,
+    scoreHome: 1,
+    scoreAway: 0,
+  },
+  {
+    userEmail: "isaac.newton@local.dev",
+    matchId: 3,
+    scoreHome: 2,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "isaac.newton@local.dev",
+    matchId: 4,
+    scoreHome: 4,
+    scoreAway: 3,
+  },
+  {
+    userEmail: "isaac.newton@local.dev",
+    matchId: 5,
+    scoreHome: 2,
+    scoreAway: 1,
+  },
+  {
+    userEmail: "isaac.newton@local.dev",
+    matchId: 6,
+    scoreHome: 2,
+    scoreAway: 2,
+  },
+  {
+    userEmail: "isaac.newton@local.dev",
+    matchId: 7,
+    scoreHome: 1,
+    scoreAway: 1,
+  },
 ];
 
 function isTruthyFlag(v: string | undefined): boolean {
@@ -350,8 +507,8 @@ async function main(): Promise<void> {
     const matches = buildMatches(now);
 
     const insertUser = sqlite.prepare(
-      `INSERT INTO user (email, password, firstName, lastName, username, department, winner, secretWinner)
-       VALUES (@email, @password, @firstName, @lastName, @username, @department, @winner, @secretWinner)`,
+      `INSERT INTO user (email, password, username, department, winner, secretWinner)
+       VALUES (@email, @password, @username, @department, @winner, @secretWinner)`,
     );
     const insertMatch = sqlite.prepare(
       `INSERT INTO match (id, homeTeam, awayTeam, status, utcDate, score, homeScore, awayScore)
@@ -379,8 +536,6 @@ async function main(): Promise<void> {
         const result = insertUser.run({
           email: u.email,
           password,
-          firstName: u.firstName,
-          lastName: u.lastName,
           username: u.username,
           department: u.department,
           winner: u.winner,

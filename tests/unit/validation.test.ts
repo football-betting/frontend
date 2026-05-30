@@ -33,8 +33,6 @@ describe("loginSchema", () => {
 });
 
 const VALID_SIGNUP = {
-  firstName: "Test",
-  lastName: "User",
   username: "testuser",
   email: "user@example.com",
   password: "test1234",
@@ -91,7 +89,7 @@ describe("signupSchema", () => {
   });
 
   it("rejects a missing required field", () => {
-    const { firstName: _omit, ...rest } = VALID_SIGNUP;
+    const { username: _omit, ...rest } = VALID_SIGNUP;
     void _omit;
     const result = signupSchema.safeParse(rest);
     expect(result.success).toBe(false);

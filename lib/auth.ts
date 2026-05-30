@@ -22,8 +22,6 @@ export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
       email: attributes.email,
-      firstName: attributes.firstName,
-      lastName: attributes.lastName,
       username: attributes.username,
       department: attributes.department,
       winner: attributes.winner,
@@ -34,8 +32,6 @@ export const lucia = new Lucia(adapter, {
 
 export interface DatabaseUserAttributes {
   email: string;
-  firstName: string;
-  lastName: string;
   username: string;
   department: string;
   winner: string;

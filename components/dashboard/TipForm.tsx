@@ -138,7 +138,10 @@ export function TipForm({
   }
 
   return (
-    <div className="flex flex-col gap-xs">
+    <div
+      className="flex flex-col gap-xs"
+      data-editing={savedTip ? "true" : undefined}
+    >
       <form
         onSubmit={onSubmit}
         className="flex items-center gap-md justify-end"

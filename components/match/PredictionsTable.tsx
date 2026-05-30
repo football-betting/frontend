@@ -80,7 +80,7 @@ export function PredictionsTable({
   const tCommon = useTranslations("Common");
   if (rows.length === 0) {
     return (
-      <div className="bg-surface-container-low border border-outline-variant rounded-xl p-xl text-center text-body-sm text-on-surface-variant">
+      <div className="bg-surface-container-low border border-outline-variant rounded-lg p-xl text-center text-body-sm text-on-surface-variant">
         {emptyMessage}
       </div>
     );

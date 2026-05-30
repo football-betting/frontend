@@ -25,7 +25,7 @@ export function Flag({
     <img
       src={`/svg/${mapped}.svg`}
       alt={name}
-      className={className ?? "w-8 h-5 object-cover rounded-xs"}
+      className={className ?? "w-8 h-5 object-cover rounded-sm"}
     />
   );
 }

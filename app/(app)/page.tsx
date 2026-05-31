@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
 import { getLiveMatches, getUpcomingMatches } from "@/lib/match";
 import { getTipByUserAndMatchIds, type TipRow } from "@/lib/tip";
+import { getUserAvatarsByIds } from "@/lib/user";
 import { fetchApi } from "@/lib/api";
 import { RatingResponseSchema, type RatingResponse } from "@/lib/rating";
 import { LiveBlock } from "@/components/dashboard/LiveBlock";
@@ -48,6 +49,16 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
     }
   }
 
+  const rankedUserIds = rating
+    ? [
+        ...rating.global.map((u) => u.user_id),
+        ...Object.values(rating.departments).flatMap((list) =>
+          list.map((u) => u.user_id),
+        ),
+      ]
+    : [];
+  const avatarsById = await getUserAvatarsByIds([...new Set(rankedUserIds)]);
+
   return (
     <>
       <TopAppBar active="dashboard" />
@@ -56,7 +67,11 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
           <LiveBlock matches={liveMatches} tipsByMatchId={tipsByMatchId} />
           {/* Below 980px: ranking sits between live and upcoming fixtures */}
           <div className="min-[980px]:hidden">
-            <RankingSidebar rating={rating} currentUserId={userId} />
+            <RankingSidebar
+              rating={rating}
+              currentUserId={userId}
+              avatarsById={avatarsById}
+            />
           </div>
           <UpcomingList
             matches={upcomingMatches}
@@ -65,7 +80,11 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
         </div>
         {/* From 980px: ranking as the right sidebar */}
         <div className="hidden min-[980px]:block col-span-12 min-[980px]:col-span-4">
-          <RankingSidebar rating={rating} currentUserId={userId} />
+          <RankingSidebar
+            rating={rating}
+            currentUserId={userId}
+            avatarsById={avatarsById}
+          />
         </div>
       </main>
       <BottomNav active="dashboard" />

@@ -5,19 +5,26 @@ import { sliceGlobalShortTable } from "@/lib/rating";
 import { abbreviateUsername } from "@/lib/format";
 import { TabBar } from "@/components/dashboard/TabBar";
 import { DEPARTMENTS, displayDepartment } from "@/lib/data/departments";
+import { Avatar } from "@/components/Avatar";
+import type { UserAvatarInfo } from "@/lib/user";
+
+type AvatarMap = Map<number, UserAvatarInfo>;
 
 interface RankingSidebarProps {
   rating: RatingResponse | null;
   currentUserId: number;
+  avatarsById: AvatarMap;
 }
 
 function RankingRow({
   user,
   isCurrent,
+  avatarInfo,
   showDivider = false,
 }: {
   user?: RatingUser;
   isCurrent?: boolean;
+  avatarInfo?: UserAvatarInfo;
   showDivider?: boolean;
 }): React.ReactElement {
   const t = useTranslations("Common");
@@ -50,22 +57,13 @@ function RankingRow({
         >
           {user.position}
         </span>
-        <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-            isCurrent ? "bg-primary" : "bg-surface-container-highest"
-          }`}
-        >
-          <span
-            className={`material-symbols-outlined text-[18px] ${
-              isCurrent ? "text-on-primary" : ""
-            }`}
-            style={
-              isCurrent ? { fontVariationSettings: "'FILL' 1" } : undefined
-            }
-          >
-            person
-          </span>
-        </div>
+        <Avatar
+          avatarPath={avatarInfo?.avatar ?? null}
+          email={avatarInfo?.email ?? ""}
+          name={user.name}
+          size={32}
+          className={isCurrent ? "ring-2 ring-primary shrink-0" : "shrink-0"}
+        />
         <span
           className={`text-body-sm font-bold truncate ${
             isCurrent ? "text-primary" : ""
@@ -89,9 +87,11 @@ function RankingRow({
 function GlobalPanel({
   rating,
   currentUserId,
+  avatarsById,
 }: {
   rating: RatingResponse;
   currentUserId: number;
+  avatarsById: AvatarMap;
 }): React.ReactElement {
   const t = useTranslations("Dashboard");
   const { topRows, neighborRows, hasGap } = sliceGlobalShortTable(
@@ -114,6 +114,7 @@ function GlobalPanel({
           key={u.user_id}
           user={u}
           isCurrent={u.user_id === currentUserId}
+          avatarInfo={avatarsById.get(u.user_id)}
         />
       ))}
       {hasGap ? <RankingRow showDivider /> : null}
@@ -122,6 +123,7 @@ function GlobalPanel({
           key={u.user_id}
           user={u}
           isCurrent={u.user_id === currentUserId}
+          avatarInfo={avatarsById.get(u.user_id)}
         />
       ))}
     </div>
@@ -131,9 +133,11 @@ function GlobalPanel({
 function DepartmentPanel({
   users,
   currentUserId,
+  avatarsById,
 }: {
   users: RatingUser[];
   currentUserId: number;
+  avatarsById: AvatarMap;
 }): React.ReactElement {
   const t = useTranslations("Dashboard");
   if (users.length === 0) {
@@ -150,6 +154,7 @@ function DepartmentPanel({
           key={u.user_id}
           user={u}
           isCurrent={u.user_id === currentUserId}
+          avatarInfo={avatarsById.get(u.user_id)}
         />
       ))}
     </div>
@@ -159,6 +164,7 @@ function DepartmentPanel({
 export function RankingSidebar({
   rating,
   currentUserId,
+  avatarsById,
 }: RankingSidebarProps): React.ReactElement {
   const t = useTranslations("Dashboard");
   const tCommon = useTranslations("Common");
@@ -183,13 +189,20 @@ export function RankingSidebar({
   ];
 
   const panels: Record<string, React.ReactNode> = {
-    global: <GlobalPanel rating={rating} currentUserId={currentUserId} />,
+    global: (
+      <GlobalPanel
+        rating={rating}
+        currentUserId={currentUserId}
+        avatarsById={avatarsById}
+      />
+    ),
   };
   for (const dept of DEPARTMENTS) {
     panels[dept] = (
       <DepartmentPanel
         users={rating.departments[dept] ?? []}
         currentUserId={currentUserId}
+        avatarsById={avatarsById}
       />
     );
   }

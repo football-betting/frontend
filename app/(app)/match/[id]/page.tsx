@@ -5,6 +5,7 @@ import { getMatchById } from "@/lib/match";
 import { fetchApi } from "@/lib/api";
 import { TopAppBar } from "@/components/dashboard/TopAppBar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
+import { LiveRefresher } from "@/components/dashboard/LiveRefresher";
 import { MatchHeader } from "@/components/match/MatchHeader";
 import {
   PredictionsTable,
@@ -128,11 +129,17 @@ export default async function MatchDetailPage({
   const predictions = await loadPredictions(matchId);
   const status = match.status;
   const isScheduled = status !== "IN_PLAY" && status !== "FINISHED";
+  const isLive = status === "IN_PLAY" || status === "PAUSED";
+  const nextKickoff =
+    !isLive && status !== "FINISHED" && match.utcDate.getTime() > Date.now()
+      ? match.utcDate.getTime()
+      : null;
   const t = await getTranslations("Match");
 
   return (
     <>
       <TopAppBar active="dashboard" />
+      <LiveRefresher isLive={isLive} nextKickoff={nextKickoff} />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
         <MatchHeader match={match} liveMinute={null} />
 

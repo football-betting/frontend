@@ -1,9 +1,31 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { user } from "@/db/schema";
 
 export type DatabaseUser = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
+
+export interface UserAvatarInfo {
+  avatar: string | null;
+  email: string;
+}
+
+export async function getUserAvatarsByIds(
+  ids: number[],
+): Promise<Map<number, UserAvatarInfo>> {
+  const map = new Map<number, UserAvatarInfo>();
+  if (ids.length === 0) {
+    return map;
+  }
+  const rows = await db
+    .select({ id: user.id, avatar: user.avatar, email: user.email })
+    .from(user)
+    .where(inArray(user.id, ids));
+  for (const row of rows) {
+    map.set(row.id, { avatar: row.avatar, email: row.email });
+  }
+  return map;
+}
 
 export async function getUserByEmail(
   email: string,

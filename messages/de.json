@@ -36,6 +36,7 @@
     "save": "SPEICHERN",
     "failedToSave": "Tipp konnte nicht gespeichert werden.",
     "networkError": "Netzwerkfehler. Bitte erneut versuchen.",
+    "offlineBlocked": "Tipps können nur online abgegeben werden. Stelle die Verbindung wieder her und versuche es erneut.",
     "homeScoreTip": "Tipp Heimtor",
     "awayScoreTip": "Tipp Auswärtstor"
   },
@@ -229,5 +230,9 @@
     "NED": "Niederlande",
     "POL": "Polen",
     "CRO": "Kroatien"
+  },
+  "Offline": {
+    "title": "Du bist offline",
+    "description": "Keine Internetverbindung. Stelle die Verbindung wieder her, um aktuelle Spiele und Tabellenstände zu sehen."
   }
 }

@@ -8,7 +8,7 @@
     "predev": "node scripts/copy-flags.mjs",
     "prebuild": "node scripts/copy-flags.mjs",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.1.0",
+    "@serwist/next": "^9.5.11",
     "better-sqlite3": "^12.4.1",
     "drizzle-orm": "^0.45.2",
     "lucia": "^3.2.2",
@@ -34,6 +35,7 @@
     "oslo": "^1.2.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "serwist": "^9.5.11",
     "sharp": "^0.34.5",
     "zod": "^4.4.3"
   },

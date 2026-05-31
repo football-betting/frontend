@@ -36,6 +36,7 @@
     "save": "SAVE",
     "failedToSave": "Failed to save tip.",
     "networkError": "Network error. Try again.",
+    "offlineBlocked": "Tips can only be submitted online. Reconnect and try again.",
     "homeScoreTip": "Home score tip",
     "awayScoreTip": "Away score tip"
   },
@@ -229,5 +230,9 @@
     "NED": "Netherlands",
     "POL": "Poland",
     "CRO": "Croatia"
+  },
+  "Offline": {
+    "title": "You are offline",
+    "description": "No internet connection. Reconnect to see the latest matches and standings."
   }
 }

@@ -50,6 +50,12 @@ export function TipForm({
     event.preventDefault();
     if (disabled) return;
     setError(null);
+
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      setError(t("offlineBlocked"));
+      return;
+    }
+
     setPending(true);
 
     const form = new FormData();

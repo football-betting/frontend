@@ -92,7 +92,13 @@ export function AvatarUpload({
 
   return (
     <div className="flex flex-col items-center mb-xl">
-      <div className="relative">
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        disabled={pending}
+        aria-label={t("changePhoto")}
+        className="group relative rounded-full cursor-pointer disabled:cursor-default disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
         <Avatar
           avatarPath={preview ?? avatarPath}
           email={email}
@@ -101,13 +107,13 @@ export function AvatarUpload({
         />
         <span
           aria-hidden="true"
-          className="absolute bottom-0 right-0 bg-surface-container-highest text-on-surface-variant p-2 rounded-full border-2 border-background"
+          className="absolute bottom-0 right-0 bg-surface-container-highest text-on-surface-variant p-2 rounded-full border-2 border-background transition-colors group-hover:bg-primary group-hover:text-on-primary"
         >
           <span className="material-symbols-outlined text-[20px]">
             photo_camera
           </span>
         </span>
-      </div>
+      </button>
       <input
         ref={inputRef}
         type="file"

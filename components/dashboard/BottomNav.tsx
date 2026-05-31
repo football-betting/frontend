@@ -22,7 +22,7 @@ export function BottomNav({ active }: BottomNavProps): React.ReactElement {
           <Link
             key={item.id}
             href={item.href}
-            className={`flex flex-col items-center justify-center px-4 py-1 rounded-full transition-transform ${
+            className={`flex flex-1 min-w-0 flex-col items-center justify-center px-1 py-1 rounded-full transition-transform ${
               isActive
                 ? "bg-secondary-container text-on-secondary-container scale-95"
                 : "text-on-surface-variant hover:bg-surface-container-highest"
@@ -34,7 +34,9 @@ export function BottomNav({ active }: BottomNavProps): React.ReactElement {
             >
               {item.icon}
             </span>
-            <span className="text-label-caps uppercase">{t(item.id)}</span>
+            <span className="w-full text-center text-[0.625rem] font-medium uppercase leading-none tracking-tight">
+              {t(item.id)}
+            </span>
           </Link>
         );
       })}

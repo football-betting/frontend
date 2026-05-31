@@ -11,7 +11,7 @@ export const winnersSchema = z
     }),
   })
   .refine((data) => data.winner !== data.secretWinner, {
-    message: "Winner and secret winner must differ.",
+    message: "winnersMustDiffer",
     path: ["secretWinner"],
   });
 

@@ -36,19 +36,19 @@ async function readBody(
 export async function POST(request: Request): Promise<Response> {
   const { user: sessionUser } = await getCurrentSession();
   if (!sessionUser) {
-    return jsonError("Not logged in", 401);
+    return jsonError("notLoggedIn", 401);
   }
 
   const userId = Number(sessionUser.id);
   if (!Number.isFinite(userId) || userId <= 0) {
-    return jsonError("Not logged in", 401);
+    return jsonError("notLoggedIn", 401);
   }
 
   const ip = getClientIp(request.headers);
   const limit = checkRateLimit(ip, "winners");
   if (!limit.ok) {
     return new Response(
-      JSON.stringify({ error: "Too many requests, try again later." }),
+      JSON.stringify({ error: "tooManyRequests" }),
       {
         status: 429,
         headers: {
@@ -63,20 +63,20 @@ export async function POST(request: Request): Promise<Response> {
 
   if (await isTournamentLocked()) {
     return jsonError(
-      "Tournament has already started — picks are locked.",
+      "picksLocked",
       400,
     );
   }
 
   const raw = await readBody(request);
   if (!raw) {
-    return jsonError("Invalid request body", 400);
+    return jsonError("invalidRequestBody", 400);
   }
 
   const parsed = winnersSchema.safeParse(raw);
   if (!parsed.success) {
     const first = parsed.error.issues[0];
-    const message = first?.message ?? "Invalid input";
+    const message = first?.message ?? "invalidInput";
     return jsonError(message, 400);
   }
 
@@ -86,7 +86,7 @@ export async function POST(request: Request): Promise<Response> {
     await updateUserWinners(userId, winner, secretWinner);
   } catch (error) {
     console.error("[winners] update failed", error);
-    return jsonError("Failed to update winners", 500);
+    return jsonError("failedToUpdateWinners", 500);
   }
 
   return new Response(

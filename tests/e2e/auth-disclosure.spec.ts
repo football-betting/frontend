@@ -40,6 +40,6 @@ test.describe("auth disclosure", () => {
 
     expect(unknown.status).toBe(known.status);
     expect(unknown.body.error).toBe(known.body.error);
-    expect(known.body.error).toBe("Email or password incorrect.");
+    expect(known.body.error).toBe("loginError");
   });
 });

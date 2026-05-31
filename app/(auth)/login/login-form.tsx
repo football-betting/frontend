@@ -2,9 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
+import { extractErrorKey } from "@/lib/error-message";
 
 export function LoginForm(): React.ReactElement {
   const t = useTranslations("Auth");
+  const tErrors = useTranslations("Errors");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -30,14 +32,9 @@ export function LoginForm(): React.ReactElement {
 
       let message = t("loginError");
       try {
-        const body: unknown = await res.json();
-        if (
-          body &&
-          typeof body === "object" &&
-          "error" in body &&
-          typeof (body as { error: unknown }).error === "string"
-        ) {
-          message = (body as { error: string }).error;
+        const key = extractErrorKey(await res.json());
+        if (key !== null && tErrors.has(key)) {
+          message = tErrors(key);
         }
       } catch {
         // ignore JSON parse error, fall back to default

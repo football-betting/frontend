@@ -4,9 +4,11 @@ import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { DEPARTMENTS, displayDepartment } from "@/lib/data/departments";
 import { TEAMS } from "@/lib/data/teams";
+import { extractErrorKey } from "@/lib/error-message";
 
 export function SignupForm(): React.ReactElement {
   const t = useTranslations("Auth");
+  const tErrors = useTranslations("Errors");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -58,14 +60,9 @@ export function SignupForm(): React.ReactElement {
 
       let message = t("couldNotCreateAccount");
       try {
-        const body: unknown = await res.json();
-        if (
-          body &&
-          typeof body === "object" &&
-          "error" in body &&
-          typeof (body as { error: unknown }).error === "string"
-        ) {
-          message = (body as { error: string }).error;
+        const key = extractErrorKey(await res.json());
+        if (key !== null && tErrors.has(key)) {
+          message = tErrors(key);
         }
       } catch {
         // ignore parse failure

@@ -15,23 +15,23 @@ export async function POST(
 ): Promise<Response> {
   const { user } = await getCurrentSession();
   if (!user) {
-    return jsonError("Not logged in", 401);
+    return jsonError("notLoggedIn", 401);
   }
 
   const userId = Number(user.id);
   if (!Number.isFinite(userId) || userId <= 0) {
-    return jsonError("Not logged in", 401);
+    return jsonError("notLoggedIn", 401);
   }
 
   const { matchId: rawMatchId } = await params;
   const matchId = Number.parseInt(rawMatchId, 10);
   if (!Number.isFinite(matchId) || matchId <= 0) {
-    return jsonError("Match not found", 400);
+    return jsonError("matchNotFound", 400);
   }
 
   const matchRow = await getMatchById(matchId);
   if (!matchRow) {
-    return jsonError("Match not found", 400);
+    return jsonError("matchNotFound", 400);
   }
 
   const now = new Date();
@@ -40,7 +40,7 @@ export async function POST(
     matchRow.homeScore !== null ||
     matchRow.awayScore !== null
   ) {
-    return jsonError("Match already started or finished", 400);
+    return jsonError("matchStartedOrFinished", 400);
   }
 
   const formData = await request.formData();
@@ -64,7 +64,7 @@ export async function POST(
     tip2 < 0 ||
     tip2 > 20
   ) {
-    return jsonError("Tip out of range (0–20)", 400);
+    return jsonError("tipOutOfRange", 400);
   }
 
   try {
@@ -88,6 +88,6 @@ export async function POST(
     );
   } catch (error) {
     console.error("[tip] save failed", error);
-    return jsonError("Failed to save tip", 500);
+    return jsonError("failedToSave", 500);
   }
 }

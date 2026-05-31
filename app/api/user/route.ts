@@ -45,7 +45,7 @@ export async function POST(request: Request): Promise<Response> {
   const limit = checkRateLimit(ip, "signup");
   if (!limit.ok) {
     return new Response(
-      JSON.stringify({ error: "Too many requests, try again later." }),
+      JSON.stringify({ error: "tooManyRequests" }),
       {
         status: 429,
         headers: {
@@ -68,10 +68,7 @@ export async function POST(request: Request): Promise<Response> {
     }
   }
   if (missing.length > 0) {
-    return jsonError(
-      `Missing required fields: ${missing.join(", ")}`,
-      400,
-    );
+    return jsonError("missingRequiredFields", 400);
   }
 
   const raw = {
@@ -87,7 +84,7 @@ export async function POST(request: Request): Promise<Response> {
   const parsed = signupSchema.safeParse(raw);
   if (!parsed.success) {
     const first = parsed.error.issues[0];
-    const message = first?.message ?? "Invalid input";
+    const message = first?.message ?? "invalidInput";
     return jsonError(message, 400);
   }
 
@@ -95,7 +92,7 @@ export async function POST(request: Request): Promise<Response> {
 
   const existing = await getUserByEmail(data.email);
   if (existing) {
-    return jsonError("This email is already registered.", 400);
+    return jsonError("emailAlreadyRegistered", 400);
   }
 
   const passwordHash = await argon2id.hash(data.password);
@@ -111,7 +108,7 @@ export async function POST(request: Request): Promise<Response> {
     });
   } catch (err) {
     if (isUniqueConstraintError(err)) {
-      return jsonError("This username is already taken.", 409);
+      return jsonError("usernameTaken", 409);
     }
     throw err;
   }

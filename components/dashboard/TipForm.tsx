@@ -8,6 +8,7 @@ import {
   initialTipEditing,
   type TipScore,
 } from "@/lib/tip-view";
+import { extractErrorKey } from "@/lib/error-message";
 
 interface TipFormProps {
   matchId: number;
@@ -21,6 +22,7 @@ export function TipForm({
   disabled = false,
 }: TipFormProps): React.ReactElement {
   const t = useTranslations("TipForm");
+  const tErrors = useTranslations("Errors");
   const router = useRouter();
   const [tipHome, setTipHome] = useState<string>(
     initialTip ? String(initialTip.scoreHome) : "",
@@ -70,14 +72,9 @@ export function TipForm({
 
       let message = t("failedToSave");
       try {
-        const body: unknown = await res.json();
-        if (
-          body &&
-          typeof body === "object" &&
-          "error" in body &&
-          typeof (body as { error: unknown }).error === "string"
-        ) {
-          message = (body as { error: string }).error;
+        const key = extractErrorKey(await res.json());
+        if (key !== null && tErrors.has(key)) {
+          message = tErrors(key);
         }
       } catch {
         // ignore

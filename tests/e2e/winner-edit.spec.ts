@@ -48,9 +48,7 @@ test.describe("winner edit (locked path)", () => {
     });
     expect(res.status()).toBe(400);
     const body = (await res.json()) as { error?: string };
-    expect(body.error).toBe(
-      "Tournament has already started — picks are locked.",
-    );
+    expect(body.error).toBe("picksLocked");
   });
 
   test("POST /api/user/winners rejects when winner === secretWinner", async ({
@@ -72,6 +70,6 @@ test.describe("winner edit (locked path)", () => {
     });
     expect(res.status()).toBe(401);
     const body = (await res.json()) as { error?: string };
-    expect(body.error).toBe("Not logged in");
+    expect(body.error).toBe("notLoggedIn");
   });
 });

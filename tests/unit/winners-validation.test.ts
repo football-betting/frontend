@@ -20,7 +20,7 @@ describe("winnersSchema", () => {
       const issue = result.error.issues.find((i) =>
         i.path.includes("secretWinner"),
       );
-      expect(issue?.message).toBe("Winner and secret winner must differ.");
+      expect(issue?.message).toBe("winnersMustDiffer");
     }
   });
 

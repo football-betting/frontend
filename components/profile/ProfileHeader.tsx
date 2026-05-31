@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface ProfileHeaderProps {
   username: string;
@@ -12,9 +12,9 @@ function formatRank(position: number | null): string {
   return `#${position}`;
 }
 
-function formatPoints(points: number | null): string {
+function formatPoints(points: number | null, locale: string): string {
   if (points === null) return "—";
-  return points.toLocaleString("de-DE");
+  return points.toLocaleString(locale);
 }
 
 export function ProfileHeader({
@@ -24,6 +24,7 @@ export function ProfileHeader({
   totalPoints,
 }: ProfileHeaderProps): React.ReactElement {
   const t = useTranslations("Profile");
+  const locale = useLocale();
   return (
     <div>
       <h1
@@ -52,7 +53,7 @@ export function ProfileHeader({
             {t("totalPoints")}
           </span>
           <span className="text-display font-mono text-tertiary tracking-tighter">
-            {formatPoints(totalPoints)}
+            {formatPoints(totalPoints, locale)}
           </span>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { TEAMS } from "@/lib/data/teams";
+import { extractErrorKey } from "@/lib/error-message";
 
 interface WinnerEditFormProps {
   winner: string;
@@ -19,6 +20,7 @@ export function WinnerEditForm({
   onSaved,
 }: WinnerEditFormProps): React.ReactElement {
   const t = useTranslations("Profile");
+  const tErrors = useTranslations("Errors");
   const router = useRouter();
   const [winner, setWinner] = useState(initialWinner);
   const [secretWinner, setSecretWinner] = useState(initialSecret);
@@ -51,14 +53,9 @@ export function WinnerEditForm({
       }
       let message = t("failedToUpdateWinners");
       try {
-        const body: unknown = await res.json();
-        if (
-          body &&
-          typeof body === "object" &&
-          "error" in body &&
-          typeof (body as { error: unknown }).error === "string"
-        ) {
-          message = (body as { error: string }).error;
+        const key = extractErrorKey(await res.json());
+        if (key !== null && tErrors.has(key)) {
+          message = tErrors(key);
         }
       } catch {
         // ignore

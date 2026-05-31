@@ -23,19 +23,19 @@ function jsonError(message: string, status: number): Response {
 export async function POST(request: Request): Promise<Response> {
   const { user: sessionUser } = await getCurrentSession();
   if (!sessionUser) {
-    return jsonError("Not logged in", 401);
+    return jsonError("notLoggedIn", 401);
   }
 
   const userId = Number(sessionUser.id);
   if (!Number.isInteger(userId) || userId <= 0) {
-    return jsonError("Not logged in", 401);
+    return jsonError("notLoggedIn", 401);
   }
 
   const ip = getClientIp(request.headers);
   const limit = checkRateLimit(ip, "avatar");
   if (!limit.ok) {
     return new Response(
-      JSON.stringify({ error: "Too many requests, try again later." }),
+      JSON.stringify({ error: "tooManyRequests" }),
       {
         status: 429,
         headers: {
@@ -56,11 +56,11 @@ export async function POST(request: Request): Promise<Response> {
       file = value;
     }
   } catch {
-    return jsonError("Invalid request body", 400);
+    return jsonError("invalidRequestBody", 400);
   }
 
   if (!file) {
-    return jsonError("No file provided", 400);
+    return jsonError("noFileProvided", 400);
   }
 
   const validation = validateAvatarUpload({
@@ -69,14 +69,14 @@ export async function POST(request: Request): Promise<Response> {
   });
   if (!validation.ok) {
     if (validation.reason === "size") {
-      return jsonError("Image too large", 413);
+      return jsonError("imageTooLarge", 413);
     }
-    return jsonError("Unsupported image type", 415);
+    return jsonError("unsupportedImageType", 415);
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
   if (buffer.byteLength === 0 || buffer.byteLength > MAX_AVATAR_BYTES) {
-    return jsonError("Invalid image", 400);
+    return jsonError("invalidImage", 400);
   }
 
   let output: Buffer;
@@ -87,7 +87,7 @@ export async function POST(request: Request): Promise<Response> {
       .webp({ quality: 82 })
       .toBuffer();
   } catch {
-    return jsonError("Invalid image", 400);
+    return jsonError("invalidImage", 400);
   }
 
   const fileName = `${userId}.${OUTPUT_EXT}`;
@@ -99,7 +99,7 @@ export async function POST(request: Request): Promise<Response> {
     await updateUserAvatar(userId, publicPath);
   } catch (error) {
     console.error("[avatar] save failed", error);
-    return jsonError("Failed to save avatar", 500);
+    return jsonError("failedToSaveAvatar", 500);
   }
 
   return new Response(JSON.stringify({ success: true, avatar: publicPath }), {

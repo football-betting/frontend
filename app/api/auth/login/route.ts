@@ -16,7 +16,7 @@ const DUMMY_HASH =
   "$argon2id$v=19$m=19456,t=2,p=1$ZHVtbXlzYWx0ZHVtbXlzYWx0$" +
   "ZHVtbXloYXNoZHVtbXloYXNoZHVtbXloYXNoZHVtbXloYXNoMQ";
 
-const GENERIC_ERROR = "Email or password incorrect.";
+const GENERIC_ERROR = "loginError";
 
 function jsonError(message: string, status: number): Response {
   return new Response(JSON.stringify({ error: message }), {
@@ -35,7 +35,7 @@ export async function POST(request: Request): Promise<Response> {
   const limit = checkRateLimit(ip, "login");
   if (!limit.ok) {
     return new Response(
-      JSON.stringify({ error: "Too many requests, try again later." }),
+      JSON.stringify({ error: "tooManyRequests" }),
       {
         status: 429,
         headers: {
@@ -57,7 +57,7 @@ export async function POST(request: Request): Promise<Response> {
   const parsed = loginSchema.safeParse(raw);
   if (!parsed.success) {
     const first = parsed.error.issues[0];
-    const message = first?.message ?? "Invalid input";
+    const message = first?.message ?? "invalidInput";
     return jsonError(message, 400);
   }
 

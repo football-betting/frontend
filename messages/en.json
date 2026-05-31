@@ -21,6 +21,8 @@
     "points": "POINTS:",
     "upcomingFixtures": "UPCOMING FIXTURES",
     "noUpcomingFixtures": "No upcoming fixtures.",
+    "loadNext": "Load next {count}",
+    "loadAll": "Load all",
     "ranking": "RANKING",
     "viewFullRanking": "VIEW FULL RANKING",
     "noRankingData": "No ranking data yet.",

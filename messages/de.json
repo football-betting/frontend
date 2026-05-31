@@ -21,6 +21,8 @@
     "points": "PUNKTE:",
     "upcomingFixtures": "ANSTEHENDE SPIELE",
     "noUpcomingFixtures": "Keine anstehenden Spiele.",
+    "loadNext": "Nächste {count} laden",
+    "loadAll": "Alle laden",
     "ranking": "RANGLISTE",
     "viewFullRanking": "GESAMTE RANGLISTE",
     "noRankingData": "Noch keine Ranglistendaten.",

@@ -33,7 +33,7 @@ export function RankingTabs({
 
   return (
     <>
-      <div className="flex bg-surface-container-low rounded-lg p-xs border border-outline-variant overflow-x-auto no-scrollbar">
+      <div className="flex flex-wrap gap-xs bg-surface-container-low rounded-lg p-xs border border-outline-variant">
         {tabs.map((tab) => {
           const isActive = tab.id === active;
           return (

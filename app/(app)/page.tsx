@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
-import { getLiveMatches, getUpcomingMatches } from "@/lib/match";
+import { getLiveMatches, getUpcomingMatches, getLiveState } from "@/lib/match";
 import { getTipByUserAndMatchIds, type TipRow } from "@/lib/tip";
 import { getUserAvatarsByIds } from "@/lib/user";
 import { fetchApi } from "@/lib/api";
@@ -10,6 +10,7 @@ import { UpcomingList } from "@/components/dashboard/UpcomingList";
 import { RankingSidebar } from "@/components/dashboard/RankingSidebar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { TopAppBar } from "@/components/dashboard/TopAppBar";
+import { LiveRefresher } from "@/components/dashboard/LiveRefresher";
 
 async function loadRating(): Promise<RatingResponse | null> {
   try {
@@ -30,10 +31,11 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
   }
   const userId = Number(user.id);
 
-  const [liveMatches, upcomingMatches, rating] = await Promise.all([
+  const [liveMatches, upcomingMatches, rating, liveState] = await Promise.all([
     getLiveMatches(),
     getUpcomingMatches(),
     loadRating(),
+    getLiveState(),
   ]);
 
   const allMatchIds = [
@@ -62,6 +64,10 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
   return (
     <>
       <TopAppBar active="dashboard" />
+      <LiveRefresher
+        isLive={liveState.isLive}
+        nextKickoff={liveState.nextKickoff}
+      />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto grid grid-cols-12 gap-lg">
         <div className="col-span-12 min-[980px]:col-span-8 space-y-lg">
           <LiveBlock matches={liveMatches} tipsByMatchId={tipsByMatchId} />

@@ -100,7 +100,15 @@
     "match": "Spiel",
     "prediction": "Tipp",
     "result": "Ergebnis",
-    "points": "Punkte"
+    "points": "Punkte",
+    "sortByPoints": "Punkte",
+    "sortByDate": "Datum",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "pageOf": "Seite {current} / {total}",
+    "showingCount": "{shown} von {total}",
+    "allResults": "Alle anzeigen",
+    "filteredBy": "Gefiltert nach: {category}"
   },
   "Match": {
     "live": "LIVE",

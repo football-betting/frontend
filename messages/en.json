@@ -100,7 +100,15 @@
     "match": "Match",
     "prediction": "Prediction",
     "result": "Result",
-    "points": "Points"
+    "points": "Points",
+    "sortByPoints": "Points",
+    "sortByDate": "Date",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {current} / {total}",
+    "showingCount": "{shown} of {total}",
+    "allResults": "Show all",
+    "filteredBy": "Filtered by: {category}"
   },
   "Match": {
     "live": "LIVE",

@@ -9,6 +9,7 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatTiles } from "@/components/profile/StatTiles";
 import { WinnerCards } from "@/components/profile/WinnerCards";
 import { PredictionHistory } from "@/components/profile/PredictionHistory";
+import { HistoryFilterProvider } from "@/components/profile/HistoryFilterContext";
 import { isTournamentLocked } from "@/lib/tournament";
 import { displayNameFromEmail } from "@/lib/user-name";
 import { Avatar } from "@/components/Avatar";
@@ -75,35 +76,37 @@ export default async function UserProfilePage({
     <>
       <TopAppBar active={isOwnProfile ? "profile" : "dashboard"} />
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-lg mb-xl">
-          <div className="md:col-span-8 flex flex-col justify-between">
-            <div className="flex items-center gap-md">
-              <Avatar
-                avatarPath={localUser.avatar}
-                email={localUser.email}
-                size={72}
-                className="shrink-0 border-2 border-outline-variant"
-              />
-              <ProfileHeader
-                username={localUser.username}
-                displayName={displayNameFromEmail(localUser.email)}
-                position={position}
-                totalPoints={totalPoints}
+        <HistoryFilterProvider>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-lg mb-xl">
+            <div className="md:col-span-8 flex flex-col justify-between">
+              <div className="flex items-center gap-md">
+                <Avatar
+                  avatarPath={localUser.avatar}
+                  email={localUser.email}
+                  size={72}
+                  className="shrink-0 border-2 border-outline-variant"
+                />
+                <ProfileHeader
+                  username={localUser.username}
+                  displayName={displayNameFromEmail(localUser.email)}
+                  position={position}
+                  totalPoints={totalPoints}
+                />
+              </div>
+              <StatTiles exact={exact} diff={diff} wins={wins} bonus={bonus} />
+            </div>
+            <div className="md:col-span-4">
+              <WinnerCards
+                winner={localUser.winner}
+                secretWinner={localUser.secretWinner}
+                userId={userId}
+                editable={editable}
               />
             </div>
-            <StatTiles exact={exact} diff={diff} wins={wins} bonus={bonus} />
           </div>
-          <div className="md:col-span-4">
-            <WinnerCards
-              winner={localUser.winner}
-              secretWinner={localUser.secretWinner}
-              userId={userId}
-              editable={editable}
-            />
-          </div>
-        </div>
 
-        <PredictionHistory status={ratingLoad.status} tips={tips} />
+          <PredictionHistory status={ratingLoad.status} tips={tips} />
+        </HistoryFilterProvider>
       </main>
       <BottomNav active={isOwnProfile ? "profile" : "dashboard"} />
     </>

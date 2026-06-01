@@ -7,7 +7,11 @@ import { BottomNav } from "@/components/dashboard/BottomNav";
 import { PasswordChangeForm } from "@/components/settings/PasswordChangeForm";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { ReminderSettings } from "@/components/settings/ReminderSettings";
-import { getEnabledLeadMinutes } from "@/lib/reminder-store";
+import { PushToggle } from "@/components/settings/PushToggle";
+import {
+  getEnabledChannels,
+  getEnabledLeadMinutes,
+} from "@/lib/reminder-store";
 
 function LogoutButton({ label }: { label: string }): React.ReactElement {
   return (
@@ -29,6 +33,8 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
   }
   const localUser = await getUserById(Number(user.id));
   const enabledLeadMinutes = await getEnabledLeadMinutes(Number(user.id));
+  const enabledChannels = await getEnabledChannels(Number(user.id));
+  const pushEnabled = enabledChannels.includes("push");
   const t = await getTranslations("Settings");
 
   return (
@@ -117,6 +123,12 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
                 {t("reminders")}
               </h2>
               <ReminderSettings initialLeadMinutes={enabledLeadMinutes} />
+              <div className="mt-lg pt-lg border-t border-outline-variant">
+                <h3 className="text-label-caps uppercase tracking-widest text-on-surface-variant mb-md">
+                  {t("pushHeading")}
+                </h3>
+                <PushToggle initialEnabled={pushEnabled} />
+              </div>
             </section>
           </div>
         </div>

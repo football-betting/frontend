@@ -87,11 +87,42 @@ export const reminderSent = sqliteTable(
       .notNull()
       .references(() => match.id),
     leadMinutes: integer("lead_minutes", { mode: "number" }).notNull(),
+    channel: text("channel").notNull(),
     sentAt: integer("sent_at", { mode: "timestamp" }).notNull(),
   },
   (table) => ({
-    reminderSentUserMatchLeadUnique: uniqueIndex(
-      "reminder_sent_user_match_lead_unique",
-    ).on(table.userId, table.matchId, table.leadMinutes),
+    reminderSentUserMatchLeadChannelUnique: uniqueIndex(
+      "reminder_sent_user_match_lead_channel_unique",
+    ).on(table.userId, table.matchId, table.leadMinutes, table.channel),
   }),
+);
+
+export const reminderChannel = sqliteTable(
+  "reminder_channel",
+  {
+    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => user.id),
+    channel: text("channel").notNull(),
+  },
+  (table) => ({
+    reminderChannelUserChannelUnique: uniqueIndex(
+      "reminder_channel_user_channel_unique",
+    ).on(table.userId, table.channel),
+  }),
+);
+
+export const pushSubscription = sqliteTable(
+  "push_subscription",
+  {
+    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => user.id),
+    endpoint: text("endpoint").notNull().unique(),
+    p256dh: text("p256dh").notNull(),
+    auth: text("auth").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  },
 );

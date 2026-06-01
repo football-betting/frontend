@@ -72,7 +72,7 @@ beforeEach(() => {
   sqlite
     .prepare(
       `INSERT INTO user (id, email, password, username, department, winner, secretWinner)
-       VALUES (1, 'u@dev.local', 'x', 'User', 'Maintz', 'DEU', 'ESP')`,
+       VALUES (1, 'u@dev.local', 'x', 'User', 'Mainz', 'DEU', 'ESP')`,
     )
     .run();
   sqlite

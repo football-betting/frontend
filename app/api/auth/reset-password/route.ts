@@ -1,4 +1,5 @@
 import { Argon2id } from "oslo/password";
+import { lucia } from "@/lib/auth";
 import { getClientIp, checkRateLimit } from "@/lib/rate-limit";
 import { updateUserPassword } from "@/lib/user";
 import { resetPasswordSchema } from "@/lib/validation/password";
@@ -87,6 +88,7 @@ export async function POST(request: Request): Promise<Response> {
     const hash = await argon2id.hash(newPassword);
     await updateUserPassword(record.userId, hash);
     await deletePasswordResetTokensForUser(record.userId);
+    await lucia.invalidateUserSessions(String(record.userId));
   } catch (error) {
     console.error("[reset-password] update failed", error);
     return jsonError("failedToUpdatePassword", 500);

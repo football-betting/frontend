@@ -7,6 +7,18 @@
     "logout": "Logout",
     "settings": "Settings"
   },
+  "Footer": {
+    "featuresHeading": "Features",
+    "features": {
+      "liveScoring": "Live scoring",
+      "predicting": "Predictions & scoring (5/3/2)",
+      "rankings": "Rankings (global + departments)",
+      "pwaOffline": "PWA / offline",
+      "i18n": "DE / EN",
+      "passwordReset": "Password reset",
+      "avatars": "Avatars"
+    }
+  },
   "Common": {
     "you": "YOU",
     "youParen": " (You)",

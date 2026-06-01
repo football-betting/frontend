@@ -7,6 +7,18 @@
     "logout": "Abmelden",
     "settings": "Einstellungen"
   },
+  "Footer": {
+    "featuresHeading": "Funktionen",
+    "features": {
+      "liveScoring": "Live-Scoring",
+      "predicting": "Tippen & Wertung (5/3/2)",
+      "rankings": "Ranglisten (global + Abteilungen)",
+      "pwaOffline": "PWA / Offline",
+      "i18n": "DE / EN",
+      "passwordReset": "Passwort-Reset",
+      "avatars": "Avatare"
+    }
+  },
   "Common": {
     "you": "DU",
     "youParen": " (Du)",

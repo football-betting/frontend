@@ -45,14 +45,14 @@ const USERS: SeedUser[] = [
   {
     email: "ada.lovelace@local.dev",
     username: "AdaLovelace",
-    department: "Maintz",
+    department: "Mainz",
     winner: "DEU",
     secretWinner: "ESP",
   },
   {
     email: "alan.turing@local.dev",
     username: "AlanTuring",
-    department: "Maintz",
+    department: "Mainz",
     winner: "ENG",
     secretWinner: "FRA",
   },

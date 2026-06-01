@@ -18,7 +18,7 @@ const TAB_BY_PARAM: Record<string, string> = {
   global: "global",
   langenfeld: "Langenfeld",
   mannheim: "Mannheim",
-  mainz: "Maintz",
+  mainz: "Mainz",
 };
 
 async function loadRating(): Promise<RatingResponse | null> {

@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { displayDepartment } from "@/lib/data/departments";
 
 describe("displayDepartment", () => {
-  it("rewrites the misspelled 'Maintz' to 'Mainz'", () => {
-    expect(displayDepartment("Maintz")).toBe("Mainz");
+  it("returns Mainz unchanged", () => {
+    expect(displayDepartment("Mainz")).toBe("Mainz");
   });
 
   it("returns Mannheim unchanged", () => {

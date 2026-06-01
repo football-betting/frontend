@@ -2,22 +2,14 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCurrentSession } from "@/lib/session";
-import { LoginForm } from "./login-form";
+import { ForgotPasswordForm } from "./forgot-password-form";
 
-interface LoginPageProps {
-  searchParams: Promise<{ registered?: string }>;
-}
-
-export default async function LoginPage({
-  searchParams,
-}: LoginPageProps): Promise<React.ReactElement> {
+export default async function ForgotPasswordPage(): Promise<React.ReactElement> {
   const { user } = await getCurrentSession();
   if (user) {
     redirect("/");
   }
 
-  const params = await searchParams;
-  const registered = params.registered === "true";
   const t = await getTranslations("Auth");
 
   return (
@@ -34,45 +26,21 @@ export default async function LoginPage({
             {t("appName")}
           </h1>
           <p className="text-body-sm text-on-surface-variant mt-xs opacity-60">
-            {t("tagline")}
+            {t("forgotPasswordTitle")}
           </p>
         </div>
 
         <div className="bg-surface-container border border-outline-variant rounded-lg p-xl shadow-2xl">
-          {registered ? (
-            <p
-              aria-live="polite"
-              className="mb-lg text-body-sm text-on-secondary-container bg-secondary-container px-md py-sm"
-            >
-              {t("accountCreated")}
-            </p>
-          ) : null}
-
-          <LoginForm />
-
-          <div className="text-center pt-md">
-            <Link
-              className="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors"
-              href="/forgot-password"
-            >
-              {t("forgotPassword")}
-            </Link>
-          </div>
+          <ForgotPasswordForm />
 
           <div className="text-center pt-lg">
             <Link
               className="text-secondary text-label-caps uppercase hover:text-tertiary transition-colors border-b border-transparent hover:border-tertiary pb-1"
-              href="/signup"
+              href="/login"
             >
-              {t("createAccount")}
+              {t("backToLogin")}
             </Link>
           </div>
-        </div>
-
-        <div className="mt-xl text-center">
-          <p className="text-data-mono uppercase text-on-surface-variant opacity-40">
-            {t("copyright")}
-          </p>
         </div>
       </div>
     </main>

@@ -1,0 +1,106 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { useState, type FormEvent } from "react";
+
+export function ForgotPasswordForm(): React.ReactElement {
+  const t = useTranslations("Auth");
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault();
+    setError(null);
+    setPending(true);
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+        return;
+      }
+      setError(t("networkError"));
+    } catch {
+      setError(t("networkError"));
+    } finally {
+      setPending(false);
+    }
+  }
+
+  if (submitted) {
+    return (
+      <p
+        aria-live="polite"
+        className="text-body-sm text-on-secondary-container bg-secondary-container px-md py-md"
+      >
+        {t("forgotPasswordSent")}
+      </p>
+    );
+  }
+
+  return (
+    <form className="space-y-lg" onSubmit={onSubmit} noValidate>
+      <p className="text-body-sm text-on-surface-variant">
+        {t("forgotPasswordHint")}
+      </p>
+
+      <div className="space-y-xs">
+        <label
+          className="text-label-caps uppercase text-on-surface-variant"
+          htmlFor="email"
+        >
+          {t("emailAddress")}
+        </label>
+        <div className="relative">
+          <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">
+            mail
+          </span>
+          <input
+            className="w-full bg-surface-container-low border border-outline-variant focus:border-primary focus:outline-none px-md py-md pl-[44px] text-on-surface text-body-lg transition-all placeholder:text-surface-container-highest"
+            id="email"
+            name="email"
+            placeholder="name@example.com"
+            required
+            type="email"
+            autoComplete="email"
+            disabled={pending}
+          />
+        </div>
+      </div>
+
+      {error ? (
+        <p
+          aria-live="polite"
+          className="text-body-sm text-error border border-error/40 bg-error-container/20 px-md py-sm"
+        >
+          {error}
+        </p>
+      ) : null}
+
+      <div className="pt-md">
+        <button
+          className="w-full bg-primary-container text-on-primary-container hover:bg-primary py-md text-headline-md font-bold uppercase tracking-tight transition-all active:scale-[0.98] disabled:opacity-60"
+          type="submit"
+          disabled={pending}
+        >
+          {pending ? (
+            <span className="material-symbols-outlined animate-spin text-[20px] align-middle">
+              progress_activity
+            </span>
+          ) : (
+            t("sendResetLink")
+          )}
+        </button>
+      </div>
+    </form>
+  );
+}

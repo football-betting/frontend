@@ -33,6 +33,15 @@ export const session = sqliteTable("session", {
   expiresAt: integer("expires_at").notNull(),
 });
 
+export const passwordResetToken = sqliteTable("password_reset_token", {
+  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => user.id),
+  tokenHash: text("token_hash").notNull().unique(),
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+});
+
 export const tip = sqliteTable(
   "tip",
   {

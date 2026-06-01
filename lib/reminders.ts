@@ -12,6 +12,33 @@ export function isValidLeadMinutes(value: number): value is ReminderLeadMinutes 
   return LEAD_SET.has(value);
 }
 
+// Delivery channels for a reminder. A lead time decides WHEN to notify; a
+// channel decides HOW. Forward-compatible: adding e.g. "sms" only needs a new
+// member here. "email" is the historical default (FE-059).
+export const REMINDER_CHANNELS = ["email", "push"] as const;
+
+export type ReminderChannel = (typeof REMINDER_CHANNELS)[number];
+
+const CHANNEL_SET: ReadonlySet<string> = new Set(REMINDER_CHANNELS);
+
+export function isValidChannel(value: string): value is ReminderChannel {
+  return CHANNEL_SET.has(value);
+}
+
+// Channels to fan a reminder out to for one user. Email is the historical
+// default (FE-059): a user with lead times but no explicit channel rows still
+// gets email, so existing behavior is preserved. Once the user opts into
+// channels explicitly, exactly those (validated) channels are used.
+export function channelsForUser(
+  enabledChannels: Iterable<string>,
+): ReminderChannel[] {
+  const explicit: ReminderChannel[] = [];
+  for (const c of enabledChannels) {
+    if (isValidChannel(c) && !explicit.includes(c)) explicit.push(c);
+  }
+  return explicit.length > 0 ? explicit : ["email"];
+}
+
 const SCHEDULED_STATUS = "SCHEDULED";
 
 export interface EligibleMatch {

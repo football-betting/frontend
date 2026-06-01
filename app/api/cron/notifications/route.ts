@@ -1,14 +1,24 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getUpcomingMatches } from "@/lib/match";
 import {
+  getAllReminderChannels,
   getAllReminderSettings,
   getSentKeysForMatches,
   markReminderSent,
 } from "@/lib/reminder-store";
+import {
+  deletePushSubscriptionByEndpoint,
+  getPushSubscriptionsByUserIds,
+} from "@/lib/push-store";
 import { getTipByUserAndMatchIds } from "@/lib/tip";
 import { getUserEmailsByIds } from "@/lib/user";
 import { sendTipReminderEmail } from "@/lib/mail";
-import { dueLeadMinutes, isValidLeadMinutes } from "@/lib/reminders";
+import { buildPushPayload, sendPush } from "@/lib/push";
+import {
+  channelsForUser,
+  dueLeadMinutes,
+  isValidLeadMinutes,
+} from "@/lib/reminders";
 
 export const dynamic = "force-dynamic";
 
@@ -79,54 +89,107 @@ async function run(request: NextRequest): Promise<Response> {
   const emailById = await getUserEmailsByIds(userIds);
   const sentKeys = await getSentKeysForMatches(matchIds);
 
+  // Per-channel preferences: email is the default for users with no explicit
+  // channel rows (preserves FE-059 behavior). Push fans out to every stored
+  // device subscription.
+  const channelRows = await getAllReminderChannels();
+  const channelsByUser = new Map<number, string[]>();
+  for (const row of channelRows) {
+    const list = channelsByUser.get(row.userId) ?? [];
+    list.push(row.channel);
+    channelsByUser.set(row.userId, list);
+  }
+  const pushSubsByUser = await getPushSubscriptionsByUserIds(userIds);
+
   const origin = resolveOrigin(request);
   let sent = 0;
 
   for (const [userId, leads] of leadsByUser) {
-    const email = emailById.get(userId);
-    if (!email) continue;
-
     const tips = await getTipByUserAndMatchIds(userId, matchIds);
     const tippedMatchIds = new Set<number>();
     for (const t of tips) {
       if (t.matchId !== null) tippedMatchIds.add(t.matchId);
     }
 
-    for (const m of matches) {
-      // Scope the dedup keys this user has already consumed.
-      const userSentKeys = new Set<string>();
-      for (const lead of leads) {
-        if (sentKeys.has(`${userId}:${m.id}:${lead}`)) {
-          userSentKeys.add(`${m.id}:${lead}`);
+    const channels = channelsForUser(channelsByUser.get(userId) ?? []);
+
+    for (const channel of channels) {
+      // Dedup is per channel: an email send and a push send for the same slot
+      // are tracked independently via the `(user, match, lead, channel)` key.
+      for (const m of matches) {
+        const userSentKeys = new Set<string>();
+        for (const lead of leads) {
+          if (sentKeys.has(`${userId}:${m.id}:${lead}:${channel}`)) {
+            userSentKeys.add(`${m.id}:${lead}`);
+          }
         }
-      }
 
-      const due = dueLeadMinutes({
-        now,
-        match: { id: m.id, utcDate: m.utcDate, status: m.status },
-        enabledLeadMinutes: leads,
-        tippedMatchIds,
-        sentKeys: userSentKeys,
-      });
+        const due = dueLeadMinutes({
+          now,
+          match: { id: m.id, utcDate: m.utcDate, status: m.status },
+          enabledLeadMinutes: leads,
+          tippedMatchIds,
+          sentKeys: userSentKeys,
+        });
 
-      for (const lead of due) {
-        // Reserve the slot first: the unique index makes this the single
-        // source of truth for dedup, so a concurrent run cannot double-send.
-        const reserved = await markReminderSent(userId, m.id, lead, now);
-        if (!reserved) continue;
+        for (const lead of due) {
+          // Reserve the slot first: the unique index makes this the single
+          // source of truth for dedup, so a concurrent run cannot double-send.
+          const reserved = await markReminderSent(
+            userId,
+            m.id,
+            lead,
+            channel,
+            now,
+          );
+          if (!reserved) continue;
 
-        const match = matchById.get(m.id);
-        if (!match) continue;
-        const label = `${match.homeTeam.name} – ${match.awayTeam.name}`;
-        try {
-          await sendTipReminderEmail(email, {
-            matchLabel: label,
-            kickoff: formatKickoff(match.utcDate),
-            predictUrl: `${origin}/match/${m.id}`,
-          });
-          sent += 1;
-        } catch (error) {
-          console.error("[cron/notifications] send failed", error);
+          const match = matchById.get(m.id);
+          if (!match) continue;
+          const label = `${match.homeTeam.name} – ${match.awayTeam.name}`;
+          const kickoff = formatKickoff(match.utcDate);
+          const predictUrl = `${origin}/match/${m.id}`;
+
+          // One channel failing must not halt the batch.
+          if (channel === "email") {
+            const email = emailById.get(userId);
+            if (!email) continue;
+            try {
+              await sendTipReminderEmail(email, {
+                matchLabel: label,
+                kickoff,
+                predictUrl,
+              });
+              sent += 1;
+            } catch (error) {
+              console.error("[cron/notifications] email send failed", error);
+            }
+          } else if (channel === "push") {
+            const subs = pushSubsByUser.get(userId) ?? [];
+            const payload = buildPushPayload({
+              title: "Tipp-Erinnerung",
+              // v1: German push text only, mirroring the email. Per-locale push
+              // copy is a future enhancement (locale lives in a cookie, not on
+              // the user row — see FE-059).
+              body: `Du hast dieses Spiel noch nicht getippt: ${label} — Anpfiff ${kickoff}.`,
+              url: predictUrl,
+            });
+            let delivered = false;
+            for (const sub of subs) {
+              const result = await sendPush(sub, payload);
+              if (result.ok) {
+                delivered = true;
+              } else if (result.gone) {
+                await deletePushSubscriptionByEndpoint(sub.endpoint);
+              } else {
+                console.error(
+                  "[cron/notifications] push send failed",
+                  result.statusCode,
+                );
+              }
+            }
+            if (delivered) sent += 1;
+          }
         }
       }
     }

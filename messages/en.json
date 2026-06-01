@@ -219,7 +219,14 @@
       "60": "1 hour before"
     },
     "reminderSave": "Save reminders",
-    "reminderSaved": "Reminders saved."
+    "reminderSaved": "Reminders saved.",
+    "pushHeading": "Push notifications",
+    "pushChannel": "Enable push in this browser",
+    "pushHint": "Get reminders as a browser notification, even when the app is not open. Works only in the installed app (pnpm build && pnpm start), not in development mode.",
+    "pushWorking": "Setting up …",
+    "pushUnsupported": "Push is not supported by this browser.",
+    "pushPermissionDenied": "Notifications were denied. Please allow them in your browser settings.",
+    "pushError": "Could not enable push. Please try again."
   },
   "Errors": {
     "invalidEmail": "Invalid email",

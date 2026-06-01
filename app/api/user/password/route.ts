@@ -1,4 +1,6 @@
+import { cookies } from "next/headers";
 import { Argon2id } from "oslo/password";
+import { lucia, REMEMBER_COOKIE } from "@/lib/auth";
 import { getCurrentSession } from "@/lib/session";
 import { getUserById, updateUserPassword } from "@/lib/user";
 import { changePasswordSchema } from "@/lib/validation/password";
@@ -99,6 +101,18 @@ export async function POST(request: Request): Promise<Response> {
   try {
     const hash = await argon2id.hash(newPassword);
     await updateUserPassword(userId, hash);
+    await lucia.invalidateUserSessions(sessionUser.id);
+
+    const session = await lucia.createSession(sessionUser.id, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    const cookieStore = await cookies();
+    const remembered = cookieStore.get(REMEMBER_COOKIE)?.value === "1";
+    const attributes = { ...sessionCookie.attributes };
+    if (!remembered) {
+      delete attributes.maxAge;
+      delete attributes.expires;
+    }
+    cookieStore.set(sessionCookie.name, sessionCookie.value, attributes);
   } catch (error) {
     console.error("[password] update failed", error);
     return jsonError("failedToUpdatePassword", 500);

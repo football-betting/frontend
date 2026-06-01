@@ -59,3 +59,39 @@ export const tip = sqliteTable(
     ),
   }),
 );
+
+export const reminderSetting = sqliteTable(
+  "reminder_setting",
+  {
+    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => user.id),
+    leadMinutes: integer("lead_minutes", { mode: "number" }).notNull(),
+  },
+  (table) => ({
+    reminderSettingUserLeadUnique: uniqueIndex(
+      "reminder_setting_user_lead_unique",
+    ).on(table.userId, table.leadMinutes),
+  }),
+);
+
+export const reminderSent = sqliteTable(
+  "reminder_sent",
+  {
+    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => user.id),
+    matchId: integer("match_id")
+      .notNull()
+      .references(() => match.id),
+    leadMinutes: integer("lead_minutes", { mode: "number" }).notNull(),
+    sentAt: integer("sent_at", { mode: "timestamp" }).notNull(),
+  },
+  (table) => ({
+    reminderSentUserMatchLeadUnique: uniqueIndex(
+      "reminder_sent_user_match_lead_unique",
+    ).on(table.userId, table.matchId, table.leadMinutes),
+  }),
+);

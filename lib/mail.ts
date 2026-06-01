@@ -104,6 +104,31 @@ export async function sendMail(message: MailMessage): Promise<void> {
   }
 }
 
+export interface TipReminderDetails {
+  matchLabel: string;
+  kickoff: string;
+  predictUrl: string;
+}
+
+// v1: German email only. Honoring per-user locale is a future enhancement —
+// the active locale lives in a cookie, not on the user row (see FE-059).
+export async function sendTipReminderEmail(
+  to: string,
+  details: TipReminderDetails,
+): Promise<void> {
+  const { matchLabel, kickoff, predictUrl } = details;
+  const subject = `Tipp-Erinnerung: ${matchLabel}`;
+  const text =
+    `Du hast dieses Spiel noch nicht getippt:\n\n` +
+    `${matchLabel}\nAnpfiff: ${kickoff}\n\n` +
+    `Jetzt tippen:\n${predictUrl}\n`;
+  const html =
+    `<p>Du hast dieses Spiel noch nicht getippt:</p>` +
+    `<p><strong>${matchLabel}</strong><br>Anpfiff: ${kickoff}</p>` +
+    `<p><a href="${predictUrl}">Jetzt tippen</a></p>`;
+  await sendMail({ to, subject, text, html });
+}
+
 export async function sendPasswordResetEmail(
   to: string,
   resetUrl: string,

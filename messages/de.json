@@ -208,7 +208,18 @@
     "networkError": "Netzwerkfehler. Bitte erneut versuchen.",
     "logout": "Abmelden",
     "logoutHeading": "Von diesem Gerät abmelden",
-    "logoutHint": "Deine aktuelle Sitzung wird sofort beendet."
+    "logoutHint": "Deine aktuelle Sitzung wird sofort beendet.",
+    "reminders": "Erinnerungen",
+    "reminderHint": "Wir erinnern dich per E-Mail an Spiele, die du noch nicht getippt hast. Wähle, wie lange vor Anpfiff.",
+    "reminderLead": {
+      "1440": "1 Tag vorher",
+      "720": "12 Stunden vorher",
+      "360": "6 Stunden vorher",
+      "180": "3 Stunden vorher",
+      "60": "1 Stunde vorher"
+    },
+    "reminderSave": "Erinnerungen speichern",
+    "reminderSaved": "Erinnerungen gespeichert."
   },
   "Errors": {
     "invalidEmail": "Ungültige E-Mail-Adresse",
@@ -236,6 +247,7 @@
     "failedToUpdatePassword": "Passwort konnte nicht aktualisiert werden.",
     "picksLocked": "Das Turnier hat bereits begonnen — die Auswahl ist gesperrt.",
     "failedToUpdateWinners": "Sieger konnten nicht aktualisiert werden.",
+    "failedToUpdateReminders": "Erinnerungen konnten nicht aktualisiert werden.",
     "noFileProvided": "Keine Datei ausgewählt.",
     "imageTooLarge": "Bild ist zu groß.",
     "unsupportedImageType": "Nicht unterstützter Bildtyp.",

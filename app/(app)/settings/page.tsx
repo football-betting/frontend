@@ -6,6 +6,8 @@ import { TopAppBar } from "@/components/dashboard/TopAppBar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { PasswordChangeForm } from "@/components/settings/PasswordChangeForm";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
+import { ReminderSettings } from "@/components/settings/ReminderSettings";
+import { getEnabledLeadMinutes } from "@/lib/reminder-store";
 
 function LogoutButton({ label }: { label: string }): React.ReactElement {
   return (
@@ -26,6 +28,7 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
     redirect("/login");
   }
   const localUser = await getUserById(Number(user.id));
+  const enabledLeadMinutes = await getEnabledLeadMinutes(Number(user.id));
   const t = await getTranslations("Settings");
 
   return (
@@ -101,12 +104,19 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
             </section>
           </div>
 
-          <div className="lg:col-span-7">
-            <section className="bg-surface-container rounded-lg p-lg border border-outline-variant h-full">
+          <div className="lg:col-span-7 space-y-lg">
+            <section className="bg-surface-container rounded-lg p-lg border border-outline-variant">
               <h2 className="text-label-caps uppercase tracking-widest text-primary mb-lg">
                 {t("security")}
               </h2>
               <PasswordChangeForm />
+            </section>
+
+            <section className="bg-surface-container rounded-lg p-lg border border-outline-variant">
+              <h2 className="text-label-caps uppercase tracking-widest text-primary mb-lg">
+                {t("reminders")}
+              </h2>
+              <ReminderSettings initialLeadMinutes={enabledLeadMinutes} />
             </section>
           </div>
         </div>

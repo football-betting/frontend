@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/session";
 import { PageBackground } from "@/components/PageBackground";
+import { Footer } from "@/components/Footer";
 
 export default async function AppLayout({
   children,
@@ -15,6 +16,7 @@ export default async function AppLayout({
     <>
       <PageBackground />
       {children}
+      <Footer />
     </>
   );
 }

@@ -30,6 +30,7 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   "X-Content-Type-Options": "nosniff",
+  "Strict-Transport-Security": "max-age=63072000; includeSubDomains",
 };
 
 function withSecurityHeaders(res: NextResponse): NextResponse {

@@ -27,6 +27,23 @@ export async function getUserAvatarsByIds(
   return map;
 }
 
+export async function getUserEmailsByIds(
+  ids: number[],
+): Promise<Map<number, string>> {
+  const map = new Map<number, string>();
+  if (ids.length === 0) {
+    return map;
+  }
+  const rows = await db
+    .select({ id: user.id, email: user.email })
+    .from(user)
+    .where(inArray(user.id, ids));
+  for (const row of rows) {
+    map.set(row.id, row.email);
+  }
+  return map;
+}
+
 export async function getUserByEmail(
   email: string,
 ): Promise<DatabaseUser | undefined> {

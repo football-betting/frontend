@@ -208,7 +208,18 @@
     "networkError": "Network error. Try again.",
     "logout": "Logout",
     "logoutHeading": "Logout from this device",
-    "logoutHint": "Your current session will be terminated immediately."
+    "logoutHint": "Your current session will be terminated immediately.",
+    "reminders": "Reminders",
+    "reminderHint": "We email you about matches you have not predicted yet. Choose how long before kickoff.",
+    "reminderLead": {
+      "1440": "1 day before",
+      "720": "12 hours before",
+      "360": "6 hours before",
+      "180": "3 hours before",
+      "60": "1 hour before"
+    },
+    "reminderSave": "Save reminders",
+    "reminderSaved": "Reminders saved."
   },
   "Errors": {
     "invalidEmail": "Invalid email",
@@ -236,6 +247,7 @@
     "failedToUpdatePassword": "Failed to update password.",
     "picksLocked": "Tournament has already started — picks are locked.",
     "failedToUpdateWinners": "Failed to update winners.",
+    "failedToUpdateReminders": "Failed to update reminders.",
     "noFileProvided": "No file provided.",
     "imageTooLarge": "Image too large.",
     "unsupportedImageType": "Unsupported image type.",

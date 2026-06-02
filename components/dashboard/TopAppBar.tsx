@@ -41,14 +41,13 @@ export function TopAppBar({ active }: TopAppBarProps): React.ReactElement {
         <div className="flex items-center gap-lg">
           <Link
             href="/settings"
-            aria-label={t("settings")}
-            className={`material-symbols-outlined transition-colors ${
+            className={`text-label-caps uppercase pb-1 transition-colors ${
               active === "settings"
-                ? "text-primary"
+                ? "text-primary border-b-2 border-primary"
                 : "text-on-surface-variant hover:text-primary"
             }`}
           >
-            settings
+            {t("settings")}
           </Link>
           <LocaleSwitcher />
           <form action="/api/auth/logout" method="POST">

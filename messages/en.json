@@ -226,7 +226,10 @@
     "pushWorking": "Setting up …",
     "pushUnsupported": "Push is not supported by this browser.",
     "pushPermissionDenied": "Notifications were denied. Please allow them in your browser settings.",
-    "pushError": "Could not enable push. Please try again."
+    "pushError": "Could not enable push. Please try again.",
+    "pushEnableButton": "Enable notifications",
+    "pushDisableButton": "Disable",
+    "pushEnabledStatus": "Notifications enabled"
   },
   "Errors": {
     "invalidEmail": "Invalid email",

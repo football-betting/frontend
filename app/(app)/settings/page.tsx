@@ -18,7 +18,7 @@ function LogoutButton({ label }: { label: string }): React.ReactElement {
     <form action="/api/auth/logout" method="POST">
       <button
         type="submit"
-        className="text-error bg-error/10 hover:bg-error/20 px-4 py-2 rounded-lg text-label-caps uppercase font-bold transition-colors active:scale-95"
+        className="text-on-surface-variant bg-surface-container-highest hover:bg-surface-bright border border-outline-variant px-4 py-2 rounded-lg text-label-caps uppercase font-bold transition-colors active:scale-95"
       >
         {label}
       </button>
@@ -96,9 +96,9 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
               <h2 className="text-label-caps uppercase tracking-widest text-on-surface-variant mb-md">
                 {t("session")}
               </h2>
-              <div className="flex items-center justify-between gap-md p-md bg-error-container/10 border border-error-container/30 rounded-lg">
+              <div className="flex items-center justify-between gap-md p-md bg-surface-container-highest border border-outline-variant rounded-lg">
                 <div>
-                  <p className="text-body-sm font-bold text-error">
+                  <p className="text-body-sm font-bold text-on-surface">
                     {t("logoutHeading")}
                   </p>
                   <p className="text-[11px] text-on-surface-variant">

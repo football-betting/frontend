@@ -16,7 +16,7 @@ type SeedMatch = {
   id: number;
   homeTeam: TeamRef;
   awayTeam: TeamRef;
-  status: "FINISHED" | "IN_PLAY" | "SCHEDULED";
+  status: "FINISHED" | "IN_PLAY" | "SCHEDULED" | "TIMED";
   utcDate: number;
   homeScore: number | null;
   awayScore: number | null;
@@ -162,7 +162,7 @@ function buildMatches(now: number): SeedMatch[] {
       id: 7,
       homeTeam: TEAM.ESP,
       awayTeam: TEAM.ITA,
-      status: "SCHEDULED",
+      status: "TIMED",
       utcDate: now + 1 * DAY,
       homeScore: null,
       awayScore: null,
@@ -171,7 +171,7 @@ function buildMatches(now: number): SeedMatch[] {
       id: 8,
       homeTeam: TEAM.NED,
       awayTeam: TEAM.CRO,
-      status: "SCHEDULED",
+      status: "TIMED",
       utcDate: now + 2 * DAY,
       homeScore: null,
       awayScore: null,
@@ -180,7 +180,7 @@ function buildMatches(now: number): SeedMatch[] {
       id: 9,
       homeTeam: TEAM.GER,
       awayTeam: TEAM.POR,
-      status: "SCHEDULED",
+      status: "TIMED",
       utcDate: now + 3 * DAY,
       homeScore: null,
       awayScore: null,
@@ -189,7 +189,7 @@ function buildMatches(now: number): SeedMatch[] {
       id: 10,
       homeTeam: TEAM.FRA,
       awayTeam: TEAM.POL,
-      status: "SCHEDULED",
+      status: "TIMED",
       utcDate: now + 5 * DAY,
       homeScore: null,
       awayScore: null,
@@ -198,7 +198,7 @@ function buildMatches(now: number): SeedMatch[] {
       id: 11,
       homeTeam: TEAM.ENG,
       awayTeam: TEAM.ESP,
-      status: "SCHEDULED",
+      status: "TIMED",
       utcDate: now + 7 * DAY,
       homeScore: null,
       awayScore: null,
@@ -218,7 +218,7 @@ function buildMatches(now: number): SeedMatch[] {
       id: 13,
       homeTeam: TEAM.POR,
       awayTeam: TEAM.NED,
-      status: "SCHEDULED",
+      status: "TIMED",
       utcDate: now + 1 * DAY,
       homeScore: null,
       awayScore: null,
@@ -227,7 +227,7 @@ function buildMatches(now: number): SeedMatch[] {
       id: 14,
       homeTeam: TEAM.CRO,
       awayTeam: TEAM.POL,
-      status: "SCHEDULED",
+      status: "TIMED",
       utcDate: now + 2 * DAY,
       homeScore: null,
       awayScore: null,

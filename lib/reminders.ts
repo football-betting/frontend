@@ -64,7 +64,14 @@ export function shouldMarkDelivery(attempt: DeliveryAttempt): boolean {
   return attempt.delivered;
 }
 
-const SCHEDULED_STATUS = "SCHEDULED";
+// The external football API marks fixtures with a confirmed kickoff as "TIMED"
+// (not "SCHEDULED"), so both count as upcoming/scheduled across the app.
+export const UPCOMING_MATCH_STATUSES = ["SCHEDULED", "TIMED"] as const;
+const UPCOMING_STATUS_SET: ReadonlySet<string> = new Set(UPCOMING_MATCH_STATUSES);
+
+export function isUpcomingStatus(status: string): boolean {
+  return UPCOMING_STATUS_SET.has(status);
+}
 
 export interface EligibleMatch {
   id: number;
@@ -95,7 +102,7 @@ export function sentKey(matchId: number, leadMinutes: number): string {
 export function dueLeadMinutes(input: EligibilityInput): number[] {
   const { now, match, enabledLeadMinutes, tippedMatchIds, sentKeys } = input;
 
-  if (match.status !== SCHEDULED_STATUS) return [];
+  if (!isUpcomingStatus(match.status)) return [];
   if (tippedMatchIds.has(match.id)) return [];
 
   const nowMs = now.getTime();

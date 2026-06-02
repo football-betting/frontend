@@ -2,6 +2,7 @@ import { and, asc, eq, gte, inArray } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { match } from "@/db/schema";
 import { formatDateKey } from "@/lib/format";
+import { UPCOMING_MATCH_STATUSES } from "@/lib/reminders";
 
 export interface TeamRef {
   name: string;
@@ -52,7 +53,12 @@ export async function getUpcomingMatches(): Promise<MatchRow[]> {
   const rows = await db
     .select()
     .from(match)
-    .where(and(eq(match.status, "SCHEDULED"), gte(match.utcDate, now)));
+    .where(
+      and(
+        inArray(match.status, [...UPCOMING_MATCH_STATUSES]),
+        gte(match.utcDate, now),
+      ),
+    );
   return rows
     .map(rowToMatch)
     .filter((m): m is MatchRow => m !== null)
@@ -73,7 +79,12 @@ export async function getLiveState(): Promise<LiveState> {
   const upcoming = await db
     .select({ utcDate: match.utcDate })
     .from(match)
-    .where(and(eq(match.status, "SCHEDULED"), gte(match.utcDate, now)))
+    .where(
+      and(
+        inArray(match.status, [...UPCOMING_MATCH_STATUSES]),
+        gte(match.utcDate, now),
+      ),
+    )
     .orderBy(asc(match.utcDate))
     .limit(1);
   return {

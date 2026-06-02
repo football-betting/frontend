@@ -89,6 +89,18 @@ describe("dueLeadMinutes", () => {
     expect(due).toEqual([]);
   });
 
+  it("treats a TIMED match as upcoming (external API status)", () => {
+    const now = new Date(KICKOFF.getTime() - 90 * 60_000);
+    const due = dueLeadMinutes({
+      now,
+      match: matchAt(KICKOFF, "TIMED"),
+      enabledLeadMinutes: enabled,
+      tippedMatchIds: noTips,
+      sentKeys: noSent,
+    });
+    expect(due).toEqual([720]);
+  });
+
   it("returns nothing if the user already tipped the match", () => {
     const now = new Date(KICKOFF.getTime() - 90 * 60_000);
     const due = dueLeadMinutes({

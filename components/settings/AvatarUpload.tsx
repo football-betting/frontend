@@ -5,6 +5,7 @@ import { useRef, useState, type ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Avatar } from "@/components/Avatar";
 import { ALLOWED_AVATAR_TYPES, MAX_AVATAR_BYTES } from "@/lib/avatar";
+import { extractErrorKey } from "@/lib/error-message";
 
 interface AvatarUploadProps {
   avatarPath: string | null | undefined;
@@ -16,6 +17,7 @@ export function AvatarUpload({
   email,
 }: AvatarUploadProps): React.ReactElement {
   const t = useTranslations("Settings");
+  const tErrors = useTranslations("Errors");
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
@@ -69,14 +71,9 @@ export function AvatarUpload({
       }
       let message = t("avatarUploadFailed");
       try {
-        const body: unknown = await res.json();
-        if (
-          body &&
-          typeof body === "object" &&
-          "error" in body &&
-          typeof (body as { error: unknown }).error === "string"
-        ) {
-          message = (body as { error: string }).error;
+        const key = extractErrorKey(await res.json());
+        if (key !== null && tErrors.has(key)) {
+          message = tErrors(key);
         }
       } catch {
         // ignore parse error, fall back to default

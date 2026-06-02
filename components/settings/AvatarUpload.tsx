@@ -60,7 +60,7 @@ export function AvatarUpload({
             "avatar" in body &&
             typeof (body as { avatar: unknown }).avatar === "string"
           ) {
-            next = `${(body as { avatar: string }).avatar}?t=${Date.now()}`;
+            next = (body as { avatar: string }).avatar;
           }
         } catch {
           // ignore parse error, fall back to router refresh

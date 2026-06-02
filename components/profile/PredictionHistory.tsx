@@ -27,13 +27,6 @@ interface PredictionHistoryProps {
   tips: RatingMatchInfo[];
 }
 
-function clampPerMatchPoints(score: number): number {
-  if (score === 5) return 5;
-  if (score === 3) return 3;
-  if (score === 2) return 2;
-  return 0;
-}
-
 function formatPoints(points: number): string {
   return points > 0 ? `+${points}` : "0";
 }
@@ -191,7 +184,7 @@ export function PredictionHistory({
                   </thead>
                   <tbody className="divide-y divide-outline-variant">
                     {pageTips.map((tip) => {
-                      const points = clampPerMatchPoints(tip.score);
+                      const points = tip.score;
                       const toneClass = scoreToneClass(scoreColor(points));
                       const matchDate = parseDate(tip.date);
                       return (
@@ -238,7 +231,7 @@ export function PredictionHistory({
 
               <ul className="md:hidden border border-outline-variant divide-y divide-outline-variant">
                 {pageTips.map((tip) => {
-                  const points = clampPerMatchPoints(tip.score);
+                  const points = tip.score;
                   const toneClass = scoreToneClass(scoreColor(points));
                   const matchDate = parseDate(tip.date);
                   return (

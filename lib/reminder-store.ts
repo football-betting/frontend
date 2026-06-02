@@ -101,27 +101,6 @@ export async function markReminderSent(
   return inserted.length > 0;
 }
 
-export async function hasReminderBeenSent(
-  userId: number,
-  matchId: number,
-  leadMinutes: number,
-  channel: ReminderChannel,
-): Promise<boolean> {
-  const rows = await db
-    .select({ id: reminderSent.id })
-    .from(reminderSent)
-    .where(
-      and(
-        eq(reminderSent.userId, userId),
-        eq(reminderSent.matchId, matchId),
-        eq(reminderSent.leadMinutes, leadMinutes),
-        eq(reminderSent.channel, channel),
-      ),
-    )
-    .limit(1);
-  return rows.length > 0;
-}
-
 // Channels a user has explicitly enabled. Email stays the default elsewhere
 // (see `channelsForUser` in the cron) — this returns only stored rows.
 export async function getEnabledChannels(

@@ -1,17 +1,8 @@
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import packageJson from "@/package.json";
 
 const GITHUB_URL = "https://github.com/football-betting";
-
-const FEATURE_KEYS = [
-  "liveScoring",
-  "predicting",
-  "rankings",
-  "pwaOffline",
-  "i18n",
-  "passwordReset",
-  "avatars",
-] as const;
 
 export function Footer(): React.ReactElement {
   const t = useTranslations("Footer");
@@ -31,16 +22,12 @@ export function Footer(): React.ReactElement {
             </div>
           </div>
 
-          <div className="flex flex-col items-center md:items-start gap-xs min-w-0">
-            <div className="text-label-caps uppercase text-on-surface-variant">
-              {t("featuresHeading")}
-            </div>
-            <ul className="flex flex-wrap justify-center md:justify-start gap-x-md gap-y-xs text-body-sm text-on-surface-variant/80">
-              {FEATURE_KEYS.map((key) => (
-                <li key={key}>{t(`features.${key}`)}</li>
-              ))}
-            </ul>
-          </div>
+          <Link
+            href="/features"
+            className="self-center md:self-auto text-label-caps uppercase text-on-surface-variant hover:text-primary transition-colors"
+          >
+            {t("featuresHeading")}
+          </Link>
 
           <div className="flex items-center gap-md">
             <a

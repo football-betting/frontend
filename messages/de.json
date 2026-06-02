@@ -8,15 +8,48 @@
     "settings": "Einstellungen"
   },
   "Footer": {
-    "featuresHeading": "Funktionen",
-    "features": {
-      "liveScoring": "Live-Scoring",
-      "predicting": "Tippen & Wertung (5/3/2)",
-      "rankings": "Ranglisten (global + Abteilungen)",
-      "pwaOffline": "PWA / Offline",
-      "i18n": "DE / EN",
-      "passwordReset": "Passwort-Reset",
-      "avatars": "Avatare"
+    "featuresHeading": "Funktionen"
+  },
+  "Features": {
+    "title": "Funktionen",
+    "intro": "Was die App kann — ein Überblick für Nutzer und Entwickler.",
+    "items": {
+      "liveScoring": {
+        "title": "Live-Scoring & Auto-Refresh",
+        "desc": "Spielstände und Ranglisten-Punkte aktualisieren sich während laufender Spiele automatisch — ohne manuelles Neuladen."
+      },
+      "predicting": {
+        "title": "Tippen & Wertung",
+        "desc": "Ein Tipp pro Spiel. Wertung: Volltreffer 5, Tordifferenz 3, Tendenz 2 Punkte — plus Bonus für den Weltmeister-Tipp."
+      },
+      "rankings": {
+        "title": "Ranglisten",
+        "desc": "Globale Rangliste und je Abteilung, mit Position, Trefferstatistik und Hervorhebung der eigenen Zeile."
+      },
+      "history": {
+        "title": "Profil & Tipp-Historie",
+        "desc": "Eigenes Profil mit Statistiken und vollständiger Tipp-Historie — sortier-, filter- und seitenweise blätterbar."
+      },
+      "reminders": {
+        "title": "Erinnerungen",
+        "desc": "Erinnerungen für noch nicht getippte Spiele — per Email und/oder Push in der installierten App, mit wählbaren Vorlaufzeiten."
+      },
+      "pwaOffline": {
+        "title": "Installierbare PWA",
+        "desc": "Als App auf Android und iOS installierbar, läuft standalone, mit Offline-Seite."
+      },
+      "passwordReset": {
+        "title": "Passwort-Reset",
+        "desc": "Passwort vergessen? Sicheres Zurücksetzen über einen zeitlich begrenzten Link per Email."
+      },
+      "avatars": {
+        "title": "Avatare",
+        "desc": "Eigenes Profilbild hochladen; sonst saubere Initialen als Fallback."
+      },
+      "languages": {
+        "title": "Mehrsprachig",
+        "desc": "Komplett auf Deutsch und Englisch, jederzeit umschaltbar."
+      }
     }
   },
   "Common": {

@@ -8,15 +8,48 @@
     "settings": "Settings"
   },
   "Footer": {
-    "featuresHeading": "Features",
-    "features": {
-      "liveScoring": "Live scoring",
-      "predicting": "Predictions & scoring (5/3/2)",
-      "rankings": "Rankings (global + departments)",
-      "pwaOffline": "PWA / offline",
-      "i18n": "DE / EN",
-      "passwordReset": "Password reset",
-      "avatars": "Avatars"
+    "featuresHeading": "Features"
+  },
+  "Features": {
+    "title": "Features",
+    "intro": "What the app can do — an overview for users and developers.",
+    "items": {
+      "liveScoring": {
+        "title": "Live scoring & auto-refresh",
+        "desc": "Scores and ranking points update automatically while matches are in play — no manual reload."
+      },
+      "predicting": {
+        "title": "Predictions & scoring",
+        "desc": "One prediction per match. Scoring: exact 5, goal difference 3, tendency 2 points — plus a bonus for the champion pick."
+      },
+      "rankings": {
+        "title": "Rankings",
+        "desc": "Global ranking and one per department, with position, hit statistics and your own row highlighted."
+      },
+      "history": {
+        "title": "Profile & prediction history",
+        "desc": "Your profile with statistics and a full prediction history — sortable, filterable and paginated."
+      },
+      "reminders": {
+        "title": "Reminders",
+        "desc": "Reminders for matches you haven't predicted yet — by email and/or push in the installed app, with selectable lead times."
+      },
+      "pwaOffline": {
+        "title": "Installable PWA",
+        "desc": "Installable as an app on Android and iOS, runs standalone, with an offline page."
+      },
+      "passwordReset": {
+        "title": "Password reset",
+        "desc": "Forgot your password? Secure reset via a time-limited email link."
+      },
+      "avatars": {
+        "title": "Avatars",
+        "desc": "Upload your own profile picture; clean initials as a fallback otherwise."
+      },
+      "languages": {
+        "title": "Multilingual",
+        "desc": "Fully available in German and English, switchable at any time."
+      }
     }
   },
   "Common": {

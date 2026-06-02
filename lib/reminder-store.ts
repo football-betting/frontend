@@ -1,17 +1,12 @@
 import "server-only";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { reminderChannel, reminderSent, reminderSetting } from "@/db/schema";
-import { isValidChannel, type ReminderChannel } from "@/lib/reminders";
+import { reminderEmailOff, reminderSent, reminderSetting } from "@/db/schema";
+import { type ReminderChannel } from "@/lib/reminders";
 
 export interface ReminderSettingRow {
   userId: number;
   leadMinutes: number;
-}
-
-export interface ReminderChannelRow {
-  userId: number;
-  channel: ReminderChannel;
 }
 
 export async function getEnabledLeadMinutes(userId: number): Promise<number[]> {
@@ -101,58 +96,48 @@ export async function markReminderSent(
   return inserted.length > 0;
 }
 
-// Channels a user has explicitly enabled. Email stays the default elsewhere
-// (see `channelsForUser` in the cron) — this returns only stored rows.
-export async function getEnabledChannels(
-  userId: number,
-): Promise<ReminderChannel[]> {
+// Email is on by default (FE-073): a user has email reminders ENABLED unless a
+// `reminder_email_off` row marks them as opted out.
+export async function isEmailEnabled(userId: number): Promise<boolean> {
   const rows = await db
-    .select({ channel: reminderChannel.channel })
-    .from(reminderChannel)
-    .where(eq(reminderChannel.userId, userId));
-  return rows
-    .map((r) => r.channel)
-    .filter((c): c is ReminderChannel => isValidChannel(c));
+    .select({ userId: reminderEmailOff.userId })
+    .from(reminderEmailOff)
+    .where(eq(reminderEmailOff.userId, userId))
+    .limit(1);
+  return rows.length === 0;
 }
 
-export async function getAllReminderChannels(): Promise<ReminderChannelRow[]> {
-  const rows = await db
-    .select({
-      userId: reminderChannel.userId,
-      channel: reminderChannel.channel,
-    })
-    .from(reminderChannel);
-  const out: ReminderChannelRow[] = [];
-  for (const r of rows) {
-    if (isValidChannel(r.channel)) {
-      out.push({ userId: r.userId, channel: r.channel });
-    }
-  }
-  return out;
-}
-
-export async function setChannelEnabled(
+export async function setEmailEnabled(
   userId: number,
-  channel: ReminderChannel,
   enabled: boolean,
 ): Promise<void> {
   if (enabled) {
     await db
-      .insert(reminderChannel)
-      .values({ userId, channel })
-      .onConflictDoNothing({
-        target: [reminderChannel.userId, reminderChannel.channel],
-      })
+      .delete(reminderEmailOff)
+      .where(eq(reminderEmailOff.userId, userId))
       .run();
   } else {
     await db
-      .delete(reminderChannel)
-      .where(
-        and(
-          eq(reminderChannel.userId, userId),
-          eq(reminderChannel.channel, channel),
-        ),
-      )
+      .insert(reminderEmailOff)
+      .values({ userId })
+      .onConflictDoNothing({ target: reminderEmailOff.userId })
       .run();
   }
+}
+
+// Users (out of the given set) who have email reminders DISABLED. The cron uses
+// this to derive per-user email state: enabled = not in this set.
+export async function getEmailDisabledUserIds(
+  userIds: number[],
+): Promise<Set<number>> {
+  if (userIds.length === 0) return new Set();
+  const wanted = new Set(userIds);
+  const rows = await db
+    .select({ userId: reminderEmailOff.userId })
+    .from(reminderEmailOff);
+  const out = new Set<number>();
+  for (const r of rows) {
+    if (wanted.has(r.userId)) out.add(r.userId);
+  }
+  return out;
 }

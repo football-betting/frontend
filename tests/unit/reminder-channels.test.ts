@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   REMINDER_CHANNELS,
-  channelsForUser,
+  activeChannels,
   isValidChannel,
+  remindersActive,
   shouldMarkDelivery,
 } from "@/lib/reminders";
 
@@ -16,27 +17,41 @@ describe("isValidChannel", () => {
   });
 });
 
-describe("channelsForUser", () => {
-  it("defaults to email when no channels are stored (FE-059 behavior)", () => {
-    expect(channelsForUser([])).toEqual(["email"]);
+describe("activeChannels (FE-073 independent channels)", () => {
+  it("returns no channels when both are off (zero channels allowed)", () => {
+    expect(activeChannels({ email: false, push: false })).toEqual([]);
   });
 
-  it("keeps email as the baseline and adds push when opted in (FE-066)", () => {
-    expect(channelsForUser(["push"])).toEqual(["email", "push"]);
+  it("returns email only when email is on and push is off", () => {
+    expect(activeChannels({ email: true, push: false })).toEqual(["email"]);
   });
 
-  it("keeps a single email entry when push is not opted in", () => {
-    expect(channelsForUser(["email"])).toEqual(["email"]);
+  it("returns push only when email is off (email is turn-off-able)", () => {
+    expect(activeChannels({ email: false, push: true })).toEqual(["push"]);
   });
 
-  it("is email-first and deduped when both are stored", () => {
-    expect(channelsForUser(["email", "push"])).toEqual(["email", "push"]);
-    expect(channelsForUser(["push", "push"])).toEqual(["email", "push"]);
+  it("returns both email-first when both are active", () => {
+    expect(activeChannels({ email: true, push: true })).toEqual([
+      "email",
+      "push",
+    ]);
+  });
+});
+
+describe("remindersActive", () => {
+  it("is false when no channel is active", () => {
+    expect(remindersActive([])).toBe(false);
+    expect(remindersActive(activeChannels({ email: false, push: false }))).toBe(
+      false,
+    );
   });
 
-  it("ignores unknown channels but always keeps email", () => {
-    expect(channelsForUser(["sms"])).toEqual(["email"]);
-    expect(channelsForUser(["push", "sms"])).toEqual(["email", "push"]);
+  it("is true when at least one channel is active", () => {
+    expect(remindersActive(["email"])).toBe(true);
+    expect(remindersActive(["push"])).toBe(true);
+    expect(remindersActive(activeChannels({ email: true, push: true }))).toBe(
+      true,
+    );
   });
 });
 

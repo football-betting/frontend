@@ -6,7 +6,13 @@ import { arrayBufferToBase64, urlBase64ToUint8Array } from "@/lib/push-client";
 import { extractErrorKey } from "@/lib/error-message";
 
 interface PushToggleProps {
-  initialEnabled: boolean;
+  // Whether the account already has at least one device subscription. Used to
+  // seed the account-wide "push active" gate before the client refines it.
+  initialAccountActive: boolean;
+  // Reports whether push is active for the ACCOUNT (>= 1 subscription exists,
+  // best-effort from this device's perspective) so the parent can gate the
+  // lead-time toggles.
+  onActiveChange: (active: boolean) => void;
 }
 
 type Support = "unknown" | "unsupported" | "default" | "granted" | "denied";
@@ -20,51 +26,45 @@ function pushSupported(): boolean {
   );
 }
 
+// Push can only be toggled from the INSTALLED PWA (standalone display mode), not
+// a regular browser tab. iOS Safari exposes the legacy `navigator.standalone`.
+function isStandalonePwa(): boolean {
+  if (typeof window === "undefined") return false;
+  if (window.matchMedia?.("(display-mode: standalone)").matches) return true;
+  const nav = navigator as Navigator & { standalone?: boolean };
+  return nav.standalone === true;
+}
+
 export function PushToggle({
-  initialEnabled,
+  initialAccountActive,
+  onActiveChange,
 }: PushToggleProps): React.ReactElement {
   const t = useTranslations("Settings");
   const tErrors = useTranslations("Errors");
-  const [enabled, setEnabled] = useState(initialEnabled);
+  const [enabled, setEnabled] = useState(false);
   const [support, setSupport] = useState<Support>("unknown");
+  const [standalone, setStandalone] = useState(false);
   const [working, setWorking] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 
   useEffect(() => {
+    setStandalone(isStandalonePwa());
     if (!pushSupported()) {
       setSupport("unsupported");
       return;
     }
     setSupport(Notification.permission as Support);
+    // Refine "this device subscribed" from the actual service worker state.
+    navigator.serviceWorker.ready
+      .then((reg) => reg.pushManager.getSubscription())
+      .then((sub) => setEnabled(sub !== null))
+      .catch(() => undefined);
   }, []);
 
   function showError(messageOrKey: string): void {
     setError(tErrors.has(messageOrKey) ? tErrors(messageOrKey) : messageOrKey);
-  }
-
-  async function setChannel(value: boolean): Promise<boolean> {
-    const res = await fetch("/api/user/reminder-channels", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ channel: "push", enabled: value }),
-    });
-    if (res.ok) return true;
-    try {
-      const key = extractErrorKey(await res.json());
-      if (key !== null && tErrors.has(key)) {
-        setError(tErrors(key));
-        return false;
-      }
-    } catch {
-      // fall through to generic error
-    }
-    setError(t("pushError"));
-    return false;
   }
 
   async function enable(): Promise<void> {
@@ -117,8 +117,8 @@ export function PushToggle({
         return;
       }
 
-      if (!(await setChannel(true))) return;
       setEnabled(true);
+      onActiveChange(true);
     } catch {
       showError(t("pushError"));
     } finally {
@@ -145,8 +145,11 @@ export function PushToggle({
           await subscription.unsubscribe().catch(() => undefined);
         }
       }
-      await setChannel(false);
       setEnabled(false);
+      // This device unsubscribed. Other devices may still hold a subscription,
+      // but from here we can only attest to this one; treat account push as
+      // inactive for the gate (the server reconciles on next load).
+      onActiveChange(false);
     } catch {
       showError(t("pushError"));
     } finally {
@@ -161,6 +164,10 @@ export function PushToggle({
       {support === "unsupported" ? (
         <p className="text-body-sm text-on-surface-variant">
           {t("pushUnsupported")}
+        </p>
+      ) : !standalone ? (
+        <p className="text-body-sm text-on-surface-variant border border-outline-variant bg-surface-container-highest px-md py-sm rounded-lg">
+          {t("pushInstallRequired")}
         </p>
       ) : enabled ? (
         <div className="flex items-center justify-between gap-md p-md bg-surface-container-highest border border-outline-variant rounded-lg">
@@ -196,6 +203,12 @@ export function PushToggle({
           {working ? t("pushWorking") : t("pushEnableButton")}
         </button>
       )}
+
+      {!standalone && initialAccountActive ? (
+        <p className="text-body-sm text-on-surface-variant">
+          {t("pushOtherDeviceActive")}
+        </p>
+      ) : null}
 
       {error ? (
         <p

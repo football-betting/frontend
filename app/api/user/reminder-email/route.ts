@@ -1,6 +1,6 @@
 import { getCurrentSession } from "@/lib/session";
-import { setChannelEnabled } from "@/lib/reminder-store";
-import { reminderChannelSchema } from "@/lib/validation/reminder-channels";
+import { setEmailEnabled } from "@/lib/reminder-store";
+import { reminderEmailSchema } from "@/lib/validation/reminder-email";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 function jsonError(message: string, status: number): Response {
@@ -44,15 +44,15 @@ export async function PUT(request: Request): Promise<Response> {
   const body = await readJson(request);
   if (body === null) return jsonError("invalidRequestBody", 400);
 
-  const parsed = reminderChannelSchema.safeParse(body);
+  const parsed = reminderEmailSchema.safeParse(body);
   if (!parsed.success) {
     return jsonError(parsed.error.issues[0]?.message ?? "invalidInput", 400);
   }
 
   try {
-    await setChannelEnabled(userId, parsed.data.channel, parsed.data.enabled);
+    await setEmailEnabled(userId, parsed.data.enabled);
   } catch (error) {
-    console.error("[reminder-channels] update failed", error);
+    console.error("[reminder-email] update failed", error);
     return jsonError("failedToUpdateReminders", 500);
   }
 

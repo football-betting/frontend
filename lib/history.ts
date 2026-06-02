@@ -55,11 +55,20 @@ export function sortTips(
   return [...tips].sort((a, b) => compareTips(a, b, sort));
 }
 
-export function toggleSort(current: SortState, key: SortKey): SortState {
-  if (current.key === key) {
-    return { key, dir: current.dir === "asc" ? "desc" : "asc" };
+// Three-state click cycle for a sortable column: ascending → descending →
+// none (`null` = back to the default order). Clicking a different column
+// starts at ascending.
+export function cycleSort(
+  current: SortState | null,
+  key: SortKey,
+): SortState | null {
+  if (!current || current.key !== key) {
+    return { key, dir: "asc" };
   }
-  return { key, dir: "desc" };
+  if (current.dir === "asc") {
+    return { key, dir: "desc" };
+  }
+  return null;
 }
 
 export function pageCount(totalItems: number, pageSize = PAGE_SIZE): number {

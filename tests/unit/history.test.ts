@@ -11,8 +11,7 @@ import {
   paginate,
   sortTips,
   tipCategory,
-  toggleSort,
-  type SortState,
+  cycleSort,
 } from "@/lib/history";
 
 function makeTip(
@@ -131,20 +130,23 @@ describe("compareTips / sortTips", () => {
   });
 });
 
-describe("toggleSort", () => {
-  it("flips direction when key is unchanged", () => {
-    const start: SortState = { key: "date", dir: "desc" };
-    expect(toggleSort(start, "date")).toEqual({ key: "date", dir: "asc" });
-    expect(toggleSort({ key: "date", dir: "asc" }, "date")).toEqual({
-      key: "date",
-      dir: "desc",
-    });
-  });
-
-  it("switches to a new key defaulting to desc", () => {
-    expect(toggleSort({ key: "date", dir: "asc" }, "points")).toEqual({
+describe("cycleSort", () => {
+  it("cycles a column asc → desc → none (null) over three clicks", () => {
+    // from none (null) → asc
+    expect(cycleSort(null, "points")).toEqual({ key: "points", dir: "asc" });
+    // asc → desc
+    expect(cycleSort({ key: "points", dir: "asc" }, "points")).toEqual({
       key: "points",
       dir: "desc",
+    });
+    // desc → none
+    expect(cycleSort({ key: "points", dir: "desc" }, "points")).toBeNull();
+  });
+
+  it("switches to a new column starting at asc", () => {
+    expect(cycleSort({ key: "date", dir: "desc" }, "points")).toEqual({
+      key: "points",
+      dir: "asc",
     });
   });
 });

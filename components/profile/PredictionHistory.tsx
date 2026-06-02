@@ -14,7 +14,7 @@ import {
   pageCount,
   paginate,
   sortTips,
-  toggleSort,
+  cycleSort,
   type SortKey,
   type SortState,
 } from "@/lib/history";
@@ -41,8 +41,8 @@ function parseDate(date: number): Date {
   return new Date(date * 1000);
 }
 
-function sortIndicator(sort: SortState, key: SortKey): string {
-  if (sort.key !== key) return "";
+function sortIndicator(sort: SortState | null, key: SortKey): string {
+  if (!sort || sort.key !== key) return "";
   return sort.dir === "asc" ? " ↑" : " ↓";
 }
 
@@ -53,11 +53,12 @@ export function PredictionHistory({
   const t = useTranslations("Profile");
   const locale = useLocale();
   const { filter, setFilter } = useHistoryFilter();
-  const [sort, setSort] = useState<SortState>(DEFAULT_SORT);
+  // `null` = no explicit sort → the default order (DEFAULT_SORT).
+  const [sort, setSort] = useState<SortState | null>(null);
   const [page, setPage] = useState(1);
 
   const visibleTips = useMemo(
-    () => sortTips(filterTips(tips, filter), sort),
+    () => sortTips(filterTips(tips, filter), sort ?? DEFAULT_SORT),
     [tips, filter, sort],
   );
 
@@ -70,7 +71,7 @@ export function PredictionHistory({
     : visibleTips;
 
   function handleSort(key: SortKey): void {
-    setSort((current) => toggleSort(current, key));
+    setSort((current) => cycleSort(current, key));
     setPage(1);
   }
 
@@ -119,9 +120,9 @@ export function PredictionHistory({
             <button
               type="button"
               onClick={() => handleSort("points")}
-              aria-pressed={sort.key === "points"}
+              aria-pressed={sort?.key === "points"}
               className={`flex-1 px-md py-sm border text-label-caps uppercase transition-colors ${
-                sort.key === "points"
+                sort?.key === "points"
                   ? "border-primary text-primary bg-surface-container-high"
                   : "border-outline-variant text-on-surface-variant"
               }`}
@@ -132,9 +133,9 @@ export function PredictionHistory({
             <button
               type="button"
               onClick={() => handleSort("date")}
-              aria-pressed={sort.key === "date"}
+              aria-pressed={sort?.key === "date"}
               className={`flex-1 px-md py-sm border text-label-caps uppercase transition-colors ${
-                sort.key === "date"
+                sort?.key === "date"
                   ? "border-primary text-primary bg-surface-container-high"
                   : "border-outline-variant text-on-surface-variant"
               }`}
@@ -158,7 +159,7 @@ export function PredictionHistory({
                         <button
                           type="button"
                           onClick={() => handleSort("date")}
-                          aria-pressed={sort.key === "date"}
+                          aria-pressed={sort?.key === "date"}
                           className="uppercase hover:text-on-surface transition-colors"
                         >
                           {t("match")}
@@ -173,7 +174,7 @@ export function PredictionHistory({
                         <button
                           type="button"
                           onClick={() => handleSort("points")}
-                          aria-pressed={sort.key === "points"}
+                          aria-pressed={sort?.key === "points"}
                           className="uppercase hover:text-on-surface transition-colors"
                         >
                           {t("points")}

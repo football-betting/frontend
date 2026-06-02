@@ -1,5 +1,8 @@
 # football-betting · frontend
 
+[![frontend-ci](https://github.com/football-betting/frontend/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/football-betting/frontend/actions/workflows/frontend-ci.yml)
+[![codecov](https://codecov.io/gh/football-betting/frontend/branch/main/graph/badge.svg)](https://codecov.io/gh/football-betting/frontend)
+
 Next.js 16 frontend for the office football-prediction game. Replaces the
 archived [em2024-frontend](https://github.com/football-betting/em2024-frontend).
 

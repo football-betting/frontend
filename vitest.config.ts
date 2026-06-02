@@ -13,5 +13,10 @@ export default defineConfig({
     include: ["tests/unit/**/*.test.ts"],
     globals: false,
     reporters: ["default"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "lcov"],
+      reportsDirectory: "./coverage",
+    },
   },
 });

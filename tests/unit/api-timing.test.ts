@@ -28,11 +28,11 @@ describe("fetchApi timing log", () => {
 
     expect(data).toEqual([]);
     expect(log).toHaveBeenCalledWith(
-      expect.stringMatching(/^\[rust-api\] GET \/rating \d+ms$/),
+      expect.stringMatching(/^\[rust-api\] GET \/rating → \d+ in \d+ms$/),
     );
   });
 
-  it("stays silent in production but still returns data", async () => {
+  it("also logs in production (visible in the server/PM2 log)", async () => {
     vi.stubEnv("NODE_ENV", "production");
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
     vi.stubGlobal(
@@ -43,7 +43,9 @@ describe("fetchApi timing log", () => {
     const data = await fetchApi("rating", { wrappedByKey: "table" });
 
     expect(data).toEqual([]);
-    expect(log).not.toHaveBeenCalled();
+    expect(log).toHaveBeenCalledWith(
+      expect.stringMatching(/^\[rust-api\] GET \/rating → \d+ in \d+ms$/),
+    );
   });
 
   it("logs failure with duration and rethrows on network error", async () => {
@@ -57,7 +59,9 @@ describe("fetchApi timing log", () => {
 
     await expect(fetchApi("user/5")).rejects.toThrow("boom");
     expect(log).toHaveBeenCalledWith(
-      expect.stringMatching(/^\[rust-api\] GET \/user\/5 failed after \d+ms$/),
+      expect.stringMatching(
+        /^\[rust-api\] GET \/user\/5 → failed in \d+ms \(network error\)$/,
+      ),
     );
   });
 });

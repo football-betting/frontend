@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { arrayBufferToBase64, urlBase64ToUint8Array } from "@/lib/push-client";
 import { extractErrorKey } from "@/lib/error-message";
 
@@ -9,7 +9,7 @@ interface PushToggleProps {
   initialEnabled: boolean;
 }
 
-type PushState = "idle" | "working" | "enabled" | "disabled";
+type Support = "unknown" | "unsupported" | "default" | "granted" | "denied";
 
 function pushSupported(): boolean {
   return (
@@ -26,29 +26,32 @@ export function PushToggle({
   const t = useTranslations("Settings");
   const tErrors = useTranslations("Errors");
   const [enabled, setEnabled] = useState(initialEnabled);
-  const [state, setState] = useState<PushState>(
-    initialEnabled ? "enabled" : "disabled",
-  );
+  const [support, setSupport] = useState<Support>("unknown");
+  const [working, setWorking] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
 
   const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 
+  useEffect(() => {
+    if (!pushSupported()) {
+      setSupport("unsupported");
+      return;
+    }
+    setSupport(Notification.permission as Support);
+  }, []);
+
   function showError(messageOrKey: string): void {
-    const message = tErrors.has(messageOrKey)
-      ? tErrors(messageOrKey)
-      : messageOrKey;
-    setError(message);
+    setError(tErrors.has(messageOrKey) ? tErrors(messageOrKey) : messageOrKey);
   }
 
-  async function setChannel(enabledValue: boolean): Promise<boolean> {
+  async function setChannel(value: boolean): Promise<boolean> {
     const res = await fetch("/api/user/reminder-channels", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ channel: "push", enabled: enabledValue }),
+      body: JSON.stringify({ channel: "push", enabled: value }),
     });
     if (res.ok) return true;
     try {
@@ -58,7 +61,7 @@ export function PushToggle({
         return false;
       }
     } catch {
-      // fall through
+      // fall through to generic error
     }
     setError(t("pushError"));
     return false;
@@ -66,20 +69,15 @@ export function PushToggle({
 
   async function enable(): Promise<void> {
     setError(null);
-    if (!pushSupported()) {
+    if (!pushSupported() || !vapidKey) {
       showError(t("pushUnsupported"));
       return;
     }
-    if (!vapidKey) {
-      showError(t("pushUnsupported"));
-      return;
-    }
-    setPending(true);
-    setState("working");
+    setWorking(true);
     try {
       const permission = await Notification.requestPermission();
+      setSupport(permission as Support);
       if (permission !== "granted") {
-        setState("disabled");
         showError(t("pushPermissionDenied"));
         return;
       }
@@ -99,12 +97,12 @@ export function PushToggle({
         body: JSON.stringify({
           endpoint: subscription.endpoint,
           keys: {
-            p256dh: json.keys?.p256dh ?? arrayBufferToBase64(
-              subscription.getKey("p256dh"),
-            ),
-            auth: json.keys?.auth ?? arrayBufferToBase64(
-              subscription.getKey("auth"),
-            ),
+            p256dh:
+              json.keys?.p256dh ??
+              arrayBufferToBase64(subscription.getKey("p256dh")),
+            auth:
+              json.keys?.auth ??
+              arrayBufferToBase64(subscription.getKey("auth")),
           },
         }),
       });
@@ -116,29 +114,21 @@ export function PushToggle({
         } catch {
           showError(t("pushError"));
         }
-        setState("disabled");
         return;
       }
 
-      const channelOk = await setChannel(true);
-      if (!channelOk) {
-        setState("disabled");
-        return;
-      }
+      if (!(await setChannel(true))) return;
       setEnabled(true);
-      setState("enabled");
     } catch {
-      setState("disabled");
       showError(t("pushError"));
     } finally {
-      setPending(false);
+      setWorking(false);
     }
   }
 
   async function disable(): Promise<void> {
     setError(null);
-    setPending(true);
-    setState("working");
+    setWorking(true);
     try {
       if (pushSupported()) {
         const reg = await navigator.serviceWorker.ready;
@@ -157,43 +147,56 @@ export function PushToggle({
       }
       await setChannel(false);
       setEnabled(false);
-      setState("disabled");
     } catch {
       showError(t("pushError"));
     } finally {
-      setPending(false);
-    }
-  }
-
-  function onToggle(): void {
-    if (pending) return;
-    if (enabled) {
-      void disable();
-    } else {
-      void enable();
+      setWorking(false);
     }
   }
 
   return (
-    <div className="space-y-sm">
-      <label className="flex items-center justify-between gap-md p-md bg-surface-container-highest border border-outline-variant rounded-lg cursor-pointer">
-        <span className="text-body-lg text-on-surface">
-          {t("pushChannel")}
-        </span>
-        <input
-          type="checkbox"
-          className="h-5 w-5 accent-primary"
-          checked={enabled}
-          onChange={onToggle}
-          disabled={pending}
-        />
-      </label>
-      <p className="text-[11px] text-on-surface-variant">{t("pushHint")}</p>
-      {state === "working" ? (
-        <p aria-live="polite" className="text-body-sm text-on-surface-variant">
-          {t("pushWorking")}
+    <div className="space-y-md">
+      <p className="text-body-sm text-on-surface-variant">{t("pushHint")}</p>
+
+      {support === "unsupported" ? (
+        <p className="text-body-sm text-on-surface-variant">
+          {t("pushUnsupported")}
         </p>
-      ) : null}
+      ) : enabled ? (
+        <div className="flex items-center justify-between gap-md p-md bg-surface-container-highest border border-outline-variant rounded-lg">
+          <span className="text-body-sm text-on-surface inline-flex items-center gap-xs">
+            <span
+              aria-hidden
+              className="material-symbols-outlined text-[18px] text-primary"
+            >
+              notifications_active
+            </span>
+            {t("pushEnabledStatus")}
+          </span>
+          <button
+            type="button"
+            onClick={() => void disable()}
+            disabled={working}
+            className="text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-3 py-2 rounded-lg border border-outline-variant transition-colors disabled:opacity-60"
+          >
+            {working ? t("pushWorking") : t("pushDisableButton")}
+          </button>
+        </div>
+      ) : support === "denied" ? (
+        <p className="text-body-sm text-on-surface-variant border border-outline-variant bg-surface-container-highest px-md py-sm rounded-lg">
+          {t("pushPermissionDenied")}
+        </p>
+      ) : (
+        <button
+          type="button"
+          onClick={() => void enable()}
+          disabled={working}
+          className="bg-primary text-on-primary font-bold uppercase tracking-tight px-5 py-3 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-60"
+        >
+          {working ? t("pushWorking") : t("pushEnableButton")}
+        </button>
+      )}
+
       {error ? (
         <p
           aria-live="polite"

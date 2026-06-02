@@ -226,7 +226,10 @@
     "pushWorking": "Wird eingerichtet …",
     "pushUnsupported": "Push wird von diesem Browser nicht unterstützt.",
     "pushPermissionDenied": "Benachrichtigungen wurden abgelehnt. Bitte erlaube sie in den Browser-Einstellungen.",
-    "pushError": "Push konnte nicht aktiviert werden. Bitte erneut versuchen."
+    "pushError": "Push konnte nicht aktiviert werden. Bitte erneut versuchen.",
+    "pushEnableButton": "Benachrichtigungen aktivieren",
+    "pushDisableButton": "Deaktivieren",
+    "pushEnabledStatus": "Benachrichtigungen aktiviert"
   },
   "Errors": {
     "invalidEmail": "Ungültige E-Mail-Adresse",

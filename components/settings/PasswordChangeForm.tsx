@@ -140,7 +140,7 @@ export function PasswordChangeForm(): React.ReactElement {
 
       <div className="pt-lg">
         <button
-          className="w-full bg-primary-container text-on-primary-container font-bold uppercase tracking-tight py-4 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-60"
+          className="w-full bg-primary text-on-primary font-bold uppercase tracking-tight py-4 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-60"
           type="submit"
           disabled={pending}
         >

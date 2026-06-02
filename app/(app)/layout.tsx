@@ -15,8 +15,13 @@ export default async function AppLayout({
   return (
     <>
       <PageBackground />
-      {children}
-      <Footer />
+      {/* Sticky footer: the content area grows to fill the viewport so the
+          footer always sits at the bottom and never floats up while a page's
+          data is still loading. */}
+      <div className="flex min-h-dvh flex-col">
+        <div className="flex-1">{children}</div>
+        <Footer />
+      </div>
     </>
   );
 }

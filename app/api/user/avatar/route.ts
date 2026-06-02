@@ -91,7 +91,9 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const fileName = `${userId}.${OUTPUT_EXT}`;
-  const publicPath = `/uploads/avatars/${fileName}`;
+  // Version the stored URL so a re-upload busts the browser/SW cache everywhere
+  // it is rendered (the file on disk keeps the stable {userId}.webp name).
+  const publicPath = `/uploads/avatars/${fileName}?v=${Date.now()}`;
 
   try {
     await mkdir(AVATAR_DIR, { recursive: true });

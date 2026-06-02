@@ -14,6 +14,9 @@ function open(): Db {
   _sqlite = new Database(dbPath);
   _sqlite.pragma("journal_mode = WAL");
   _sqlite.pragma("foreign_keys = ON");
+  // Wait (up to 5s) for the lock instead of failing immediately with SQLITE_BUSY
+  // when another service (macht-api importer, betting-api) holds the shared DB.
+  _sqlite.pragma("busy_timeout = 5000");
   _db = drizzle(_sqlite, { schema });
   return _db;
 }

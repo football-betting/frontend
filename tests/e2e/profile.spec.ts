@@ -1,12 +1,5 @@
 import { expect, test } from "@playwright/test";
-
-async function login(page: import("@playwright/test").Page): Promise<void> {
-  await page.goto("/login");
-  await page.fill("#email", "me@dev.local");
-  await page.fill("#password", "test1234");
-  await page.click("button[type=submit]");
-  await page.waitForURL("http://localhost:3000/");
-}
+import { login } from "./helpers";
 
 test.describe("profile page", () => {
   test("renders four stat tiles and a history table without tournament bonuses", async ({

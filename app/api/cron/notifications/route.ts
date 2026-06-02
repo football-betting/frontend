@@ -21,6 +21,7 @@ import {
   channelsForUser,
   dueLeadMinutes,
   isValidLeadMinutes,
+  shouldMarkDelivery,
 } from "@/lib/reminders";
 
 export const dynamic = "force-dynamic";
@@ -165,24 +166,17 @@ async function run(request: NextRequest): Promise<Response> {
         });
 
         for (const lead of due) {
-          // Reserve the slot first: the unique index makes this the single
-          // source of truth for dedup, so a concurrent run cannot double-send.
-          const reserved = await markReminderSent(
-            userId,
-            m.id,
-            lead,
-            channel,
-            now,
-          );
-          if (!reserved) continue;
-
           const match = matchById.get(m.id);
           if (!match) continue;
           const label = `${match.homeTeam.name} – ${match.awayTeam.name}`;
           const kickoff = formatKickoff(match.utcDate);
           const predictUrl = `${origin}/match/${m.id}`;
 
+          // Mark-on-success (FE-066): attempt delivery first, reserve the dedup
+          // slot only after it actually succeeds. A failed/targetless attempt
+          // leaves the slot open so a later run retries while still in window.
           // One channel failing must not halt the batch.
+          let delivered = false;
           if (channel === "email") {
             const email = emailById.get(userId);
             if (!email) continue;
@@ -192,12 +186,15 @@ async function run(request: NextRequest): Promise<Response> {
                 kickoff,
                 predictUrl,
               });
-              sent += 1;
+              delivered = true;
             } catch (error) {
               console.error("[cron/notifications] email send failed", error);
             }
           } else if (channel === "push") {
             const subs = pushSubsByUser.get(userId) ?? [];
+            // No device to deliver to: skip entirely. Reserving here would burn
+            // the slot and the user would never get pushed once they subscribe.
+            if (subs.length === 0) continue;
             const payload = buildPushPayload({
               title: "Tipp-Erinnerung",
               // v1: German push text only, mirroring the email. Per-locale push
@@ -206,7 +203,6 @@ async function run(request: NextRequest): Promise<Response> {
               body: `Du hast dieses Spiel noch nicht getippt: ${label} — Anpfiff ${kickoff}.`,
               url: predictUrl,
             });
-            let delivered = false;
             for (const sub of subs) {
               const result = await sendPush(sub, payload);
               if (result.ok) {
@@ -220,8 +216,14 @@ async function run(request: NextRequest): Promise<Response> {
                 );
               }
             }
-            if (delivered) sent += 1;
           }
+
+          if (!shouldMarkDelivery({ channel, delivered })) continue;
+
+          // Reserve the slot only now. The `(user, match, lead, channel)` unique
+          // index still guarantees a successfully-sent slot never re-sends.
+          const reserved = await markReminderSent(userId, m.id, lead, channel, now);
+          if (reserved) sent += 1;
         }
       }
     }

@@ -3,6 +3,7 @@ import {
   REMINDER_CHANNELS,
   channelsForUser,
   isValidChannel,
+  shouldMarkDelivery,
 } from "@/lib/reminders";
 
 describe("isValidChannel", () => {
@@ -20,19 +21,37 @@ describe("channelsForUser", () => {
     expect(channelsForUser([])).toEqual(["email"]);
   });
 
-  it("returns exactly the explicitly enabled channels", () => {
-    expect(channelsForUser(["push"]).sort()).toEqual(["push"]);
-    expect(channelsForUser(["email", "push"]).sort()).toEqual([
-      "email",
-      "push",
-    ]);
+  it("keeps email as the baseline and adds push when opted in (FE-066)", () => {
+    expect(channelsForUser(["push"])).toEqual(["email", "push"]);
   });
 
-  it("ignores unknown channels and dedups", () => {
-    expect(channelsForUser(["push", "sms", "push"])).toEqual(["push"]);
+  it("keeps a single email entry when push is not opted in", () => {
+    expect(channelsForUser(["email"])).toEqual(["email"]);
   });
 
-  it("falls back to email if only invalid channels are stored", () => {
+  it("is email-first and deduped when both are stored", () => {
+    expect(channelsForUser(["email", "push"])).toEqual(["email", "push"]);
+    expect(channelsForUser(["push", "push"])).toEqual(["email", "push"]);
+  });
+
+  it("ignores unknown channels but always keeps email", () => {
     expect(channelsForUser(["sms"])).toEqual(["email"]);
+    expect(channelsForUser(["push", "sms"])).toEqual(["email", "push"]);
+  });
+});
+
+describe("shouldMarkDelivery (FE-066 mark-on-success)", () => {
+  it("marks a slot only when the channel was actually delivered", () => {
+    expect(shouldMarkDelivery({ channel: "email", delivered: true })).toBe(true);
+    expect(shouldMarkDelivery({ channel: "push", delivered: true })).toBe(true);
+  });
+
+  it("does NOT mark a failed or targetless delivery (retried next run)", () => {
+    expect(shouldMarkDelivery({ channel: "email", delivered: false })).toBe(
+      false,
+    );
+    expect(shouldMarkDelivery({ channel: "push", delivered: false })).toBe(
+      false,
+    );
   });
 });

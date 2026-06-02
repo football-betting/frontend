@@ -1,5 +1,8 @@
+import { createHash, timingSafeEqual } from "node:crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { getUpcomingMatches } from "@/lib/match";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { resolveAppOrigin } from "@/lib/app-origin";
 import {
   getAllReminderChannels,
   getAllReminderSettings,
@@ -22,12 +25,13 @@ import {
 
 export const dynamic = "force-dynamic";
 
-function resolveOrigin(request: NextRequest): string {
-  const configured = process.env.APP_BASE_URL;
-  if (configured) {
-    return configured.replace(/\/+$/, "");
-  }
-  return request.nextUrl.origin;
+// Constant-time secret comparison. Both sides are SHA-256-hashed first so the
+// buffers are always equal length (32 bytes), avoiding both the early-return
+// timing leak of `===` and the length leak of comparing raw strings.
+function secretMatches(presented: string, secret: string): boolean {
+  const a = createHash("sha256").update(presented).digest();
+  const b = createHash("sha256").update(secret).digest();
+  return timingSafeEqual(a, b);
 }
 
 // The cron endpoint is gated by CRON_SECRET. If the secret is unset OR the
@@ -36,9 +40,12 @@ function isAuthorized(request: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
   if (!secret) return false;
   const auth = request.headers.get("authorization");
-  if (auth === `Bearer ${secret}`) return true;
+  if (auth?.startsWith("Bearer ")) {
+    return secretMatches(auth.slice("Bearer ".length), secret);
+  }
   const header = request.headers.get("x-cron-secret");
-  return header === secret;
+  if (header) return secretMatches(header, secret);
+  return false;
 }
 
 function formatKickoff(utcDate: Date): string {
@@ -58,6 +65,32 @@ async function run(request: NextRequest): Promise<Response> {
   if (!isAuthorized(request)) {
     return new Response(JSON.stringify({ error: "unauthorized" }), {
       status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  // Coarse guard so a leaked secret cannot hammer the job. The scheduler runs
+  // roughly every ~10 min, well under MAX_ATTEMPTS per window.
+  const limit = checkRateLimit("cron", "cron-notifications");
+  if (!limit.ok) {
+    return new Response(JSON.stringify({ error: "tooManyRequests" }), {
+      status: 429,
+      headers: {
+        "Content-Type": "application/json",
+        ...(limit.retryAfter ? { "Retry-After": String(limit.retryAfter) } : {}),
+      },
+    });
+  }
+
+  const origin = resolveAppOrigin(request);
+  if (origin === null) {
+    // Production without APP_BASE_URL: predict links would be Host-derived.
+    // Fail closed rather than emit poisoned links.
+    console.error(
+      "[cron/notifications] APP_BASE_URL is unset in production; aborting",
+    );
+    return new Response(JSON.stringify({ error: "appBaseUrlUnset" }), {
+      status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
@@ -101,7 +134,6 @@ async function run(request: NextRequest): Promise<Response> {
   }
   const pushSubsByUser = await getPushSubscriptionsByUserIds(userIds);
 
-  const origin = resolveOrigin(request);
   let sent = 0;
 
   for (const [userId, leads] of leadsByUser) {
@@ -202,6 +234,8 @@ export async function POST(request: NextRequest): Promise<Response> {
   return run(request);
 }
 
-export async function GET(request: NextRequest): Promise<Response> {
-  return run(request);
+// POST-only: a GET would expose the secret in URLs/referrers/logs if a caller
+// ever appended it to the query string.
+export function GET(): Response {
+  return new Response(null, { status: 405, headers: { Allow: "POST" } });
 }

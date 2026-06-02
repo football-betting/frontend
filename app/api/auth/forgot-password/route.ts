@@ -9,18 +9,11 @@ import {
 } from "@/lib/password-reset";
 import { createPasswordResetToken } from "@/lib/password-reset-store";
 import { sendPasswordResetEmail } from "@/lib/mail";
+import { resolveAppOrigin } from "@/lib/app-origin";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
 });
-
-function resolveOrigin(request: NextRequest): string {
-  const configured = process.env.APP_BASE_URL;
-  if (configured) {
-    return configured.replace(/\/+$/, "");
-  }
-  return request.nextUrl.origin;
-}
 
 function genericResponse(): Response {
   return NextResponse.json({ ok: true }, { status: 200 });
@@ -65,25 +58,46 @@ export async function POST(request: NextRequest): Promise<Response> {
 
   const user = await getUserByEmail(parsed.data.email);
 
-  const token = generateResetToken();
-  const tokenHash = hashResetToken(token);
-  const expiresAt = resetTokenExpiry();
+  if (user) {
+    const token = generateResetToken();
+    const tokenHash = hashResetToken(token);
+    const expiresAt = resetTokenExpiry();
+    const origin = resolveAppOrigin(request);
 
-  if (!user) {
-    return genericResponse();
-  }
-
-  try {
-    await createPasswordResetToken(user.id, tokenHash, expiresAt);
-
-    const origin = resolveOrigin(request);
-    const resetUrl = `${origin}/reset-password?token=${token}`;
-    await sendPasswordResetEmail(user.email, resetUrl);
-  } catch (error) {
-    console.error("[forgot-password] failed to issue reset", error);
+    // Decouple the reset issuance from the response: do NOT await it. The
+    // response time is then constant whether or not the user exists, closing
+    // the timing-enumeration side channel. issueReset wraps its whole body in a
+    // try/catch, so the fire-and-forget promise never rejects (no unhandled
+    // rejection).
+    void issueReset(user.id, user.email, token, tokenHash, expiresAt, origin);
   }
 
   return genericResponse();
+}
+
+async function issueReset(
+  userId: number,
+  email: string,
+  token: string,
+  tokenHash: string,
+  expiresAt: Date,
+  origin: string | null,
+): Promise<void> {
+  try {
+    await createPasswordResetToken(userId, tokenHash, expiresAt);
+
+    if (origin === null) {
+      // Production without APP_BASE_URL: do not build a Host-derived link.
+      console.error(
+        "[forgot-password] APP_BASE_URL is unset in production; skipping reset email",
+      );
+      return;
+    }
+    const resetUrl = `${origin}/reset-password?token=${token}`;
+    await sendPasswordResetEmail(email, resetUrl);
+  } catch (error) {
+    console.error("[forgot-password] failed to issue reset", error);
+  }
 }
 
 export function GET(): Response {

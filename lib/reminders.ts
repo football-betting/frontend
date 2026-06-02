@@ -25,18 +25,28 @@ export function isValidChannel(value: string): value is ReminderChannel {
   return CHANNEL_SET.has(value);
 }
 
-// Channels to fan a reminder out to for one user. Email is the always-on
-// baseline (FE-059): anyone with lead times gets email. Push is an ADDITIVE
-// opt-in (FE-066) — enabling it must not disable email. The returned list is
-// email-first and deduped.
-export function channelsForUser(
-  enabledChannels: Iterable<string>,
-): ReminderChannel[] {
-  let push = false;
-  for (const c of enabledChannels) {
-    if (c === "push") push = true;
-  }
-  return push ? ["email", "push"] : ["email"];
+// Channels to fan a reminder out to for one user (FE-073). Email and push are
+// INDEPENDENT, account-wide channels: email is on by default but can be turned
+// off; push is "on" for the account when the user has at least one device
+// subscription. Either, both, or NEITHER may be active — zero channels is
+// allowed (reminders are simply inactive). The returned list is email-first.
+export function activeChannels({
+  email,
+  push,
+}: {
+  email: boolean;
+  push: boolean;
+}): ReminderChannel[] {
+  const channels: ReminderChannel[] = [];
+  if (email) channels.push("email");
+  if (push) channels.push("push");
+  return channels;
+}
+
+// Reminders only fire when at least one channel is active. Used by the cron to
+// skip users with no channel and by the UI to gate the lead-time toggles.
+export function remindersActive(channels: readonly ReminderChannel[]): boolean {
+  return channels.length > 0;
 }
 
 // Outcome of attempting to deliver one channel for one slot. Mark-on-success

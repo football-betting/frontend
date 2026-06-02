@@ -81,6 +81,37 @@ export async function deletePushSubscriptionByEndpoint(
     .run();
 }
 
+// Number of device subscriptions per user (FE-073). Push is "active" for an
+// account when this count is >= 1. A user absent from the map has zero.
+export async function getPushSubscriptionCountsByUserIds(
+  userIds: number[],
+): Promise<Map<number, number>> {
+  const counts = new Map<number, number>();
+  if (userIds.length === 0) return counts;
+  const wanted = new Set(userIds);
+  const rows = await db
+    .select({ userId: pushSubscription.userId })
+    .from(pushSubscription);
+  for (const r of rows) {
+    if (!wanted.has(r.userId)) continue;
+    counts.set(r.userId, (counts.get(r.userId) ?? 0) + 1);
+  }
+  return counts;
+}
+
+// Whether the given user has at least one device subscription. Used by the
+// settings page to seed the client's initial "push active for account" state.
+export async function userHasPushSubscription(
+  userId: number,
+): Promise<boolean> {
+  const rows = await db
+    .select({ id: pushSubscription.id })
+    .from(pushSubscription)
+    .where(eq(pushSubscription.userId, userId))
+    .limit(1);
+  return rows.length > 0;
+}
+
 export async function getPushSubscriptionsByUserIds(
   userIds: number[],
 ): Promise<Map<number, PushSubscriptionRecord[]>> {

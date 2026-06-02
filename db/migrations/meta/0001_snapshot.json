@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a008220e-f01c-4f6b-9b51-54ff9cfc6d36",
+  "id": "7bd60d9e-4ae3-44fe-9e34-921baa901324",
   "prevId": "a1b2a671-53f6-4a6e-b16c-7ce1fe9983d6",
   "tables": {
     "match": {
@@ -204,45 +204,22 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "reminder_channel": {
-      "name": "reminder_channel",
+    "reminder_email_off": {
+      "name": "reminder_email_off",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
         "user_id": {
           "name": "user_id",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "channel": {
-          "name": "channel",
-          "type": "text",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         }
       },
-      "indexes": {
-        "reminder_channel_user_channel_unique": {
-          "name": "reminder_channel_user_channel_unique",
-          "columns": [
-            "user_id",
-            "channel"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
-        "reminder_channel_user_id_user_id_fk": {
-          "name": "reminder_channel_user_id_user_id_fk",
-          "tableFrom": "reminder_channel",
+        "reminder_email_off_user_id_user_id_fk": {
+          "name": "reminder_email_off_user_id_user_id_fk",
+          "tableFrom": "reminder_email_off",
           "tableTo": "user",
           "columnsFrom": [
             "user_id"

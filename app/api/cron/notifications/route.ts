@@ -4,8 +4,8 @@ import { getUpcomingMatches } from "@/lib/match";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { resolveAppOrigin } from "@/lib/app-origin";
 import {
-  getAllReminderChannels,
   getAllReminderSettings,
+  getEmailDisabledUserIds,
   getSentKeysForMatches,
   markReminderSent,
 } from "@/lib/reminder-store";
@@ -18,7 +18,7 @@ import { getUserEmailsByIds } from "@/lib/user";
 import { sendTipReminderEmail } from "@/lib/mail";
 import { buildPushPayload, sendPush } from "@/lib/push";
 import {
-  channelsForUser,
+  activeChannels,
   dueLeadMinutes,
   isValidLeadMinutes,
   shouldMarkDelivery,
@@ -123,16 +123,10 @@ async function run(request: NextRequest): Promise<Response> {
   const emailById = await getUserEmailsByIds(userIds);
   const sentKeys = await getSentKeysForMatches(matchIds);
 
-  // Per-channel preferences: email is the default for users with no explicit
-  // channel rows (preserves FE-059 behavior). Push fans out to every stored
-  // device subscription.
-  const channelRows = await getAllReminderChannels();
-  const channelsByUser = new Map<number, string[]>();
-  for (const row of channelRows) {
-    const list = channelsByUser.get(row.userId) ?? [];
-    list.push(row.channel);
-    channelsByUser.set(row.userId, list);
-  }
+  // Per-user channel state (FE-073): email is on by default unless the user
+  // opted out (`reminder_email_off`); push is active when the user has >= 1
+  // device subscription. Push fans out to every stored subscription.
+  const emailDisabledUserIds = await getEmailDisabledUserIds(userIds);
   const pushSubsByUser = await getPushSubscriptionsByUserIds(userIds);
 
   let sent = 0;
@@ -144,7 +138,10 @@ async function run(request: NextRequest): Promise<Response> {
       if (t.matchId !== null) tippedMatchIds.add(t.matchId);
     }
 
-    const channels = channelsForUser(channelsByUser.get(userId) ?? []);
+    const channels = activeChannels({
+      email: !emailDisabledUserIds.has(userId),
+      push: (pushSubsByUser.get(userId)?.length ?? 0) > 0,
+    });
 
     for (const channel of channels) {
       // Dedup is per channel: an email send and a push send for the same slot

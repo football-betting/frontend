@@ -97,21 +97,14 @@ export const reminderSent = sqliteTable(
   }),
 );
 
-export const reminderChannel = sqliteTable(
-  "reminder_channel",
-  {
-    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    userId: integer("user_id")
-      .notNull()
-      .references(() => user.id),
-    channel: text("channel").notNull(),
-  },
-  (table) => ({
-    reminderChannelUserChannelUnique: uniqueIndex(
-      "reminder_channel_user_channel_unique",
-    ).on(table.userId, table.channel),
-  }),
-);
+// Email is on by default (FE-073). A row here marks a user who explicitly
+// turned email reminders OFF — presence = off, absence = on. Push is NOT
+// stored here; it is derived per-account from `push_subscription` rows.
+export const reminderEmailOff = sqliteTable("reminder_email_off", {
+  userId: integer("user_id")
+    .primaryKey()
+    .references(() => user.id),
+});
 
 export const pushSubscription = sqliteTable(
   "push_subscription",

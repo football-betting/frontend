@@ -7,10 +7,14 @@ import { extractErrorKey } from "@/lib/error-message";
 
 interface ReminderSettingsProps {
   initialLeadMinutes: number[];
+  // Lead times only fire when at least one channel (email or push) is active
+  // (FE-073). When no channel is active the toggles are disabled with a hint.
+  channelActive: boolean;
 }
 
 export function ReminderSettings({
   initialLeadMinutes,
+  channelActive,
 }: ReminderSettingsProps): React.ReactElement {
   const t = useTranslations("Settings");
   const tErrors = useTranslations("Errors");
@@ -75,7 +79,15 @@ export function ReminderSettings({
         {t("reminderHint")}
       </p>
 
-      <ul className="space-y-sm">
+      {!channelActive ? (
+        <p className="text-body-sm text-on-surface-variant border border-outline-variant bg-surface-container-highest px-md py-sm rounded-lg">
+          {t("reminderNoChannel")}
+        </p>
+      ) : null}
+
+      <ul
+        className={`space-y-sm ${channelActive ? "" : "opacity-60 pointer-events-none"}`}
+      >
         {REMINDER_LEAD_MINUTES.map((lead) => {
           const checked = selected.has(lead);
           return (
@@ -89,7 +101,7 @@ export function ReminderSettings({
                   className="h-5 w-5 accent-primary"
                   checked={checked}
                   onChange={() => toggle(lead)}
-                  disabled={pending}
+                  disabled={pending || !channelActive}
                 />
               </label>
             </li>
@@ -117,7 +129,7 @@ export function ReminderSettings({
       <button
         type="button"
         onClick={onSave}
-        disabled={pending}
+        disabled={pending || !channelActive}
         className="w-full bg-primary text-on-primary font-bold uppercase tracking-tight py-4 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-60"
       >
         {pending ? (

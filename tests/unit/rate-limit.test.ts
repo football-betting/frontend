@@ -81,18 +81,23 @@ describe("getClientIp", () => {
     }
   });
 
-  it("ignores x-forwarded-for when TRUST_PROXY is unset", () => {
+  it("derives a per-client untrusted key from XFF when TRUST_PROXY is unset", () => {
     delete process.env.TRUST_PROXY;
     expect(getClientIp(headers({ "x-forwarded-for": "1.2.3.4" }))).toBe(
-      "unknown",
+      "untrusted:1.2.3.4",
     );
   });
 
-  it("ignores x-forwarded-for when TRUST_PROXY is '0'", () => {
+  it("derives a per-client untrusted key from XFF when TRUST_PROXY is '0'", () => {
     process.env.TRUST_PROXY = "0";
     expect(getClientIp(headers({ "x-forwarded-for": "1.2.3.4" }))).toBe(
-      "unknown",
+      "untrusted:1.2.3.4",
     );
+  });
+
+  it("returns 'unknown' when untrusted and no forwarding headers present", () => {
+    delete process.env.TRUST_PROXY;
+    expect(getClientIp(headers({}))).toBe("unknown");
   });
 
   it("honors x-forwarded-for when TRUST_PROXY=1", () => {
@@ -102,11 +107,22 @@ describe("getClientIp", () => {
     );
   });
 
-  it("honors x-forwarded-for when TRUST_PROXY=true", () => {
+  it("takes the rightmost (trusted) XFF entry for the default single hop", () => {
     process.env.TRUST_PROXY = "true";
+    delete process.env.TRUSTED_PROXY_HOPS;
     expect(getClientIp(headers({ "x-forwarded-for": "1.2.3.4, 5.6.7.8" }))).toBe(
-      "1.2.3.4",
+      "5.6.7.8",
     );
+  });
+
+  it("honors TRUSTED_PROXY_HOPS by counting from the right", () => {
+    process.env.TRUST_PROXY = "1";
+    process.env.TRUSTED_PROXY_HOPS = "2";
+    expect(
+      getClientIp(
+        headers({ "x-forwarded-for": "9.9.9.9, 1.2.3.4, 5.6.7.8" }),
+      ),
+    ).toBe("1.2.3.4");
   });
 
   it("falls back to x-real-ip when TRUST_PROXY=1 and no x-forwarded-for", () => {
@@ -118,9 +134,13 @@ describe("getClientIp", () => {
     process.env.TRUST_PROXY = "1";
     expect(getClientIp(headers({}))).toBe("unknown");
   });
+
+  afterEach(() => {
+    delete process.env.TRUSTED_PROXY_HOPS;
+  });
 });
 
-describe("spoofed X-Forwarded-For without TRUST_PROXY does not bypass limit", () => {
+describe("untrusted IP handling avoids a global-lockout bucket", () => {
   const originalTrustProxy = process.env.TRUST_PROXY;
 
   beforeEach(() => {
@@ -136,12 +156,21 @@ describe("spoofed X-Forwarded-For without TRUST_PROXY does not bypass limit", ()
     }
   });
 
-  it("100 requests with rotating fake XFF all bucket under 'unknown'", () => {
+  it("one client exhausting its limit does NOT lock out a different client", () => {
+    const attacker = getClientIp(headers({ "x-forwarded-for": "10.0.0.1" }));
+    for (let i = 0; i < _internal.MAX_ATTEMPTS; i += 1) {
+      checkRateLimit(attacker, "login");
+    }
+    expect(checkRateLimit(attacker, "login").ok).toBe(false);
+
+    const victim = getClientIp(headers({ "x-forwarded-for": "10.0.0.2" }));
+    expect(checkRateLimit(victim, "login").ok).toBe(true);
+  });
+
+  it("repeated requests from the same untrusted client are still limited", () => {
     let blocked = 0;
     for (let i = 0; i < 100; i += 1) {
-      const ip = getClientIp(
-        headers({ "x-forwarded-for": `10.0.${i}.${i}` }),
-      );
+      const ip = getClientIp(headers({ "x-forwarded-for": "10.0.0.5" }));
       const res = checkRateLimit(ip, "login");
       if (!res.ok) blocked += 1;
     }

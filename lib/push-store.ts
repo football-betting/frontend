@@ -9,14 +9,32 @@ export interface PushSubscriptionRecord {
   auth: string;
 }
 
-// Upsert by endpoint: a device re-subscribing (e.g. after key rotation) keeps a
-// single row. The endpoint is globally unique, so we also re-tie it to the
-// current session user.
+// Upsert by endpoint. The endpoint is globally unique. A device re-subscribing
+// under the SAME user (e.g. after key rotation) updates its keys in place. If a
+// DIFFERENT user presents an endpoint already owned by someone else, we must
+// NOT silently re-tie it to the caller — that would let an attacker hijack
+// another user's subscription. For the rare genuine device hand-off we drop the
+// old row and insert a fresh one owned by the authenticated caller, so the
+// endpoint is always tied to exactly one (verified) owner.
 export async function savePushSubscription(
   userId: number,
   sub: PushSubscriptionRecord,
   createdAt: Date,
 ): Promise<void> {
+  const existing = await db
+    .select({ userId: pushSubscription.userId })
+    .from(pushSubscription)
+    .where(eq(pushSubscription.endpoint, sub.endpoint))
+    .limit(1);
+
+  const owner = existing[0]?.userId;
+  if (owner !== undefined && owner !== userId) {
+    await db
+      .delete(pushSubscription)
+      .where(eq(pushSubscription.endpoint, sub.endpoint))
+      .run();
+  }
+
   await db
     .insert(pushSubscription)
     .values({
@@ -26,9 +44,13 @@ export async function savePushSubscription(
       auth: sub.auth,
       createdAt,
     })
+    // Scope the conflict update to the caller's own row: an endpoint owned by a
+    // different user was already removed above, so this only ever refreshes the
+    // caller's keys — it never moves ownership.
     .onConflictDoUpdate({
       target: pushSubscription.endpoint,
-      set: { userId, p256dh: sub.p256dh, auth: sub.auth },
+      set: { p256dh: sub.p256dh, auth: sub.auth },
+      setWhere: eq(pushSubscription.userId, userId),
     })
     .run();
 }

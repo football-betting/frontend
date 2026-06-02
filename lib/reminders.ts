@@ -25,18 +25,33 @@ export function isValidChannel(value: string): value is ReminderChannel {
   return CHANNEL_SET.has(value);
 }
 
-// Channels to fan a reminder out to for one user. Email is the historical
-// default (FE-059): a user with lead times but no explicit channel rows still
-// gets email, so existing behavior is preserved. Once the user opts into
-// channels explicitly, exactly those (validated) channels are used.
+// Channels to fan a reminder out to for one user. Email is the always-on
+// baseline (FE-059): anyone with lead times gets email. Push is an ADDITIVE
+// opt-in (FE-066) — enabling it must not disable email. The returned list is
+// email-first and deduped.
 export function channelsForUser(
   enabledChannels: Iterable<string>,
 ): ReminderChannel[] {
-  const explicit: ReminderChannel[] = [];
+  let push = false;
   for (const c of enabledChannels) {
-    if (isValidChannel(c) && !explicit.includes(c)) explicit.push(c);
+    if (c === "push") push = true;
   }
-  return explicit.length > 0 ? explicit : ["email"];
+  return push ? ["email", "push"] : ["email"];
+}
+
+// Outcome of attempting to deliver one channel for one slot. Mark-on-success
+// (FE-066): a slot is only burned in `reminder_sent` once it was actually
+// delivered, so a failed or targetless attempt is retried by a later run.
+export interface DeliveryAttempt {
+  channel: ReminderChannel;
+  // email: resolved without throwing. push: at least one subscription accepted.
+  delivered: boolean;
+}
+
+// Whether a delivery attempt earns its dedup slot. Pure so the cron's
+// reserve/skip decision is unit-testable.
+export function shouldMarkDelivery(attempt: DeliveryAttempt): boolean {
+  return attempt.delivered;
 }
 
 const SCHEDULED_STATUS = "SCHEDULED";

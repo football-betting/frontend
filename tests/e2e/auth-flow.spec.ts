@@ -30,9 +30,9 @@ test.describe("auth happy path", () => {
     await page.fill("#email", "test.user@local.dev");
     await page.fill("#password", "test1234");
     await page.click("button[type=submit]");
-    await page.waitForURL("http://localhost:3000/");
+    await page.waitForURL((url) => url.pathname === "/");
 
-    await expect(page).toHaveURL("http://localhost:3000/");
+    await expect(page).toHaveURL((url) => url.pathname === "/");
 
     const logout = page.getByRole("button", { name: "Logout" }).first();
     await logout.click();

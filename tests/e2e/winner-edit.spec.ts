@@ -1,12 +1,5 @@
 import { expect, test } from "@playwright/test";
-
-async function login(page: import("@playwright/test").Page): Promise<void> {
-  await page.goto("/login");
-  await page.fill("#email", "me@dev.local");
-  await page.fill("#password", "test1234");
-  await page.click("button[type=submit]");
-  await page.waitForURL("http://localhost:3000/");
-}
+import { login, ORIGIN } from "./helpers";
 
 test.describe("winner edit (locked path)", () => {
   test("own profile shows no Edit button when tournament has started", async ({
@@ -44,7 +37,7 @@ test.describe("winner edit (locked path)", () => {
 
     const res = await page.request.post("/api/user/winners", {
       form: { winner: "DEU", secretWinner: "ESP" },
-      headers: { Origin: "http://localhost:3000" },
+      headers: { Origin: ORIGIN },
     });
     expect(res.status()).toBe(400);
     const body = (await res.json()) as { error?: string };
@@ -58,7 +51,7 @@ test.describe("winner edit (locked path)", () => {
 
     const res = await page.request.post("/api/user/winners", {
       form: { winner: "ESP", secretWinner: "ESP" },
-      headers: { Origin: "http://localhost:3000" },
+      headers: { Origin: ORIGIN },
     });
     expect(res.status()).toBe(400);
   });
@@ -66,7 +59,7 @@ test.describe("winner edit (locked path)", () => {
   test("POST /api/user/winners requires a session", async ({ request }) => {
     const res = await request.post("/api/user/winners", {
       form: { winner: "DEU", secretWinner: "ESP" },
-      headers: { Origin: "http://localhost:3000" },
+      headers: { Origin: ORIGIN },
     });
     expect(res.status()).toBe(401);
     const body = (await res.json()) as { error?: string };

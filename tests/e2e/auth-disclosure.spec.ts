@@ -1,4 +1,5 @@
 import { expect, test, type APIResponse } from "@playwright/test";
+import { ORIGIN, TEST_USER } from "./helpers";
 
 async function attemptLogin(
   request: import("@playwright/test").APIRequestContext,
@@ -8,17 +9,14 @@ async function attemptLogin(
   const form = new URLSearchParams();
   form.set("email", email);
   form.set("password", password);
-  const res: APIResponse = await request.post(
-    "http://localhost:3000/api/auth/login",
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json",
-        Origin: "http://localhost:3000",
-      },
-      data: form.toString(),
+  const res: APIResponse = await request.post("/api/auth/login", {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+      Origin: ORIGIN,
     },
-  );
+    data: form.toString(),
+  });
   const body = (await res.json().catch(() => ({}))) as { error?: string };
   return { status: res.status(), body };
 }
@@ -34,7 +32,7 @@ test.describe("auth disclosure", () => {
     );
     const known = await attemptLogin(
       request,
-      "me@dev.local",
+      TEST_USER.email,
       "wrong-password-99",
     );
 

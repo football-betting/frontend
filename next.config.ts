@@ -7,6 +7,10 @@ import withSerwistInit from "@serwist/next";
 const nextConfig: NextConfig = {
   serverExternalPackages: ["better-sqlite3"],
   poweredByHeader: false,
+  // Overridable build dir so the isolated E2E dev server can run with its own
+  // lock alongside a developer's regular `next dev` (Next allows only one dev
+  // server per build dir).
+  distDir: process.env.NEXT_DIST_DIR || ".next",
 };
 
 const withNextIntl = createNextIntlPlugin();

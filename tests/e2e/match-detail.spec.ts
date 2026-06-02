@@ -1,12 +1,5 @@
 import { expect, test } from "@playwright/test";
-
-async function login(page: import("@playwright/test").Page): Promise<void> {
-  await page.goto("/login");
-  await page.fill("#email", "me@dev.local");
-  await page.fill("#password", "test1234");
-  await page.click("button[type=submit]");
-  await page.waitForURL("http://localhost:3000/");
-}
+import { login } from "./helpers";
 
 test.describe("match detail status badges", () => {
   test("FINISHED match shows the FULL TIME badge", async ({ page }) => {
@@ -23,7 +16,7 @@ test.describe("match detail status badges", () => {
     await expect(page.getByText("LIVE", { exact: true }).first()).toBeVisible();
   });
 
-  test("SCHEDULED match shows the SCHEDULED badge and the German kickoff date", async ({
+  test("an upcoming match shows the SCHEDULED badge and a localized kickoff date", async ({
     page,
   }) => {
     await login(page);
@@ -31,7 +24,11 @@ test.describe("match detail status badges", () => {
     await expect(
       page.getByText("SCHEDULED", { exact: true }).first(),
     ).toBeVisible();
-    const germanWeekday = page.locator("text=/Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag/");
-    await expect(germanWeekday.first()).toBeVisible();
+    // Locale is forced to English for the suite, so the long weekday renders in
+    // English (formatDate uses `weekday: "long"`).
+    const weekday = page.locator(
+      "text=/Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday/",
+    );
+    await expect(weekday.first()).toBeVisible();
   });
 });

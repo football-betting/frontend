@@ -218,6 +218,8 @@
   "Settings": {
     "title": "Profile Settings",
     "subtitle": "Manage your account identity and security preferences.",
+    "language": "Language",
+    "languageHint": "Display language",
     "identity": "Identity",
     "security": "Security & Credentials",
     "session": "Session Management",

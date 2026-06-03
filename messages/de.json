@@ -218,6 +218,8 @@
   "Settings": {
     "title": "Profil-Einstellungen",
     "subtitle": "Verwalte deine Konto-Identität und Sicherheitseinstellungen.",
+    "language": "Sprache",
+    "languageHint": "Anzeigesprache",
     "identity": "Identität",
     "security": "Sicherheit & Zugangsdaten",
     "session": "Sitzungsverwaltung",

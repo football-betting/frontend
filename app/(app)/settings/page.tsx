@@ -6,6 +6,7 @@ import { TopAppBar } from "@/components/dashboard/TopAppBar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { PasswordChangeForm } from "@/components/settings/PasswordChangeForm";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
+import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { ReminderPreferences } from "@/components/settings/ReminderPreferences";
 import {
   getEnabledLeadMinutes,
@@ -48,10 +49,9 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
         <form action="/api/auth/logout" method="POST">
           <button
             type="submit"
-            aria-label={t("logout")}
-            className="material-symbols-outlined text-primary"
+            className="text-label-caps uppercase font-bold text-primary border border-outline-variant rounded-lg px-3 py-1.5 active:scale-95 transition-colors"
           >
-            logout
+            {t("logout")}
           </button>
         </form>
       </header>
@@ -106,6 +106,18 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
                   </p>
                 </div>
                 <LogoutButton label={t("logout")} />
+              </div>
+            </section>
+
+            <section className="bg-surface-container rounded-lg p-lg border border-outline-variant">
+              <h2 className="text-label-caps uppercase tracking-widest text-primary mb-lg">
+                {t("language")}
+              </h2>
+              <div className="flex items-center justify-between gap-md p-md bg-surface-container-highest border border-outline-variant rounded-lg">
+                <p className="text-body-sm text-on-surface-variant">
+                  {t("languageHint")}
+                </p>
+                <LocaleSwitcher />
               </div>
             </section>
           </div>

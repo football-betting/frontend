@@ -559,27 +559,34 @@ async function main(): Promise<void> {
         }
       }
 
-      const knownMatchIds = new Set<number>(
+      // Map each match to its kickoff (seconds). Tips must be dated BEFORE
+      // kickoff, otherwise the betting-api scoring excludes them
+      // (`t.date < m.utcDate`, BA-003) and exact/diff/wins stay 0.
+      const matchUtcById = new Map<number, number>(
         sqlite
-          .prepare("SELECT id FROM match")
+          .prepare("SELECT id, utcDate FROM match")
           .all()
-          .map((row) => (row as { id: number }).id),
+          .map((row) => {
+            const r = row as { id: number; utcDate: number };
+            return [r.id, r.utcDate];
+          }),
       );
 
-      const tipDate = Math.floor(now / 1000);
+      const ONE_HOUR = 3600;
       let tipsInserted = 0;
       for (const t of TIPS) {
         const userId = userIdByEmail.get(t.userEmail);
         if (userId === undefined) {
           throw new Error(`Tip references unknown user ${t.userEmail}`);
         }
-        if (!knownMatchIds.has(t.matchId)) {
+        const matchUtc = matchUtcById.get(t.matchId);
+        if (matchUtc === undefined) {
           continue;
         }
         insertTip.run({
           userId,
           matchId: t.matchId,
-          date: tipDate,
+          date: matchUtc - ONE_HOUR,
           scoreHome: t.scoreHome,
           scoreAway: t.scoreAway,
         });

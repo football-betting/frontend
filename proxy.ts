@@ -17,7 +17,10 @@ const CSP = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data:",
-  "connect-src 'self'",
+  // The service worker (Serwist defaultCache) re-fetches the Material Symbols
+  // icon font from Google Fonts with its own fetch(), which is governed by this
+  // CSP. These origins are already trusted by style-src/font-src.
+  "connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com",
   "frame-ancestors 'none'",
   "form-action 'self'",
   "base-uri 'self'",

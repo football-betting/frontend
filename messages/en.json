@@ -104,7 +104,7 @@
     "userCount": "{count, plural, one {# user} other {# users}}",
     "pointAbbrev": "P",
     "offline": "Ranking API offline",
-    "offlineHint": "The standings will appear once the Rust service is up."
+    "offlineHint": "The standings will appear once the service is back online."
   },
   "Scoring": {
     "title": "Scoring System",
@@ -141,7 +141,7 @@
     "save": "Save",
     "predictionHistory": "Prediction History",
     "serviceOffline": "Service offline",
-    "historyOfflineHint": "Prediction history will appear once the Rust service is up.",
+    "historyOfflineHint": "Prediction history will appear once the service is back online.",
     "noPredictions": "No predictions yet",
     "match": "Match",
     "prediction": "Prediction",
@@ -165,7 +165,7 @@
     "userPredictions": "User Predictions",
     "sortedByPoints": "Sorted by Points Scored",
     "predictionsOffline": "Predictions service offline",
-    "predictionsOfflineHint": "The user predictions will appear once the Rust service is up.",
+    "predictionsOfflineHint": "The user predictions will appear once the service is back online.",
     "rank": "RANK",
     "user": "USER",
     "predictionCol": "PREDICTION",
@@ -265,7 +265,7 @@
     "reminderSaved": "Reminders saved.",
     "pushHeading": "Push notifications",
     "pushChannel": "Enable push in this browser",
-    "pushHint": "Get reminders as a browser notification, even when the app is not open. Works only in the installed app (pnpm build && pnpm start), not in development mode.",
+    "pushHint": "Get reminders as a browser notification, even when the app isn't open. Available once you install the app to your home screen.",
     "pushWorking": "Setting up …",
     "pushUnsupported": "Push is not supported by this browser.",
     "pushPermissionDenied": "Notifications were denied. Please allow them in your browser settings.",

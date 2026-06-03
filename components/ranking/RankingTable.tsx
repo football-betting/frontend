@@ -174,7 +174,7 @@ export function RankingTable({
                     className="flex flex-col items-center bg-surface-container rounded p-xs"
                   >
                     <dt className="text-label-caps uppercase text-on-surface-variant">
-                      {t(col.shortKey)}
+                      {t(col.fullKey)}
                     </dt>
                     <dd
                       className={`font-mono text-data-mono ${

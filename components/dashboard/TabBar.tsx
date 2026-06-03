@@ -25,7 +25,7 @@ export function TabBar({
         <h3 className="text-label-caps uppercase text-on-surface mb-md">
           {t("ranking")}
         </h3>
-        <div className="flex gap-sm overflow-x-auto no-scrollbar">
+        <div className="flex flex-wrap gap-sm">
           {tabs.map((tab) => {
             const isActive = tab.id === active;
             return (

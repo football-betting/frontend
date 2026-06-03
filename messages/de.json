@@ -104,7 +104,7 @@
     "userCount": "{count, plural, one {# Nutzer} other {# Nutzer}}",
     "pointAbbrev": "P",
     "offline": "Rangliste-API offline",
-    "offlineHint": "Die Tabellenstände erscheinen, sobald der Rust-Service läuft."
+    "offlineHint": "Die Tabellenstände erscheinen, sobald der Dienst wieder verfügbar ist."
   },
   "Scoring": {
     "title": "Punktesystem",
@@ -141,7 +141,7 @@
     "save": "Speichern",
     "predictionHistory": "Tipp-Verlauf",
     "serviceOffline": "Service offline",
-    "historyOfflineHint": "Der Tipp-Verlauf erscheint, sobald der Rust-Service läuft.",
+    "historyOfflineHint": "Der Tipp-Verlauf erscheint, sobald der Dienst wieder verfügbar ist.",
     "noPredictions": "Noch keine Tipps",
     "match": "Spiel",
     "prediction": "Tipp",
@@ -165,7 +165,7 @@
     "userPredictions": "Nutzer-Tipps",
     "sortedByPoints": "Sortiert nach erzielten Punkten",
     "predictionsOffline": "Tipp-Service offline",
-    "predictionsOfflineHint": "Die Nutzer-Tipps erscheinen, sobald der Rust-Service läuft.",
+    "predictionsOfflineHint": "Die Nutzer-Tipps erscheinen, sobald der Dienst wieder verfügbar ist.",
     "rank": "RANG",
     "user": "NUTZER",
     "predictionCol": "TIPP",
@@ -265,7 +265,7 @@
     "reminderSaved": "Erinnerungen gespeichert.",
     "pushHeading": "Push-Benachrichtigungen",
     "pushChannel": "Push im Browser aktivieren",
-    "pushHint": "Erhalte Erinnerungen als Browser-Benachrichtigung, auch wenn die App nicht geöffnet ist. Funktioniert nur in der installierten App (pnpm build && pnpm start), nicht im Entwicklungsmodus.",
+    "pushHint": "Erhalte Erinnerungen als Browser-Benachrichtigung, auch wenn die App nicht geöffnet ist. Verfügbar, sobald du die App zum Startbildschirm hinzufügst.",
     "pushWorking": "Wird eingerichtet …",
     "pushUnsupported": "Push wird von diesem Browser nicht unterstützt.",
     "pushPermissionDenied": "Benachrichtigungen wurden abgelehnt. Bitte erlaube sie in den Browser-Einstellungen.",

@@ -26,14 +26,27 @@ const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
   precacheOptions: {
     cleanupOutdatedCaches: true,
-    navigateFallback: "/offline",
-    navigateFallbackAllowlist: [/^\/(?!api\/).*/],
   },
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: false,
   disableDevLogs: true,
   runtimeCaching,
+  // Serve the offline page only when a navigation actually fails (i.e. the
+  // device is offline). `precacheOptions.navigateFallback` is the SPA app-shell
+  // pattern: it serves the fallback for every navigation whose URL is not
+  // precached, which for our server-rendered routes means /offline gets shown
+  // for normal online navigations once the SW activates.
+  fallbacks: {
+    entries: [
+      {
+        url: "/offline",
+        matcher({ request }) {
+          return request.destination === "document";
+        },
+      },
+    ],
+  },
 });
 
 serwist.addEventListeners();

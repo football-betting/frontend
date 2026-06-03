@@ -103,7 +103,7 @@ export function TipForm({
   if (!isEditing && savedTip) {
     return (
       <div className="flex flex-col gap-xs">
-        <div className="flex items-center gap-md justify-end">
+        <div className="flex items-center gap-md justify-between md:justify-end">
           <div
             onClick={disabled ? undefined : enterEdit}
             className={`text-headline-md font-mono min-h-12 flex items-center tabular-nums ${
@@ -147,7 +147,7 @@ export function TipForm({
     >
       <form
         onSubmit={onSubmit}
-        className="flex items-center gap-md justify-end"
+        className="flex items-center gap-md justify-between md:justify-end"
       >
         <div className="flex gap-xs items-center">
           <input

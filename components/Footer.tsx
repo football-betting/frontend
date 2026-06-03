@@ -29,7 +29,7 @@ export function Footer(): React.ReactElement {
             {t("featuresHeading")}
           </Link>
 
-          <div className="flex items-center gap-md">
+          <div className="flex items-center justify-center gap-md self-center md:self-auto">
             <a
               aria-label="GitHub"
               href={GITHUB_URL}

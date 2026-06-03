@@ -17,9 +17,12 @@ export function TopAppBar({ active }: TopAppBarProps): React.ReactElement {
   return (
     <header className="bg-background border-b border-outline-variant fixed top-0 left-0 w-full z-40 hidden md:block">
       <div className="flex justify-between items-center w-full px-margin-desktop h-16 max-w-(--container-max-desktop) mx-auto">
-        <div className="text-headline-md font-black text-on-background tracking-tighter">
+        <Link
+          href="/"
+          className="text-headline-md font-black text-on-background tracking-tighter hover:text-primary transition-colors"
+        >
           {t("title")}
-        </div>
+        </Link>
         <nav className="flex gap-lg">
           {LINKS.map((link) => {
             const isActive = link.id === active;

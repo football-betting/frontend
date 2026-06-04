@@ -7,6 +7,7 @@ import { BottomNav } from "@/components/dashboard/BottomNav";
 import { PasswordChangeForm } from "@/components/settings/PasswordChangeForm";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import { InstallApp } from "@/components/InstallApp";
 import { ReminderPreferences } from "@/components/settings/ReminderPreferences";
 import {
   getEnabledLeadMinutes,
@@ -120,6 +121,8 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
                 <LocaleSwitcher />
               </div>
             </section>
+
+            <InstallApp />
           </div>
 
           <div className="lg:col-span-7 space-y-lg">

@@ -10,6 +10,12 @@
   "Footer": {
     "featuresHeading": "Funktionen"
   },
+  "Install": {
+    "title": "App installieren",
+    "description": "Schnellzugriff direkt vom Home-Bildschirm – kein App Store nötig.",
+    "installButton": "Installieren",
+    "iosHint": "Auf dem iPhone: unten auf „Teilen“ tippen und dann „Zum Home-Bildschirm hinzufügen“."
+  },
   "Features": {
     "title": "Funktionen",
     "intro": "Was die App kann — ein Überblick für Nutzer und Entwickler.",

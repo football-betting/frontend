@@ -10,6 +10,12 @@
   "Footer": {
     "featuresHeading": "Features"
   },
+  "Install": {
+    "title": "Install the app",
+    "description": "Quick access straight from your home screen — no app store needed.",
+    "installButton": "Install",
+    "iosHint": "On iPhone: tap Share at the bottom, then “Add to Home Screen”."
+  },
   "Features": {
     "title": "Features",
     "intro": "What the app can do — an overview for users and developers.",

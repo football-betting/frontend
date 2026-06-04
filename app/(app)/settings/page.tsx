@@ -42,20 +42,6 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
   return (
     <>
       <TopAppBar active="settings" />
-      {/* Mobile header carries logout because BottomNav has none. */}
-      <header className="flex md:hidden items-center justify-between px-margin-mobile h-16 border-b border-outline-variant bg-background">
-        <span className="text-headline-md font-black text-on-background tracking-tighter">
-          {t("title")}
-        </span>
-        <form action="/api/auth/logout" method="POST">
-          <button
-            type="submit"
-            className="text-label-caps uppercase font-bold text-primary border border-outline-variant rounded-lg px-3 py-1.5 active:scale-95 transition-colors"
-          >
-            {t("logout")}
-          </button>
-        </form>
-      </header>
 
       <main className="pt-4 md:pt-24 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-(--container-max-desktop) mx-auto">
         <div className="mb-lg">

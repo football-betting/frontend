@@ -15,7 +15,7 @@ test.describe("i18n language switcher", () => {
       page.getByRole("button", { name: "Anmelden" }),
     ).toBeVisible();
 
-    await page.getByRole("combobox", { name: "Language" }).selectOption("en");
+    await page.getByRole("button", { name: "en", exact: true }).click();
 
     // Now English → "Sign In".
     await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible();
@@ -28,7 +28,7 @@ test.describe("i18n language switcher", () => {
     await context.clearCookies();
 
     await page.goto("/login");
-    await page.getByRole("combobox", { name: "Language" }).selectOption("en");
+    await page.getByRole("button", { name: "en", exact: true }).click();
     await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible();
 
     await page.reload();

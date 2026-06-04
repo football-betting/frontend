@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 // The suite forces locale=en globally (see playwright.config.ts). These tests
 // clear that cookie to exercise the real default + the switcher persistence.
 test.describe("i18n language switcher", () => {
-  test("defaults to German and the auth-page switcher toggles to English", async ({
+  test("defaults to German and the language menu switches to English", async ({
     page,
     context,
   }) => {
@@ -15,7 +15,7 @@ test.describe("i18n language switcher", () => {
       page.getByRole("button", { name: "Anmelden" }),
     ).toBeVisible();
 
-    await page.getByRole("button", { name: "en", exact: true }).click();
+    await page.getByRole("combobox", { name: "Language" }).selectOption("en");
 
     // Now English → "Sign In".
     await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible();
@@ -28,7 +28,7 @@ test.describe("i18n language switcher", () => {
     await context.clearCookies();
 
     await page.goto("/login");
-    await page.getByRole("button", { name: "en", exact: true }).click();
+    await page.getByRole("combobox", { name: "Language" }).selectOption("en");
     await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible();
 
     await page.reload();

@@ -42,7 +42,7 @@ const VALID_SIGNUP = {
   password: "test1234",
   rePassword: "test1234",
   department: "Langenfeld",
-  winner: "DEU",
+  winner: "GER",
   secretWinner: "ESP",
 };
 

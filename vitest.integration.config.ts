@@ -31,7 +31,18 @@ export default defineConfig({
       // Separate dir so it can be merged with the unit report (./coverage)
       // rather than overwriting it.
       reportsDirectory: "./coverage-integration",
-      include: ["lib/**", "app/api/**"],
+      // Scope to ONLY the data-access modules these tests exercise. A broad glob
+      // (lib/**, app/api/**) would pull every untested route/module into the
+      // merged Codecov total as 0% and tank the reported coverage.
+      include: [
+        "lib/db.ts",
+        "lib/user.ts",
+        "lib/tip.ts",
+        "lib/match.ts",
+        "lib/reminder-store.ts",
+        "lib/push-store.ts",
+        "lib/password-reset-store.ts",
+      ],
     },
   },
 });

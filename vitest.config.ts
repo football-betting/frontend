@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { coverageConfigDefaults, defineConfig } from "vitest/config";
 import path from "node:path";
 
 export default defineConfig({
@@ -17,6 +17,19 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "lcov"],
       reportsDirectory: "./coverage",
+      exclude: [
+        ...coverageConfigDefaults.exclude,
+        // Genuinely not unit-testable: declarative Drizzle schema + SQL
+        // migrations, operational scripts (migrate/seed/reset), the service
+        // worker + PWA manifest, and the RSC app-shell layouts. Logic-bearing
+        // code (lib, components, api routes) stays in scope.
+        "db/schema.ts",
+        "db/migrations/**",
+        "scripts/**",
+        "app/sw.ts",
+        "app/manifest.ts",
+        "app/**/layout.tsx",
+      ],
     },
   },
 });

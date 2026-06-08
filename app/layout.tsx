@@ -51,6 +51,16 @@ export default async function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
+        <script
+          // Capture the install signal before React hydrates: `beforeinstallprompt`
+          // fires once, early, and would otherwise be missed by client components.
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){window.__wmInstall={e:null};" +
+              "addEventListener('beforeinstallprompt',function(ev){ev.preventDefault();window.__wmInstall.e=ev;dispatchEvent(new Event('wm-installable'))});" +
+              "addEventListener('appinstalled',function(){window.__wmInstall.e=null;dispatchEvent(new Event('wm-installed'))})})();",
+          }}
+        />
       </head>
       <body>
         <NextIntlClientProvider>

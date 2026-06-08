@@ -110,6 +110,58 @@ export interface TipReminderDetails {
   predictUrl: string;
 }
 
+// Dynamic values land inside HTML attributes/text — escape them. Team names come
+// from the external football API, so treat them as untrusted.
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Branded HTML email matching the app (dark surface, coral primary, "WM '26 —
+// a valantic guessing game" wordmark). Table layout + inline styles so it
+// renders across email clients, which strip <style> and flexbox.
+function buildTipReminderHtml(details: TipReminderDetails): string {
+  const matchLabel = escapeHtml(details.matchLabel);
+  const kickoff = escapeHtml(details.kickoff);
+  const href = escapeHtml(details.predictUrl);
+  return `<!doctype html>
+<html lang="de">
+<body style="margin:0;padding:0;background:#121317;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#121317;padding:24px 12px;">
+<tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background:#1e1f23;border:1px solid #343539;border-radius:16px;overflow:hidden;">
+<tr><td style="padding:28px 28px 18px 28px;text-align:center;border-bottom:1px solid #2a2b2f;">
+<div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;font-size:30px;line-height:1;color:#e3e2e7;letter-spacing:-0.5px;">WM &rsquo;26</div>
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#9c9aa1;margin-top:8px;">a <span style="color:#ffffff;font-weight:800;">valantic</span> guessing game</div>
+</td></tr>
+<tr><td style="padding:28px;font-family:Arial,Helvetica,sans-serif;">
+<p style="margin:0 0 18px 0;font-size:15px;color:#c8c6cb;">Du hast dieses Spiel noch nicht getippt:</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#292a2e;border:1px solid #343539;border-radius:12px;">
+<tr><td style="padding:18px 20px;">
+<div style="font-size:18px;font-weight:700;color:#e3e2e7;">${matchLabel}</div>
+<div style="font-size:13px;color:#a0a0a6;margin-top:6px;">Anpfiff: ${kickoff}</div>
+</td></tr>
+</table>
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:24px auto 4px auto;">
+<tr><td align="center" style="border-radius:12px;background:#ffb4aa;">
+<a href="${href}" style="display:inline-block;padding:14px 34px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:#690003;text-decoration:none;border-radius:12px;">Jetzt tippen</a>
+</td></tr>
+</table>
+</td></tr>
+<tr><td style="padding:16px 28px 26px 28px;text-align:center;border-top:1px solid #2a2b2f;">
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#6c6a70;">Diese Erinnerung kannst du in den Einstellungen anpassen.</div>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
 // v1: German email only. Honoring per-user locale is a future enhancement —
 // the active locale lives in a cookie, not on the user row (see FE-059).
 export async function sendTipReminderEmail(
@@ -122,10 +174,7 @@ export async function sendTipReminderEmail(
     `Du hast dieses Spiel noch nicht getippt:\n\n` +
     `${matchLabel}\nAnpfiff: ${kickoff}\n\n` +
     `Jetzt tippen:\n${predictUrl}\n`;
-  const html =
-    `<p>Du hast dieses Spiel noch nicht getippt:</p>` +
-    `<p><strong>${matchLabel}</strong><br>Anpfiff: ${kickoff}</p>` +
-    `<p><a href="${predictUrl}">Jetzt tippen</a></p>`;
+  const html = buildTipReminderHtml(details);
   await sendMail({ to, subject, text, html });
 }
 

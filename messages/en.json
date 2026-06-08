@@ -12,21 +12,21 @@
   },
   "Install": {
     "title": "Install the app",
-    "description": "Quick access straight from your home screen â no app store needed.",
+    "description": "Quick access straight from your home screen — no app store needed.",
     "installButton": "Install",
-    "iosHint": "On iPhone: tap Share at the bottom, then âAdd to Home Screenâ."
+    "iosHint": "On iPhone: tap Share at the bottom, then “Add to Home Screen”."
   },
   "Features": {
     "title": "Features",
-    "intro": "What the app can do â an overview for users and developers.",
+    "intro": "What the app can do — an overview for users and developers.",
     "items": {
       "liveScoring": {
         "title": "Live scoring & auto-refresh",
-        "desc": "Scores and ranking points update automatically while matches are in play â no manual reload."
+        "desc": "Scores and ranking points update automatically while matches are in play — no manual reload."
       },
       "predicting": {
         "title": "Predictions & scoring",
-        "desc": "One prediction per match. Scoring: exact 5, goal difference 3, tendency 2 points â plus a bonus for the champion pick."
+        "desc": "One prediction per match. Scoring: exact 5, goal difference 3, tendency 2 points — plus a bonus for the champion pick."
       },
       "rankings": {
         "title": "Rankings",
@@ -34,11 +34,11 @@
       },
       "history": {
         "title": "Profile & prediction history",
-        "desc": "Your profile with statistics and a full prediction history â sortable, filterable and paginated."
+        "desc": "Your profile with statistics and a full prediction history — sortable, filterable and paginated."
       },
       "reminders": {
         "title": "Reminders",
-        "desc": "Reminders for matches you haven't predicted yet â by email and/or push in the installed app, with selectable lead times."
+        "desc": "Reminders for matches you haven't predicted yet — by email and/or push in the installed app, with selectable lead times."
       },
       "pwaOffline": {
         "title": "Installable PWA",
@@ -182,7 +182,7 @@
   "Auth": {
     "appName": "TOURNAMENT PREDICTOR",
     "tagline": "Office Tournament Pool",
-    "copyright": "Â© 2026 valantic",
+    "copyright": "© 2026 valantic",
     "accountCreated": "Account created. Sign in below.",
     "createAccount": "Create an account",
     "emailAddress": "Email Address",
@@ -254,7 +254,7 @@
     "reminderHint": "We remind you about matches you have not predicted yet. Choose how long before kickoff.",
     "emailHeading": "Email",
     "emailChannel": "Email reminders",
-    "emailHint": "Get reminders by email. On by default â turn it off to use push only.",
+    "emailHint": "Get reminders by email. On by default — turn it off to use push only.",
     "emailError": "Could not update email reminders. Please try again.",
     "reminderLeadHeading": "Lead times",
     "reminderNoChannel": "Enable email or push to receive reminders.",
@@ -272,7 +272,7 @@
     "pushHeading": "Push notifications",
     "pushChannel": "Enable push in this browser",
     "pushHint": "Get reminders as a browser notification, even when the app isn't open. Available once you install the app to your home screen.",
-    "pushWorking": "Setting up â¦",
+    "pushWorking": "Setting up …",
     "pushUnsupported": "Push is not supported by this browser.",
     "pushPermissionDenied": "Notifications were denied. Please allow them in your browser settings.",
     "pushError": "Could not enable push. Please try again.",
@@ -304,7 +304,7 @@
     "invalidRequestBody": "Invalid request.",
     "currentPasswordIncorrect": "Current password is incorrect.",
     "failedToUpdatePassword": "Failed to update password.",
-    "picksLocked": "Tournament has already started â picks are locked.",
+    "picksLocked": "Tournament has already started — picks are locked.",
     "failedToUpdateWinners": "Failed to update winners.",
     "failedToUpdateReminders": "Failed to update reminders.",
     "noFileProvided": "No file provided.",
@@ -314,7 +314,7 @@
     "failedToSaveAvatar": "Failed to save avatar.",
     "matchNotFound": "Match not found.",
     "matchStartedOrFinished": "Match already started or finished.",
-    "tipOutOfRange": "Tip out of range (0â20).",
+    "tipOutOfRange": "Tip out of range (0–20).",
     "failedToSave": "Failed to save tip."
   },
   "Countries": {

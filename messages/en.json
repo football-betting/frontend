@@ -14,7 +14,8 @@
     "title": "Install the app",
     "description": "Quick access straight from your home screen — no app store needed.",
     "installButton": "Install",
-    "iosHint": "On iPhone: tap Share at the bottom, then “Add to Home Screen”."
+    "iosHint": "On iPhone: tap Share at the bottom, then “Add to Home Screen”.",
+    "androidHint": "Open the browser menu (⋮) top-right and choose “Install app”."
   },
   "Features": {
     "title": "Features",

@@ -17,6 +17,10 @@ export function Footer(): React.ReactElement {
             <div className="text-label-caps uppercase text-on-surface-variant">
               © {year} {tNav("title")}
             </div>
+            <div className="text-body-sm text-on-surface-variant">
+              a <span className="font-extrabold text-white">valantic</span>{" "}
+              guessing game
+            </div>
             <div className="text-body-sm text-on-surface-variant/60 font-mono">
               v{packageJson.version}
             </div>

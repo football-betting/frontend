@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
-import { TEAMS } from "@/lib/data/teams";
+import { localizedTeams } from "@/lib/data/teams";
 import { extractErrorKey } from "@/lib/error-message";
 
 interface WinnerEditFormProps {
@@ -21,6 +21,8 @@ export function WinnerEditForm({
 }: WinnerEditFormProps): React.ReactElement {
   const t = useTranslations("Profile");
   const tErrors = useTranslations("Errors");
+  const locale = useLocale();
+  const teams = localizedTeams(locale);
   const router = useRouter();
   const [winner, setWinner] = useState(initialWinner);
   const [secretWinner, setSecretWinner] = useState(initialSecret);
@@ -85,9 +87,9 @@ export function WinnerEditForm({
           aria-label={t("winnerSelectLabel")}
           className="min-h-12 px-md bg-surface-container-low border border-outline-variant rounded text-body-lg focus:border-primary focus:ring-0 disabled:opacity-60"
         >
-          {TEAMS.map((t) => (
-            <option key={t.code} value={t.code}>
-              {t.code} — {t.name}
+          {teams.map((team) => (
+            <option key={team.code} value={team.code}>
+              {team.code} — {team.name}
             </option>
           ))}
         </select>
@@ -104,9 +106,9 @@ export function WinnerEditForm({
           aria-label={t("secretWinnerSelectLabel")}
           className="min-h-12 px-md bg-surface-container-low border border-outline-variant rounded text-body-lg focus:border-primary focus:ring-0 disabled:opacity-60"
         >
-          {TEAMS.map((t) => (
-            <option key={t.code} value={t.code}>
-              {t.code} — {t.name}
+          {teams.map((team) => (
+            <option key={team.code} value={team.code}>
+              {team.code} — {team.name}
             </option>
           ))}
         </select>

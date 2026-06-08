@@ -1,14 +1,16 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { DEPARTMENTS, displayDepartment } from "@/lib/data/departments";
-import { TEAMS } from "@/lib/data/teams";
+import { localizedTeams } from "@/lib/data/teams";
 import { extractErrorKey } from "@/lib/error-message";
 
 export function SignupForm(): React.ReactElement {
   const t = useTranslations("Auth");
   const tErrors = useTranslations("Errors");
+  const locale = useLocale();
+  const teams = localizedTeams(locale);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -227,9 +229,9 @@ export function SignupForm(): React.ReactElement {
             <option disabled value="">
               {t("selectTeam")}
             </option>
-            {TEAMS.map((t) => (
-              <option key={t.code} value={t.code}>
-                {t.name}
+            {teams.map((team) => (
+              <option key={team.code} value={team.code}>
+                {team.name}
               </option>
             ))}
           </select>
@@ -252,9 +254,9 @@ export function SignupForm(): React.ReactElement {
             <option disabled value="">
               {t("selectTeam")}
             </option>
-            {TEAMS.map((t) => (
-              <option key={t.code} value={t.code}>
-                {t.name}
+            {teams.map((team) => (
+              <option key={team.code} value={team.code}>
+                {team.name}
               </option>
             ))}
           </select>

@@ -133,7 +133,7 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
         </div>
       </main>
 
-      <BottomNav active="profile" />
+      <BottomNav active="settings" />
     </>
   );
 }

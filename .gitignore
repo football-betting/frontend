@@ -10,6 +10,7 @@
 
 # Testing
 /coverage
+/coverage-integration
 /playwright-report
 /test-results
 

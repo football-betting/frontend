@@ -7,9 +7,15 @@ const isProd = process.env.NODE_ENV === "production";
 // (styled-jsx + the inline `style={...}` on the auth pages) and for scripts
 // in dev mode (HMR + hydration helpers). `'unsafe-eval'` is only granted in
 // dev — production stays strict.
+// Cloudflare auto-injects its Web Analytics beacon (beacon.min.js from
+// static.cloudflareinsights.com, posting RUM data to cloudflareinsights.com)
+// on the proxied origin. Allow it so it is not CSP-blocked.
+const CLOUDFLARE_INSIGHTS_SCRIPT = "https://static.cloudflareinsights.com";
+const CLOUDFLARE_INSIGHTS_BEACON = "https://cloudflareinsights.com";
+
 const scriptSrc = isProd
-  ? ["'self'", "'unsafe-inline'"]
-  : ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
+  ? ["'self'", "'unsafe-inline'", CLOUDFLARE_INSIGHTS_SCRIPT]
+  : ["'self'", "'unsafe-inline'", "'unsafe-eval'", CLOUDFLARE_INSIGHTS_SCRIPT];
 
 const CSP = [
   "default-src 'self'",
@@ -20,7 +26,7 @@ const CSP = [
   // The service worker (Serwist defaultCache) re-fetches the Material Symbols
   // icon font from Google Fonts with its own fetch(), which is governed by this
   // CSP. These origins are already trusted by style-src/font-src.
-  "connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com",
+  `connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com ${CLOUDFLARE_INSIGHTS_BEACON}`,
   "frame-ancestors 'none'",
   "form-action 'self'",
   "base-uri 'self'",

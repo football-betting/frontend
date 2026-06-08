@@ -43,11 +43,14 @@ jobs:
       - name: Unit tests + coverage
         run: pnpm exec vitest run --coverage
 
+      - name: DB integration tests + coverage (seeded demo data)
+        run: pnpm exec vitest run --config vitest.integration.config.ts --coverage
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: football-betting/frontend
           flags: frontend
-          files: ./coverage/lcov.info
+          files: ./coverage/lcov.info,./coverage-integration/lcov.info
           fail_ci_if_error: false

@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Tournament Predictor",
-    short_name: "Predictor",
-    description: "Office tournament pool",
+    name: "WM ’26 — a valantic guessing game",
+    short_name: "WM ’26",
+    description: "a valantic guessing game",
     start_url: "/",
     display: "standalone",
     background_color: "#121317",

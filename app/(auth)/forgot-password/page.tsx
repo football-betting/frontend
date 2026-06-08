@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { Logo } from "@/components/Logo";
 import { getCurrentSession } from "@/lib/session";
 import { ForgotPasswordForm } from "./forgot-password-form";
 
@@ -22,9 +23,7 @@ export default async function ForgotPasswordPage(): Promise<React.ReactElement> 
     >
       <div className="w-full max-w-[440px] z-10">
         <div className="mb-lg text-center">
-          <h1 className="text-headline-lg font-black text-on-background uppercase tracking-tighter">
-            {t("appName")}
-          </h1>
+          <Logo />
           <p className="text-body-sm text-on-surface-variant mt-xs opacity-60">
             {t("forgotPasswordTitle")}
           </p>

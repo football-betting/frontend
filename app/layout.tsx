@@ -17,13 +17,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  applicationName: "Tournament Predictor",
-  title: "Football Betting",
+  applicationName: "WM ’26",
+  title: "WM ’26 — a valantic guessing game",
   description: "Office tournament pool",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Predictor",
+    title: "WM ’26",
   },
   formatDetection: {
     telephone: false,

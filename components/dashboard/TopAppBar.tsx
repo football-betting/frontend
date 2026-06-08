@@ -19,7 +19,7 @@ export function TopAppBar({ active }: TopAppBarProps): React.ReactElement {
       <div className="flex justify-between items-center w-full px-margin-desktop h-16 max-w-(--container-max-desktop) mx-auto">
         <Link
           href="/"
-          className="text-headline-md font-black text-on-background tracking-tighter hover:text-primary transition-colors"
+          className="text-headline-md italic font-black text-on-background tracking-tighter hover:text-primary transition-colors"
         >
           {t("title")}
         </Link>

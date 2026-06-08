@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCurrentSession } from "@/lib/session";
+import { Logo } from "@/components/Logo";
 import { SignupForm } from "./signup-form";
 
 export default async function SignupPage(): Promise<React.ReactElement> {
@@ -22,9 +23,7 @@ export default async function SignupPage(): Promise<React.ReactElement> {
     >
       <div className="w-full max-w-[600px]">
         <div className="flex flex-col items-center mb-xl">
-          <h1 className="text-headline-lg font-black text-on-background uppercase tracking-tighter mb-xs">
-            {t("appName")}
-          </h1>
+          <Logo />
         </div>
 
         <div className="bg-surface-container border border-outline-variant rounded-lg p-lg shadow-2xl relative overflow-hidden">

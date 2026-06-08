@@ -29,6 +29,10 @@ export default defineConfig({
         "app/sw.ts",
         "app/manifest.ts",
         "app/**/layout.tsx",
+        // Lucia auth/session glue: cookie + adapter integration, exercised by
+        // the login E2E flow, not unit-testable without mocking next/headers.
+        "lib/auth.ts",
+        "lib/session.ts",
       ],
     },
   },

@@ -147,3 +147,46 @@ describe("mailer send (mocked transport)", () => {
     expect(serialized).not.toContain("s3cret");
   });
 });
+
+describe("mailer error + caching paths", () => {
+  const validEnv = {
+    SMTP_HOST: "smtp.example.com",
+    SMTP_PORT: "587",
+    SMTP_SECURE: "false",
+    SMTP_USER: "u",
+    SMTP_PASS: "p",
+    SMTP_FROM: "from@example.com",
+  } as const;
+
+  it("rejects a non-numeric SMTP_PORT", () => {
+    setEnv({ ...validEnv, SMTP_PORT: "not-a-number" });
+    expect(() => _internal.readSmtpConfig()).toThrowError(/port number/i);
+  });
+
+  it("builds the transport once and reuses it across sends", async () => {
+    setEnv(validEnv);
+    let builds = 0;
+    _internal.setTransportFactory(() => {
+      builds += 1;
+      return { sendMail: async () => ({}) } as unknown as Transporter;
+    });
+    await sendMail({ to: "a@b.com", subject: "1", text: "x" });
+    await sendMail({ to: "c@d.com", subject: "2", text: "y" });
+    expect(builds).toBe(1);
+  });
+
+  it("wraps a transport failure in a generic error (no leak)", async () => {
+    setEnv(validEnv);
+    _internal.setTransportFactory(
+      () =>
+        ({
+          sendMail: async () => {
+            throw new Error("connection refused to smtp.example.com");
+          },
+        }) as unknown as Transporter,
+    );
+    await expect(
+      sendMail({ to: "a@b.com", subject: "x", text: "y" }),
+    ).rejects.toThrowError("Failed to send email");
+  });
+});

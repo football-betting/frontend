@@ -1,5 +1,16 @@
-import { describe, expect, it } from "vitest";
-import { isLockedFromTimestamp } from "@/lib/tournament";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+const selectRows = vi.fn();
+
+vi.mock("@/lib/db", () => ({
+  db: {
+    select: () => ({
+      from: () => selectRows(),
+    }),
+  },
+}));
+
+import { isLockedFromTimestamp, isTournamentLocked } from "@/lib/tournament";
 
 describe("isLockedFromTimestamp", () => {
   const now = 1_700_000_000_000;
@@ -21,5 +32,34 @@ describe("isLockedFromTimestamp", () => {
   it("returns false when every match is in the future", () => {
     const oneHourFromNowSeconds = Math.floor(now / 1000) + 3600;
     expect(isLockedFromTimestamp(oneHourFromNowSeconds, now)).toBe(false);
+  });
+});
+
+describe("isTournamentLocked", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    selectRows.mockReset();
+  });
+
+  it("is locked when the earliest match kickoff is in the past", async () => {
+    const pastSeconds = Math.floor(Date.now() / 1000) - 3600;
+    selectRows.mockResolvedValue([{ min: pastSeconds }]);
+    await expect(isTournamentLocked()).resolves.toBe(true);
+  });
+
+  it("is not locked when the earliest match kickoff is in the future", async () => {
+    const futureSeconds = Math.floor(Date.now() / 1000) + 3600;
+    selectRows.mockResolvedValue([{ min: futureSeconds }]);
+    await expect(isTournamentLocked()).resolves.toBe(false);
+  });
+
+  it("is not locked when there are no matches (MIN is null)", async () => {
+    selectRows.mockResolvedValue([{ min: null }]);
+    await expect(isTournamentLocked()).resolves.toBe(false);
+  });
+
+  it("is not locked when the query returns no rows", async () => {
+    selectRows.mockResolvedValue([]);
+    await expect(isTournamentLocked()).resolves.toBe(false);
   });
 });

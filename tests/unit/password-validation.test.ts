@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { changePasswordSchema } from "@/lib/validation/password";
+import {
+  changePasswordSchema,
+  resetPasswordSchema,
+} from "@/lib/validation/password";
 
 describe("changePasswordSchema", () => {
   it("accepts a valid payload where new equals confirm", () => {
@@ -63,6 +66,68 @@ describe("changePasswordSchema", () => {
       currentPassword: "oldpass1",
       newPassword: 12345678,
       confirmPassword: 12345678,
+    });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("resetPasswordSchema", () => {
+  it("accepts a valid payload where new equals confirm", () => {
+    const result = resetPasswordSchema.safeParse({
+      token: "valid-token",
+      newPassword: "newpass123",
+      confirmPassword: "newpass123",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects an empty token", () => {
+    const result = resetPasswordSchema.safeParse({
+      token: "",
+      newPassword: "newpass123",
+      confirmPassword: "newpass123",
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const issue = result.error.issues.find((i) => i.path.includes("token"));
+      expect(issue?.message).toBe("invalidResetToken");
+    }
+  });
+
+  it("rejects when new password is shorter than 8 characters", () => {
+    const result = resetPasswordSchema.safeParse({
+      token: "valid-token",
+      newPassword: "short",
+      confirmPassword: "short",
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const issue = result.error.issues.find((i) =>
+        i.path.includes("newPassword"),
+      );
+      expect(issue?.message).toBe("newPasswordTooShort");
+    }
+  });
+
+  it("rejects when confirm does not equal new password", () => {
+    const result = resetPasswordSchema.safeParse({
+      token: "valid-token",
+      newPassword: "newpass123",
+      confirmPassword: "different123",
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const issue = result.error.issues.find((i) =>
+        i.path.includes("confirmPassword"),
+      );
+      expect(issue?.message).toBe("passwordsDoNotMatch");
+    }
+  });
+
+  it("rejects when the token field is missing", () => {
+    const result = resetPasswordSchema.safeParse({
+      newPassword: "newpass123",
+      confirmPassword: "newpass123",
     });
     expect(result.success).toBe(false);
   });

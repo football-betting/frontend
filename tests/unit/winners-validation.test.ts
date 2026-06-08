@@ -4,7 +4,7 @@ import { winnersSchema } from "@/lib/validation/winners";
 describe("winnersSchema", () => {
   it("accepts a valid payload with winner !== secretWinner", () => {
     const result = winnersSchema.safeParse({
-      winner: "DEU",
+      winner: "GER",
       secretWinner: "ESP",
     });
     expect(result.success).toBe(true);
@@ -12,8 +12,8 @@ describe("winnersSchema", () => {
 
   it("rejects when winner equals secretWinner", () => {
     const result = winnersSchema.safeParse({
-      winner: "DEU",
-      secretWinner: "DEU",
+      winner: "GER",
+      secretWinner: "GER",
     });
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -33,7 +33,7 @@ describe("winnersSchema", () => {
   });
 
   it("rejects when a field is missing", () => {
-    const result = winnersSchema.safeParse({ winner: "DEU" });
+    const result = winnersSchema.safeParse({ winner: "GER" });
     expect(result.success).toBe(false);
   });
 

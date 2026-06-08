@@ -167,7 +167,9 @@ async function run(request: NextRequest): Promise<Response> {
           if (!match) continue;
           const label = `${match.homeTeam.name} – ${match.awayTeam.name}`;
           const kickoff = formatKickoff(match.utcDate);
-          const predictUrl = `${origin}/match/${m.id}`;
+          // Land on the dashboard, where all upcoming matches can be tipped
+          // directly, rather than a single match detail page.
+          const predictUrl = `${origin}/`;
 
           // Mark-on-success (FE-066): attempt delivery first, reserve the dedup
           // slot only after it actually succeeds. A failed/targetless attempt

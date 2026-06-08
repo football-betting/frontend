@@ -14,12 +14,10 @@ export function Footer(): React.ReactElement {
       <div className="max-w-(--container-max-desktop) mx-auto px-margin-mobile md:px-margin-desktop">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-lg">
           <div className="flex flex-col items-center md:items-start gap-xs">
-            <div className="text-label-caps uppercase text-on-surface-variant">
-              © {year} {tNav("title")}
-            </div>
-            <div className="text-body-sm text-on-surface-variant">
-              a <span className="font-extrabold text-white">valantic</span>{" "}
-              guessing game
+            <div className="text-xs text-on-surface-variant text-center md:text-left">
+              © {year} {tNav("title")} · a{" "}
+              <span className="font-extrabold text-white">valantic</span> guessing
+              game
             </div>
             <div className="text-body-sm text-on-surface-variant/60 font-mono">
               v{packageJson.version}

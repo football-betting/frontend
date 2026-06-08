@@ -1,4 +1,9 @@
-export const DEPARTMENTS = ["Langenfeld", "Mannheim", "Mainz"] as const;
+export const DEPARTMENTS = [
+  "Langenfeld",
+  "Mannheim",
+  "Mainz",
+  "Siegen",
+] as const;
 
 export type Department = (typeof DEPARTMENTS)[number];
 

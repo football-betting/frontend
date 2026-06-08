@@ -2,80 +2,39 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useInstall } from "@/components/InstallContext";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
+type Device = "loading" | "desktop" | "android" | "ios";
 
-type Mode = "loading" | "hidden" | "android" | "ios";
-
-function isStandalone(): boolean {
-  const nav = window.navigator as Navigator & { standalone?: boolean };
-  return (
-    window.matchMedia("(display-mode: standalone)").matches ||
-    nav.standalone === true
-  );
-}
-
-function isIos(): boolean {
+function detectDevice(): Device {
   const nav = window.navigator;
-  const iOSDevice = /iphone|ipad|ipod/i.test(nav.userAgent);
+  const ua = nav.userAgent;
   // iPadOS reports a desktop UA but has touch points.
   const iPadOS = nav.platform === "MacIntel" && nav.maxTouchPoints > 1;
-  return iOSDevice || iPadOS;
+  if (/iphone|ipad|ipod/i.test(ua) || iPadOS) return "ios";
+  if (/android/i.test(ua)) return "android";
+  return "desktop";
 }
 
 /**
- * "Install the app" card. Self-hides unless the app is genuinely installable:
- * - Android/Chrome: shows a button that triggers the native install dialog
- *   (captured from `beforeinstallprompt`).
- * - iOS/Safari: shows the manual "Share → Add to Home Screen" instruction.
- * - Desktop, or already installed (standalone): renders nothing.
- * It lives in the account/settings area, so it only appears after login.
+ * "Install the app" card, shown only on mobile (the `beforeinstallprompt`
+ * signal — captured app-wide by InstallProvider — also fires on desktop Chrome,
+ * so we gate on the device, not on the signal):
+ * - Android: native install button when a prompt was captured, otherwise a
+ *   manual "browser menu → Install app" hint.
+ * - iOS/Safari: the manual "Share → Add to Home Screen" instruction.
+ * - Desktop, or already installed: renders nothing.
  */
 export function InstallApp(): React.ReactElement | null {
   const t = useTranslations("Install");
-  const [mode, setMode] = useState<Mode>("loading");
-  const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(
-    null,
-  );
+  const { canInstall, installed, install } = useInstall();
+  const [device, setDevice] = useState<Device>("loading");
 
   useEffect(() => {
-    if (isStandalone()) {
-      setMode("hidden");
-      return;
-    }
-    if (isIos()) {
-      setMode("ios");
-      return;
-    }
-    // Android / Chromium: wait for the installability signal. Desktop stays
-    // hidden because we only set "android" once this fires on a mobile-eligible
-    // context and we never surface it elsewhere.
-    const onPrompt = (event: Event): void => {
-      event.preventDefault();
-      setDeferred(event as BeforeInstallPromptEvent);
-      setMode("android");
-    };
-    const onInstalled = (): void => setMode("hidden");
-    window.addEventListener("beforeinstallprompt", onPrompt);
-    window.addEventListener("appinstalled", onInstalled);
-    return () => {
-      window.removeEventListener("beforeinstallprompt", onPrompt);
-      window.removeEventListener("appinstalled", onInstalled);
-    };
+    setDevice(detectDevice());
   }, []);
 
-  if (mode === "loading" || mode === "hidden") return null;
-
-  async function install(): Promise<void> {
-    if (!deferred) return;
-    await deferred.prompt();
-    await deferred.userChoice;
-    setDeferred(null);
-    setMode("hidden");
-  }
+  if (installed || device === "loading" || device === "desktop") return null;
 
   return (
     <section className="bg-surface-container rounded-lg p-lg border border-outline-variant">
@@ -85,7 +44,7 @@ export function InstallApp(): React.ReactElement | null {
       <p className="text-body-sm text-on-surface-variant mb-lg">
         {t("description")}
       </p>
-      {mode === "android" ? (
+      {device === "android" && canInstall ? (
         <button
           type="button"
           onClick={install}
@@ -99,9 +58,11 @@ export function InstallApp(): React.ReactElement | null {
             aria-hidden="true"
             className="material-symbols-outlined text-primary"
           >
-            ios_share
+            {device === "ios" ? "ios_share" : "more_vert"}
           </span>
-          <p className="text-body-sm text-on-surface">{t("iosHint")}</p>
+          <p className="text-body-sm text-on-surface">
+            {device === "ios" ? t("iosHint") : t("androidHint")}
+          </p>
         </div>
       )}
     </section>

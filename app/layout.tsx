@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
+import { InstallProvider } from "@/components/InstallContext";
 import "./globals.css";
 
 const hankenGrotesk = Hanken_Grotesk({
@@ -52,7 +53,9 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <InstallProvider>{children}</InstallProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

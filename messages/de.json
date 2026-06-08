@@ -14,7 +14,8 @@
     "title": "App installieren",
     "description": "Schnellzugriff direkt vom Home-Bildschirm – kein App Store nötig.",
     "installButton": "Installieren",
-    "iosHint": "Auf dem iPhone: unten auf „Teilen“ tippen und dann „Zum Home-Bildschirm hinzufügen“."
+    "iosHint": "Auf dem iPhone: unten auf „Teilen“ tippen und dann „Zum Home-Bildschirm hinzufügen“.",
+    "androidHint": "Im Browser-Menü (⋮) oben rechts auf „App installieren“ tippen."
   },
   "Features": {
     "title": "Funktionen",

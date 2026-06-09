@@ -42,13 +42,13 @@ test.describe("profile page", () => {
   test("secretWinner is public on every profile", async ({ page }) => {
     await login(page);
 
-    // Own profile (user 6 = TestUser, secretWinner = NLD per FE-007 seed)
+    // Own profile (user 6 = TestUser, secretWinner = NED per seed)
     await page.goto("/user/6");
     const ownSecretCard = page
       .locator("div", { hasText: "SECRET WINNER" })
       .first();
     await expect(ownSecretCard).toBeVisible();
-    await expect(ownSecretCard).toContainText("NLD");
+    await expect(ownSecretCard).toContainText("NED");
 
     // Another user's profile (user 1 = AdaLovelace, secretWinner = ESP per FE-007 seed)
     await page.goto("/user/1");
@@ -58,8 +58,8 @@ test.describe("profile page", () => {
     await expect(otherSecretCard).toBeVisible();
     await expect(otherSecretCard).toContainText("ESP");
 
-    // Tournament Winner is also public — AdaLovelace.winner = DEU
+    // Tournament Winner is also public — AdaLovelace.winner = GER
     await expect(page.locator("body")).toContainText("TOURNAMENT WINNER");
-    await expect(page.locator("body")).toContainText("DEU");
+    await expect(page.locator("body")).toContainText("GER");
   });
 });

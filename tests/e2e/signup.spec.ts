@@ -35,8 +35,8 @@ test.describe("signup validation", () => {
     await fillSignupForm(page, {
       username: `samewinner_${Date.now()}`,
       email: `samewinner-${Date.now()}@e2e.local`,
-      winner: "DEU",
-      secretWinner: "DEU",
+      winner: "GER",
+      secretWinner: "GER",
     });
     await page.click("button[type=submit]");
 

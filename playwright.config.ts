@@ -15,6 +15,10 @@ export default defineConfig({
   workers: 1,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
+  // The app is fast (routes serve in well under a few seconds), so a real hang
+  // or a missing element should surface quickly instead of stalling the default
+  // 30s. Generous enough to absorb next-dev first-compile on CI.
+  timeout: 15_000,
   reporter: "list",
   use: {
     baseURL: BASE_URL,

@@ -7,6 +7,7 @@ import { BottomNav } from "@/components/dashboard/BottomNav";
 import { PasswordChangeForm } from "@/components/settings/PasswordChangeForm";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import { DepartmentSwitcher } from "@/components/settings/DepartmentSwitcher";
 import { InstallApp } from "@/components/InstallApp";
 import { ReminderPreferences } from "@/components/settings/ReminderPreferences";
 import {
@@ -105,6 +106,18 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
                   {t("languageHint")}
                 </p>
                 <LocaleSwitcher />
+              </div>
+            </section>
+
+            <section className="bg-surface-container rounded-lg p-lg border border-outline-variant">
+              <h2 className="text-label-caps uppercase tracking-widest text-primary mb-lg">
+                {t("location")}
+              </h2>
+              <div className="flex items-center justify-between gap-md p-md bg-surface-container-highest border border-outline-variant rounded-lg">
+                <p className="text-body-sm text-on-surface-variant">
+                  {t("locationHint")}
+                </p>
+                <DepartmentSwitcher current={localUser?.department ?? ""} />
               </div>
             </section>
 

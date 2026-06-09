@@ -281,7 +281,10 @@
     "pushError": "Push konnte nicht aktiviert werden. Bitte erneut versuchen.",
     "pushEnableButton": "Benachrichtigungen aktivieren",
     "pushDisableButton": "Deaktivieren",
-    "pushEnabledStatus": "Benachrichtigungen aktiviert"
+    "pushEnabledStatus": "Benachrichtigungen aktiviert",
+    "location": "Standort",
+    "locationHint": "Dein Büro-Standort für die Standort-Rangliste.",
+    "locationError": "Standort konnte nicht geändert werden."
   },
   "Errors": {
     "invalidEmail": "Ungültige E-Mail-Adresse",

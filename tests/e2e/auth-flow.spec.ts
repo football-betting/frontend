@@ -12,7 +12,7 @@ test.describe("auth happy path", () => {
     await page.fill("#password", "test1234");
     await page.fill("#rePassword", "test1234");
     await page.selectOption("#department", "Langenfeld");
-    await page.selectOption("#winner", "DEU");
+    await page.selectOption("#winner", "GER");
     await page.selectOption("#secretWinner", "ESP");
 
     await page.click("button[type=submit]");

@@ -79,7 +79,7 @@ export async function fillSignupForm(
   await page.fill("#password", fields.password ?? PASSWORD);
   await page.fill("#rePassword", fields.rePassword ?? fields.password ?? PASSWORD);
   await page.selectOption("#department", fields.department ?? "Langenfeld");
-  await page.selectOption("#winner", fields.winner ?? "DEU");
+  await page.selectOption("#winner", fields.winner ?? "GER");
   await page.selectOption("#secretWinner", fields.secretWinner ?? "ESP");
 }
 

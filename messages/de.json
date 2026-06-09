@@ -8,7 +8,8 @@
     "settings": "Einstellungen"
   },
   "Footer": {
-    "featuresHeading": "Funktionen"
+    "featuresHeading": "Funktionen",
+    "faqHeading": "FAQ"
   },
   "Install": {
     "title": "App installieren",
@@ -56,6 +57,83 @@
       "languages": {
         "title": "Mehrsprachig",
         "desc": "Komplett auf Deutsch und Englisch, jederzeit umschaltbar."
+      }
+    }
+  },
+  "FAQ": {
+    "title": "Häufig gestellte Fragen",
+    "intro": "Alles Wichtige zum Tipspiel auf einen Blick.",
+    "sections": {
+      "rules": {
+        "heading": "Tippen & Regeln",
+        "items": {
+          "howToTip": {
+            "q": "Wie gebe ich einen Tipp ab?",
+            "a": "Öffne das Dashboard, wähle ein anstehendes Spiel und trage deine Vorhersage für die Tore von Heim- und Gastmannschaft ein. Pro Spiel gibst du genau einen Tipp ab."
+          },
+          "deadline": {
+            "q": "Bis wann kann ich tippen?",
+            "a": "Bis zum Anpfiff. Vorher kannst du deinen Tipp beliebig oft ändern – sobald das Spiel beginnt, ist er gesperrt."
+          },
+          "regularTimeOnly": {
+            "q": "Welche Spielzeit zählt für den Tipp?",
+            "a": "Gewertet wird die reguläre Spielzeit (90 Minuten inklusive Nachspielzeit). In der K.-o.-Phase zählen Verlängerung und Elfmeterschießen nicht mit."
+          },
+          "scoring": {
+            "q": "Wie werden Punkte vergeben?",
+            "a": "5 Punkte für das exakte Ergebnis, 3 Punkte für die richtige Tordifferenz (kein Unentschieden), 2 Punkte für die richtige Tendenz oder ein korrekt getipptes Unentschieden, sonst 0 Punkte."
+          },
+          "winnerBonus": {
+            "q": "Was bringt der Turniersieger-Tipp?",
+            "a": "Wird das von dir offen getippte Team tatsächlich Weltmeister, erhältst du 12 Bonuspunkte."
+          },
+          "secretWinner": {
+            "q": "Was ist der „Secret Winner“?",
+            "a": "Ein zweiter, geheimer Sieger-Tipp, der sich von deinem offenen Tipp unterscheiden muss. Wird dieses Team Weltmeister, bekommst du 6 Bonuspunkte."
+          }
+        }
+      },
+      "ranking": {
+        "heading": "Rangliste & Abteilungen",
+        "items": {
+          "howRanking": {
+            "q": "Wie funktioniert die Rangliste?",
+            "a": "Alle Punkte aus gewerteten Spielen plus deine Boni werden summiert. Die Rangliste sortiert nach der Gesamtpunktzahl."
+          },
+          "globalVsDepartment": {
+            "q": "Was ist der Unterschied zwischen globaler und Abteilungs-Wertung?",
+            "a": "Es gibt eine globale Rangliste über alle Teilnehmenden und je eine Rangliste pro Abteilung (Langenfeld, Mannheim, Mainz). Über die Tabs wechselst du zwischen den Ansichten."
+          },
+          "liveUpdate": {
+            "q": "Wann werden meine Punkte aktualisiert?",
+            "a": "Während laufender Spiele live – Spielstände und Punkte aktualisieren sich automatisch, ohne dass du die Seite neu laden musst."
+          }
+        }
+      },
+      "account": {
+        "heading": "Konto & Technik",
+        "items": {
+          "whoCanRegister": {
+            "q": "Wer kann sich registrieren?",
+            "a": "Alle mit einer gültigen valantic-E-Mail-Adresse."
+          },
+          "passwordReset": {
+            "q": "Ich habe mein Passwort vergessen – was tun?",
+            "a": "Klicke auf der Login-Seite auf „Passwort vergessen?“ und gib deine E-Mail-Adresse ein. Du erhältst einen Link, mit dem du ein neues Passwort setzen kannst."
+          },
+          "reminders": {
+            "q": "Werde ich an Spiele erinnert?",
+            "a": "Nur wenn du es aktivierst. Schalte in den Einstellungen mindestens einen Kanal ein – Push (im Browser bzw. in der installierten App) und/oder E-Mail. Danach wählst du, wie lange vor Anpfiff du erinnert werden möchtest. Ohne aktiven Kanal werden keine Erinnerungen verschickt."
+          },
+          "installApp": {
+            "q": "Kann ich die App installieren?",
+            "a": "Ja. Die App ist eine Progressive Web App und lässt sich über den Browser zum Startbildschirm hinzufügen – inklusive Offline-Unterstützung und Push-Benachrichtigungen."
+          },
+          "languages": {
+            "q": "In welchen Sprachen gibt es die App?",
+            "a": "Deutsch und Englisch. Am Desktop schaltest du die Sprache oben im Kopfbereich um, auf dem Smartphone und in der installierten App in den Einstellungen."
+          }
+        }
       }
     }
   },

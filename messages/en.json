@@ -8,7 +8,8 @@
     "settings": "Settings"
   },
   "Footer": {
-    "featuresHeading": "Features"
+    "featuresHeading": "Features",
+    "faqHeading": "FAQ"
   },
   "Install": {
     "title": "Install the app",
@@ -56,6 +57,83 @@
       "languages": {
         "title": "Multilingual",
         "desc": "Fully available in German and English, switchable at any time."
+      }
+    }
+  },
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "intro": "Everything you need to know about the prediction game at a glance.",
+    "sections": {
+      "rules": {
+        "heading": "Predicting & Rules",
+        "items": {
+          "howToTip": {
+            "q": "How do I submit a prediction?",
+            "a": "Open the dashboard, pick an upcoming match and enter your predicted goals for the home and away team. You submit exactly one prediction per match."
+          },
+          "deadline": {
+            "q": "Until when can I predict?",
+            "a": "Until kick-off. Before that you can change your prediction as often as you like – once the match starts it is locked."
+          },
+          "regularTimeOnly": {
+            "q": "Which part of the match counts for the prediction?",
+            "a": "Only regular time counts (90 minutes including stoppage time). In the knockout stage, extra time and penalty shoot-outs are not included."
+          },
+          "scoring": {
+            "q": "How are points awarded?",
+            "a": "5 points for the exact score, 3 points for the correct goal difference (not a draw), 2 points for the correct tendency or a correctly predicted draw, otherwise 0 points."
+          },
+          "winnerBonus": {
+            "q": "What does the tournament-winner pick give me?",
+            "a": "If the team you openly picked actually wins the World Cup, you earn 12 bonus points."
+          },
+          "secretWinner": {
+            "q": "What is the “secret winner”?",
+            "a": "A second, hidden winner pick that must differ from your open pick. If that team wins the World Cup, you get 6 bonus points."
+          }
+        }
+      },
+      "ranking": {
+        "heading": "Ranking & Departments",
+        "items": {
+          "howRanking": {
+            "q": "How does the ranking work?",
+            "a": "All points from completed matches plus your bonuses are added up. The ranking is sorted by total points."
+          },
+          "globalVsDepartment": {
+            "q": "What is the difference between the global and the department ranking?",
+            "a": "There is a global ranking across all participants and one ranking per department (Langenfeld, Mannheim, Mainz). Use the tabs to switch between the views."
+          },
+          "liveUpdate": {
+            "q": "When are my points updated?",
+            "a": "Live, while matches are in play – scores and points update automatically without you having to reload the page."
+          }
+        }
+      },
+      "account": {
+        "heading": "Account & Tech",
+        "items": {
+          "whoCanRegister": {
+            "q": "Who can register?",
+            "a": "Anyone with a valid valantic email address."
+          },
+          "passwordReset": {
+            "q": "I forgot my password – what now?",
+            "a": "On the login page, click “Forgot password?” and enter your email address. You will receive a link to set a new password."
+          },
+          "reminders": {
+            "q": "Will I be reminded about matches?",
+            "a": "Only if you enable it. In the settings, turn on at least one channel – push (in the browser or the installed app) and/or email. Then choose how long before kick-off you want to be reminded. Without an active channel, no reminders are sent."
+          },
+          "installApp": {
+            "q": "Can I install the app?",
+            "a": "Yes. The app is a Progressive Web App and can be added to your home screen from the browser – including offline support and push notifications."
+          },
+          "languages": {
+            "q": "Which languages does the app support?",
+            "a": "German and English. On desktop you switch the language at the top of the header; on mobile and in the installed app you change it in the settings."
+          }
+        }
       }
     }
   },

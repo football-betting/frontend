@@ -1,16 +1,9 @@
 import Database from "better-sqlite3";
 import { Argon2id } from "oslo/password";
 import path from "node:path";
+import { USERS, type SeedUser } from "./seed-users";
 
 type TeamRef = { name: string; tla: string };
-
-type SeedUser = {
-  email: string;
-  username: string;
-  department: string;
-  winner: string;
-  secretWinner: string;
-};
 
 type SeedMatch = {
   id: number;
@@ -41,64 +34,6 @@ const TEAM = {
   CRO: { name: "Croatia", tla: "CRO" },
 } as const;
 
-const USERS: SeedUser[] = [
-  {
-    email: "ada.lovelace@local.dev",
-    username: "AdaLovelace",
-    department: "Mainz",
-    winner: "DEU",
-    secretWinner: "ESP",
-  },
-  {
-    email: "alan.turing@local.dev",
-    username: "AlanTuring",
-    department: "Mainz",
-    winner: "ENG",
-    secretWinner: "FRA",
-  },
-  {
-    email: "marie.curie@local.dev",
-    username: "MarieCurie",
-    department: "Mannheim",
-    winner: "FRA",
-    secretWinner: "DEU",
-  },
-  {
-    email: "nikola.tesla@local.dev",
-    username: "NikolaTesla",
-    department: "Mannheim",
-    winner: "HRV",
-    secretWinner: "ITA",
-  },
-  {
-    email: "rosa.parks@local.dev",
-    username: "RosaParks",
-    department: "Mannheim",
-    winner: "ESP",
-    secretWinner: "POR",
-  },
-  {
-    email: "test.user@local.dev",
-    username: "TestUser",
-    department: "Langenfeld",
-    winner: "DEU",
-    secretWinner: "NLD",
-  },
-  {
-    email: "albert.einstein@local.dev",
-    username: "AlbertEinstein",
-    department: "Langenfeld",
-    winner: "DEU",
-    secretWinner: "ITA",
-  },
-  {
-    email: "isaac.newton@local.dev",
-    username: "IsaacNewton",
-    department: "Langenfeld",
-    winner: "POR",
-    secretWinner: "ENG",
-  },
-];
 
 function buildMatches(now: number): SeedMatch[] {
   const HOUR = 3_600_000;

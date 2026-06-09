@@ -24,12 +24,20 @@ export function Footer(): React.ReactElement {
             </div>
           </div>
 
-          <Link
-            href="/features"
-            className="self-center md:self-auto text-label-caps uppercase text-on-surface-variant hover:text-primary transition-colors"
-          >
-            {t("featuresHeading")}
-          </Link>
+          <nav className="flex items-center justify-center gap-lg self-center md:self-auto">
+            <Link
+              href="/features"
+              className="text-label-caps uppercase text-on-surface-variant hover:text-primary transition-colors"
+            >
+              {t("featuresHeading")}
+            </Link>
+            <Link
+              href="/faq"
+              className="text-label-caps uppercase text-on-surface-variant hover:text-primary transition-colors"
+            >
+              {t("faqHeading")}
+            </Link>
+          </nav>
 
           <div className="flex items-center justify-center gap-md self-center md:self-auto">
             <a

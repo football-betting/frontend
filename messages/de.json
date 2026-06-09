@@ -161,7 +161,9 @@
     "pageOf": "Seite {current} / {total}",
     "showingCount": "{shown} von {total}",
     "allResults": "Alle anzeigen",
-    "filteredBy": "Gefiltert nach: {category}"
+    "filteredBy": "Gefiltert nach: {category}",
+    "picksHidden": "Verborgen",
+    "picksHiddenHint": "Sichtbar, sobald das erste Spiel begonnen hat."
   },
   "Match": {
     "live": "LIVE",

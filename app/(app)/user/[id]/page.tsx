@@ -71,6 +71,9 @@ export default async function UserProfilePage({
   const isOwnProfile = Number(sessionUser.id) === userId;
   const locked = await isTournamentLocked();
   const editable = isOwnProfile && !locked;
+  // Another player's picks stay hidden until the tournament locks (first
+  // kickoff). Redact the values server-side so they never reach the client.
+  const revealPicks = isOwnProfile || locked;
 
   return (
     <>
@@ -97,10 +100,11 @@ export default async function UserProfilePage({
             </div>
             <div className="md:col-span-4">
               <WinnerCards
-                winner={localUser.winner}
-                secretWinner={localUser.secretWinner}
+                winner={revealPicks ? localUser.winner : ""}
+                secretWinner={revealPicks ? localUser.secretWinner : ""}
                 userId={userId}
                 editable={editable}
+                revealed={revealPicks}
               />
             </div>
           </div>

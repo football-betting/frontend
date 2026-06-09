@@ -10,6 +10,9 @@ interface WinnerCardsProps {
   secretWinner: string;
   userId: number;
   editable?: boolean;
+  // Whether the actual picks may be shown. False for another player's picks
+  // before the tournament locks (so picks can't be copied before kickoff).
+  revealed?: boolean;
 }
 
 function WinnerCard({
@@ -17,12 +20,14 @@ function WinnerCard({
   tla,
   icon,
   editable,
+  revealed,
   onEdit,
 }: {
   label: string;
   tla: string;
   icon: string;
   editable: boolean;
+  revealed: boolean;
   onEdit: () => void;
 }): React.ReactElement {
   const t = useTranslations("Profile");
@@ -33,14 +38,23 @@ function WinnerCard({
           {label}
         </span>
         <div className="flex items-center gap-md mt-sm">
-          <Flag
-            tla={tla}
-            name={tla}
-            className="w-10 h-auto rounded-sm"
-          />
-          <span className="text-headline-md font-bold uppercase tracking-widest">
-            {tla}
-          </span>
+          {revealed ? (
+            <>
+              <Flag tla={tla} name={tla} className="w-10 h-auto rounded-sm" />
+              <span className="text-headline-md font-bold uppercase tracking-widest">
+                {tla}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="material-symbols-outlined text-on-surface-variant text-[28px]">
+                lock
+              </span>
+              <span className="text-headline-md font-bold uppercase tracking-widest text-on-surface-variant">
+                {t("picksHidden")}
+              </span>
+            </>
+          )}
         </div>
       </div>
       {editable ? (
@@ -67,6 +81,7 @@ export function WinnerCards({
   secretWinner,
   userId,
   editable = false,
+  revealed = true,
 }: WinnerCardsProps): React.ReactElement {
   const t = useTranslations("Profile");
   const [isEditing, setIsEditing] = useState(false);
@@ -92,6 +107,7 @@ export function WinnerCards({
         tla={winner}
         icon="emoji_events"
         editable={editable}
+        revealed={revealed}
         onEdit={() => setIsEditing(true)}
       />
       <WinnerCard
@@ -99,11 +115,17 @@ export function WinnerCards({
         tla={secretWinner}
         icon="visibility_off"
         editable={editable}
+        revealed={revealed}
         onEdit={() => setIsEditing(true)}
       />
       {editable ? (
         <p className="text-label-caps text-on-surface-variant opacity-70">
           {t("pickDeadlineHint")}
+        </p>
+      ) : null}
+      {!revealed ? (
+        <p className="text-label-caps text-on-surface-variant opacity-70">
+          {t("picksHiddenHint")}
         </p>
       ) : null}
     </div>

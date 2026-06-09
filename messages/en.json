@@ -281,7 +281,10 @@
     "pushError": "Could not enable push. Please try again.",
     "pushEnableButton": "Enable notifications",
     "pushDisableButton": "Disable",
-    "pushEnabledStatus": "Notifications enabled"
+    "pushEnabledStatus": "Notifications enabled",
+    "location": "Location",
+    "locationHint": "Your office location for the location leaderboard.",
+    "locationError": "Could not change location."
   },
   "Errors": {
     "invalidEmail": "Invalid email",

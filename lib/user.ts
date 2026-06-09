@@ -92,3 +92,10 @@ export async function updateUserAvatar(
 ): Promise<void> {
   await db.update(user).set({ avatar }).where(eq(user.id, userId));
 }
+
+export async function updateUserDepartment(
+  userId: number,
+  department: string,
+): Promise<void> {
+  await db.update(user).set({ department }).where(eq(user.id, userId));
+}

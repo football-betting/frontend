@@ -12,6 +12,7 @@ import { PredictionHistory } from "@/components/profile/PredictionHistory";
 import { HistoryFilterProvider } from "@/components/profile/HistoryFilterContext";
 import { isTournamentLocked } from "@/lib/tournament";
 import { displayNameFromEmail } from "@/lib/user-name";
+import { getBrand } from "@/lib/brand";
 import { Avatar } from "@/components/Avatar";
 
 interface UserPageProps {
@@ -91,7 +92,11 @@ export default async function UserProfilePage({
                 />
                 <ProfileHeader
                   username={localUser.username}
-                  displayName={displayNameFromEmail(localUser.email)}
+                  displayName={
+                    getBrand().displayFullEmail
+                      ? localUser.email
+                      : displayNameFromEmail(localUser.email)
+                  }
                   position={position}
                   totalPoints={totalPoints}
                 />

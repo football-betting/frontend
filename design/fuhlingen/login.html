@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WC2026 PREDICTOR - Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#474646",
+                        "on-background": "#e1e3e3",
+                        "tertiary-container": "#200001",
+                        "surface-variant": "#333536",
+                        "primary-fixed": "#e5e2e1",
+                        "surface-bright": "#373a3a",
+                        "on-surface-variant": "#c4c7c7",
+                        "on-primary-fixed-variant": "#474646",
+                        "error-container": "#93000a",
+                        "border-subtle": "#262626",
+                        "outline": "#8e9192",
+                        "on-primary": "#313030",
+                        "secondary-container": "#4a4949",
+                        "surface": "#111414",
+                        "primary-container": "#0a0a0a",
+                        "on-tertiary-container": "#ec222b",
+                        "pitch-green": "#68B631",
+                        "primary-fixed-dim": "#c9c6c5",
+                        "surface-tint": "#c9c6c5",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-high": "#282a2b",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "outline-variant": "#444748",
+                        "wc-red": "#EE242C",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-container-highest": "#333536",
+                        "surface-container-low": "#191c1c",
+                        "on-secondary-container": "#bab8b7",
+                        "surface-container": "#1d2020",
+                        "inverse-surface": "#e1e3e3",
+                        "electric-blue": "#0052FF",
+                        "tertiary": "#ffb3ac",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "live-cyan": "#00F0FF",
+                        "background": "#111414",
+                        "inverse-primary": "#5f5e5e",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "surface-container-lowest": "#0c0f0f",
+                        "inverse-on-surface": "#2e3131",
+                        "on-error": "#690005",
+                        "on-secondary": "#313030",
+                        "on-tertiary": "#680008",
+                        "on-primary-container": "#7b7979",
+                        "primary": "#c9c6c5",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#410003",
+                        "on-surface": "#e1e3e3",
+                        "surface-dim": "#111414",
+                        "secondary": "#c8c6c5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "2.5rem",
+                        "stack-sm": "0.5rem",
+                        "margin-mobile": "1rem",
+                        "stack-xs": "0.25rem",
+                        "stack-lg": "2rem",
+                        "container-max": "1280px",
+                        "gutter": "1.5rem",
+                        "stack-md": "1rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["hankenGrotesk"],
+                        "label-xs": ["jetbrainsMono"],
+                        "body-md": ["inter"],
+                        "body-lg": ["inter"],
+                        "display-lg": ["hankenGrotesk"],
+                        "headline-md": ["hankenGrotesk"],
+                        "headline-lg-mobile": ["hankenGrotesk"],
+                        "label-sm": ["jetbrainsMono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-xs": ["10px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0A0A0A;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.4) 0%, rgba(10, 10, 10, 0.9) 100%);
+        }
+        .btn-hover-effect:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="dark text-on-background min-h-screen flex flex-col justify-center items-center relative">
+<!-- Background Hero Section -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+    <img class="w-full h-full object-cover scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyeYPzn89AEdvYNEHcTv8LUdMR4Ge6SxM33-9R6Ujp9INgfbijN6taO2hqazj2-QAwuukMkTzp1q5BDk3v70AXcjR8bNwVRjNbMHtc_2mwH88uSP0SJ83-g_EpuFOpONrVYZVuffcvXvYjto5U7PZqao92PbgcwgCt86hAV9MXTPkcwJi8cvU_FKnWylBnxZSlhBopatDd_ntT_LURRjlbi_rBMFaemRqyIYV2zkaed8UVVwO9McYyYRGba3hnHjKhNjKIdXEnZrZf" style="filter: contrast(1.1) brightness(0.7);"/>
+    <div class="absolute inset-0 hero-overlay z-10"></div>
+    <!-- Atmospheric Glows -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-live-cyan/5 rounded-full blur-[120px] z-10"></div>
+    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-wc-red/10 rounded-full blur-[100px] z-10"></div>
+</div>
+<!-- Main Login Container -->
+<main class="relative z-20 w-full max-w-[440px] px-margin-mobile md:px-0">
+    <!-- Brand Header (Floating above card) -->
+    <div class="text-center mb-stack-lg">
+        <h1 class="font-display-lg text-headline-md font-extrabold text-wc-red tracking-tighter">
+            WC2026 PREDICTOR
+        </h1>
+    </div>
+    <!-- Glassmorphism Login Card -->
+    <div class="glass-panel rounded-xl p-8 shadow-2xl flex flex-col gap-stack-md">
+        <header class="text-center mb-stack-sm">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">Welcome to WC2026</h2>
+            <p class="font-body-md text-on-surface-variant mt-2">Sign in to start your journey.</p>
+        </header>
+        <!-- Social Login Cluster -->
+        <div class="grid grid-cols-2 gap-stack-sm mb-stack-xs">
+            <button class="flex items-center justify-center gap-stack-sm py-3 px-4 rounded-lg border border-border-subtle bg-surface-variant/30 hover:bg-surface-variant/50 transition-all duration-200 btn-hover-effect">
+                <img alt="Google" class="w-5 h-5 grayscale brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR4IzjzI0GNnD9OHOKQYxMAAfLTVmVc34BkF2TpmXJ4Q7277Xa4029TXiyfxa5TPsF2JYxL7oygqsluU1Kdaz_TZ0efEm-afc0wEam1g5IvCjhEsbAMpUnFXxJrzlMWT5cZ7aruH0ycgSFGdL_WEql6iifoHmiSEzqVQaTdh2iPbADqI_sPfAXNssi2ksE0ipk0U-iGjwUa8A5JsrKZPCx-cHdq8A6gsZgInvdhhwNdbx1p8nsbLJxFjmDzc0ZkeFfFxef3paKY7t5"/>
+                <span class="font-label-sm text-label-sm uppercase tracking-wider">Google</span>
+            </button>
+            <button class="flex items-center justify-center gap-stack-sm py-3 px-4 rounded-lg border border-border-subtle bg-surface-variant/30 hover:bg-surface-variant/50 transition-all duration-200 btn-hover-effect">
+                <span class="material-symbols-outlined text-[20px]">ios</span>
+                <span class="font-label-sm text-label-sm uppercase tracking-wider">Apple</span>
+            </button>
+        </div>
+        <div class="relative flex items-center py-stack-sm">
+            <div class="flex-grow border-t border-border-subtle"></div>
+            <span class="flex-shrink mx-4 font-label-xs text-label-xs text-on-surface-variant uppercase">Or with Email</span>
+            <div class="flex-grow border-t border-border-subtle"></div>
+        </div>
+        <!-- Login Form -->
+        <form class="flex flex-col gap-stack-md">
+            <div class="space-y-stack-xs">
+                <label class="font-label-sm text-label-sm text-on-surface-variant px-1" for="email">Email Address</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">mail</span>
+                    <input class="w-full bg-primary-container border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-on-surface focus:outline-none focus:border-electric-blue transition-colors placeholder:text-outline-variant" id="email" placeholder="name@example.com" type="email"/>
+                </div>
+            </div>
+            <div class="space-y-stack-xs">
+                <div class="flex justify-between items-center px-1">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant" for="password">Password</label>
+                    <a class="font-label-xs text-label-xs text-live-cyan hover:underline" href="#">Forgot password?</a>
+                </div>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">lock</span>
+                    <input class="w-full bg-primary-container border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-on-surface focus:outline-none focus:border-electric-blue transition-colors placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant" type="button">
+                        <span class="material-symbols-outlined text-[20px]">visibility</span>
+                    </button>
+                </div>
+            </div>
+            <button class="w-full bg-wc-red hover:bg-wc-red/90 text-on-primary py-4 rounded-lg font-headline-md text-headline-md font-bold transition-all btn-hover-effect mt-stack-sm shadow-lg shadow-wc-red/20" type="submit">
+                Login
+            </button>
+        </form>
+        <footer class="text-center mt-stack-sm">
+            <p class="font-body-md text-on-surface-variant">
+                Don't have an account?
+                <a class="text-live-cyan font-bold hover:underline" href="#">Sign up for free</a>
+            </p>
+        </footer>
+    </div>
+    <!-- Footer Legal/Info -->
+    <div class="mt-stack-lg text-center flex flex-col items-center gap-stack-sm">
+        <div class="flex gap-stack-md">
+            <a class="font-label-xs text-label-xs text-on-surface-variant hover:text-on-surface" href="#">Terms of Service</a>
+            <a class="font-label-xs text-label-xs text-on-surface-variant hover:text-on-surface" href="#">Privacy Policy</a>
+        </div>
+        <p class="font-label-xs text-label-xs text-outline-variant opacity-60">© 2026 WORLD CUP PREDICTOR. ALL RIGHTS RESERVED.</p>
+    </div>
+</main>
+<!-- Decorative Corner Gradients -->
+<div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-wc-red via-live-cyan to-wc-red opacity-50 z-50"></div>
+<script>
+    // Simple micro-interaction for visual feedback
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('mousedown', () => {
+            button.style.transform = 'scale(0.98)';
+        });
+        button.addEventListener('mouseup', () => {
+            button.style.transform = 'scale(1)';
+        });
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'scale(1)';
+        });
+    });
+
+    // Background subtle movement effect
+    document.addEventListener('mousemove', (e) => {
+        const amount = 10;
+        const x = (e.clientX / window.innerWidth - 0.5) * amount;
+        const y = (e.clientY / window.innerHeight - 0.5) * amount;
+        const hero = document.querySelector('.absolute.inset-0.z-0 img');
+        if(hero) {
+            hero.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
+        }
+    });
+</script>
+</body></html>

@@ -1,13 +1,16 @@
+import { getBrand } from "@/lib/brand";
+
 export function PageBackground(): React.ReactElement {
+  const { bgDesktop, bgMobile } = getBrand().assets;
   return (
     <div aria-hidden className="fixed inset-0 -z-10 pointer-events-none">
       <img
-        src="/img/bg2.png"
+        src={bgDesktop}
         alt=""
         className="hidden md:block h-full w-full object-cover"
       />
       <img
-        src="/img/bg1.png"
+        src={bgMobile}
         alt=""
         className="md:hidden h-full w-full object-cover"
       />

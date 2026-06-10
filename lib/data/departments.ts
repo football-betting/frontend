@@ -1,11 +1,8 @@
-export const DEPARTMENTS = [
-  "Langenfeld",
-  "Mannheim",
-  "Mainz",
-  "Siegen",
-] as const;
+import { getBrand } from "@/lib/brand";
 
-export type Department = (typeof DEPARTMENTS)[number];
+export const DEPARTMENTS = getBrand().departments;
+
+export type Department = string;
 
 export function displayDepartment(db: string): string {
   return db;

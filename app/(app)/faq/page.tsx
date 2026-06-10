@@ -2,9 +2,12 @@ import { getTranslations } from "next-intl/server";
 import { TopAppBar } from "@/components/dashboard/TopAppBar";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { FAQ_SECTIONS } from "@/lib/faq";
+import { getBrand } from "@/lib/brand";
 
 export default async function FaqPage(): Promise<React.ReactElement> {
   const t = await getTranslations("FAQ");
+  const brand = getBrand();
+  const restricted = brand.emailPolicy === "all" ? "no" : "yes";
 
   return (
     <>
@@ -34,7 +37,10 @@ export default async function FaqPage(): Promise<React.ReactElement> {
                       </span>
                     </summary>
                     <p className="px-lg pb-lg text-body-sm text-on-surface-variant">
-                      {t(`sections.${section.key}.items.${item}.a`)}
+                      {t(`sections.${section.key}.items.${item}.a`, {
+                        org: brand.org,
+                        restricted,
+                      })}
                     </p>
                   </details>
                 ))}

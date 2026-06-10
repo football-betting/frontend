@@ -3,7 +3,10 @@ import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { InstallProvider } from "@/components/InstallContext";
+import { getBrand } from "@/lib/brand";
 import "./globals.css";
+
+const brand = getBrand();
 
 const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
@@ -19,8 +22,12 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   applicationName: "WM ’26",
-  title: "WM ’26 — a valantic guessing game",
+  title: `WM ’26 — a ${brand.org} guessing game`,
   description: "Office tournament pool",
+  icons: {
+    icon: brand.assets.favicon,
+    apple: brand.assets.appleIcon,
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -32,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#121317",
+  themeColor: brand.themeColor,
 };
 
 export default async function RootLayout({
@@ -44,6 +51,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
+      data-brand={brand.id}
       className={`${hankenGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>

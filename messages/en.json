@@ -115,7 +115,7 @@
         "items": {
           "whoCanRegister": {
             "q": "Who can register?",
-            "a": "Anyone with a valid valantic email address."
+            "a": "{restricted, select, yes {Anyone with a valid {org} email address.} other {Anyone with a valid email address.}}"
           },
           "passwordReset": {
             "q": "I forgot my password – what now?",
@@ -263,7 +263,7 @@
   "Auth": {
     "appName": "TOURNAMENT PREDICTOR",
     "tagline": "Office Tournament Pool",
-    "copyright": "© 2026 valantic",
+    "copyright": "© 2026 {org}",
     "accountCreated": "Account created. Sign in below.",
     "createAccount": "Create an account",
     "emailAddress": "Email Address",

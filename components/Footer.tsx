@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import packageJson from "@/package.json";
-
-const GITHUB_URL = "https://github.com/football-betting";
+import { getBrand } from "@/lib/brand";
 
 export function Footer(): React.ReactElement {
   const t = useTranslations("Footer");
   const tNav = useTranslations("Nav");
   const year = new Date().getFullYear();
+  const { org, githubUrl } = getBrand();
 
   return (
     <footer className="w-full bg-surface-container border-t border-outline-variant py-lg mt-xl">
@@ -16,7 +16,7 @@ export function Footer(): React.ReactElement {
           <div className="flex flex-col items-center md:items-start gap-xs">
             <div className="text-xs text-on-surface-variant text-center md:text-left">
               © {year} {tNav("title")} · a{" "}
-              <span className="font-extrabold text-white">valantic</span> guessing
+              <span className="font-extrabold text-white">{org}</span> guessing
               game
             </div>
             <div className="text-body-sm text-on-surface-variant/60 font-mono">
@@ -42,7 +42,7 @@ export function Footer(): React.ReactElement {
           <div className="flex items-center justify-center gap-md self-center md:self-auto">
             <a
               aria-label="GitHub"
-              href={GITHUB_URL}
+              href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-on-surface-variant hover:text-primary transition-colors"

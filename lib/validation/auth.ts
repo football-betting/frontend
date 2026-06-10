@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getBrand } from "@/lib/brand";
 import { DEPARTMENTS } from "@/lib/data/departments";
 import { TEAM_CODES } from "@/lib/data/teams";
 
@@ -10,11 +11,17 @@ export const loginSchema = z.object({
 export type LoginInput = z.infer<typeof loginSchema>;
 
 export function isAllowedSignupEmailDomain(email: string): boolean {
+  const policy = getBrand().emailPolicy;
+  if (policy === "all") {
+    return true;
+  }
   const domain = email.split("@")[1]?.toLowerCase();
   if (!domain) {
     return false;
   }
-  return domain === "valantic.com" || domain.endsWith(".valantic.com");
+  return policy.allowedDomains.some(
+    (allowed) => domain === allowed || domain.endsWith(`.${allowed}`),
+  );
 }
 
 export const signupSchema = z
@@ -23,7 +30,9 @@ export const signupSchema = z
     email: z.string().email({ message: "invalidEmail" }),
     password: z.string().min(8, { message: "invalidPassword" }),
     rePassword: z.string().min(8, { message: "invalidPassword" }),
-    department: z.enum(DEPARTMENTS, { message: "department" }),
+    department: z.enum(DEPARTMENTS as [string, ...string[]], {
+      message: "department",
+    }),
     winner: z.enum(TEAM_CODES as unknown as [string, ...string[]], {
       message: "winner",
     }),

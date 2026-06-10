@@ -5,11 +5,13 @@ import { useState, type FormEvent } from "react";
 import { DEPARTMENTS, displayDepartment } from "@/lib/data/departments";
 import { localizedTeams } from "@/lib/data/teams";
 import { extractErrorKey } from "@/lib/error-message";
+import { getBrand } from "@/lib/brand";
 
 export function SignupForm(): React.ReactElement {
   const t = useTranslations("Auth");
   const tErrors = useTranslations("Errors");
   const locale = useLocale();
+  const restrictsEmail = getBrand().emailPolicy !== "all";
   const teams = localizedTeams(locale);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -128,9 +130,11 @@ export function SignupForm(): React.ReactElement {
             disabled={pending}
           />
         </div>
-        <p className="text-body-sm text-on-surface-variant">
-          {t("valanticEmailHint")}
-        </p>
+        {restrictsEmail && (
+          <p className="text-body-sm text-on-surface-variant">
+            {t("valanticEmailHint")}
+          </p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-md">

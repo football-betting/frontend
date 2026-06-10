@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCurrentSession } from "@/lib/session";
+import { getBrand } from "@/lib/brand";
 import { Logo } from "@/components/Logo";
 import { LoginForm } from "./login-form";
 
@@ -20,13 +21,14 @@ export default async function LoginPage({
   const params = await searchParams;
   const registered = params.registered === "true";
   const t = await getTranslations("Auth");
+  const { org } = getBrand();
 
   return (
     <main
       className="flex min-h-screen items-center justify-center p-margin-mobile md:p-0"
       style={{
         background:
-          "radial-gradient(circle at 50% -20%, #292a2e 0%, #121317 70%)",
+          "radial-gradient(circle at 50% -20%, var(--color-surface-container-high) 0%, var(--color-background) 70%)",
       }}
     >
       <div className="w-full max-w-[440px] z-10">
@@ -67,7 +69,7 @@ export default async function LoginPage({
 
         <div className="mt-xl text-center">
           <p className="text-data-mono uppercase text-on-surface-variant opacity-40">
-            {t("copyright")}
+            {t("copyright", { org })}
           </p>
         </div>
       </div>

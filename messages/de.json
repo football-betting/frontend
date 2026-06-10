@@ -115,7 +115,7 @@
         "items": {
           "whoCanRegister": {
             "q": "Wer kann sich registrieren?",
-            "a": "Alle mit einer gültigen valantic-E-Mail-Adresse."
+            "a": "{restricted, select, yes {Alle mit einer gültigen {org}-E-Mail-Adresse.} other {Alle mit einer gültigen E-Mail-Adresse.}}"
           },
           "passwordReset": {
             "q": "Ich habe mein Passwort vergessen – was tun?",
@@ -263,7 +263,7 @@
   "Auth": {
     "appName": "TURNIER-TIPP",
     "tagline": "Büro-Turnier-Pool",
-    "copyright": "© 2026 valantic",
+    "copyright": "© 2026 {org}",
     "accountCreated": "Konto erstellt. Bitte unten anmelden.",
     "createAccount": "Konto erstellen",
     "emailAddress": "E-Mail-Adresse",

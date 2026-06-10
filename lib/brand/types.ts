@@ -1,7 +1,7 @@
 export type EmailPolicy = "all" | { allowedDomains: readonly string[] };
 
 export interface Brand {
-  /** Theme id; drives the `data-brand` attribute and the CSS override block. */
+  /** Brand id; drives the `data-brand` attribute on <html> and brand selection. */
   id: string;
   /** Sponsor / organisation name shown in tagline, copyright and email hints. */
   org: string;

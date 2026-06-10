@@ -25,9 +25,10 @@ describe("getBrand", () => {
     process.env.NEXT_PUBLIC_BRAND = "fuhlingen";
     const brand = getBrand();
     expect(brand.id).toBe("fuhlingen");
-    expect(brand.org).toBe("fuhlingen");
+    expect(brand.org).toBe("Fühlingen");
     expect(brand.departments).toEqual(["A-Jugend", "Herren", "Andere"]);
     expect(brand.emailPolicy).toBe("all");
+    expect(brand.displayFullEmail).toBe(true);
   });
 
   it("falls back to valantic for an unknown brand", () => {

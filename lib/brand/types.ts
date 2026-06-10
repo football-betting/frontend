@@ -9,6 +9,8 @@ export interface Brand {
   departments: readonly [string, ...string[]];
   /** `"all"` allows any valid email; otherwise only the listed domains. */
   emailPolicy: EmailPolicy;
+  /** Profile page: show the full email address instead of a name derived from it. */
+  displayFullEmail: boolean;
   githubUrl: string;
   assets: {
     /** PWA manifest icons. */

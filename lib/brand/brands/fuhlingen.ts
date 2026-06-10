@@ -2,9 +2,10 @@ import type { Brand } from "@/lib/brand/types";
 
 export const fuhlingen: Brand = {
   id: "fuhlingen",
-  org: "fuhlingen",
+  org: "Fühlingen",
   departments: ["A-Jugend", "Herren", "Andere"],
   emailPolicy: "all",
+  displayFullEmail: true,
   githubUrl: "https://github.com/football-betting",
   assets: {
     icon192: "/brands/fuhlingen/icon-192.png",

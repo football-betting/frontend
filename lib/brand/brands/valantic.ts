@@ -5,6 +5,7 @@ export const valantic: Brand = {
   org: "valantic",
   departments: ["Langenfeld", "Mannheim", "Mainz", "Siegen"],
   emailPolicy: { allowedDomains: ["valantic.com"] },
+  displayFullEmail: false,
   githubUrl: "https://github.com/football-betting",
   assets: {
     icon192: "/icon/icon-192.png",

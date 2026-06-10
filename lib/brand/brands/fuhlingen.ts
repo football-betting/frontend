@@ -15,5 +15,5 @@ export const fuhlingen: Brand = {
     bgDesktop: "/brands/fuhlingen/bg-desktop.png",
     bgMobile: "/brands/fuhlingen/bg-mobile.png",
   },
-  themeColor: "#111414",
+  themeColor: "#121317",
 };

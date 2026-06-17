@@ -41,7 +41,10 @@ function rowToMatch(row: typeof match.$inferSelect): MatchRow | null {
 }
 
 export async function getLiveMatches(): Promise<MatchRow[]> {
-  const rows = await db.select().from(match).where(eq(match.status, "IN_PLAY"));
+  const rows = await db
+    .select()
+    .from(match)
+    .where(inArray(match.status, ["IN_PLAY", "PAUSED"]));
   return rows
     .map(rowToMatch)
     .filter((m): m is MatchRow => m !== null)
